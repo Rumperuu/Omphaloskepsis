@@ -1,0 +1,878 @@
+/**
+ * The main stylesheet
+ *
+ * This is the main stylesheet for the entire Theme.
+ *
+ * @package WordPress
+ * @subpackage Omphaloskepsis
+ * @since Omphaloskepsis 1.0
+ *
+ * Contents
+ * ========
+ *
+ * 1. Constants
+ * 2. Containers
+ * 3. Text
+ * 4. Images
+ * 5. Animations
+ * 6. Media Queries
+ */
+
+/*******************************************************************************
+ * 1. Constants
+ */
+ 
+:root {
+   --light: #ffffff;
+   --dark: #000000;
+   --text: #000000;
+   --linktext: #000000;
+}
+
+/*******************************************************************************
+ * 2. Containers
+ */
+
+/******************
+ * These styles are for the fluid grid, with the following sizes:
+ * 	
+ * 	< 767px ≈ Mobile Phone
+ * 	768px ≈ Tablet
+ * 	1024px ≈ Laptop
+ * 	1444px ≈ Desktop
+ */
+ 
+
+
+/********
+ * </source>
+ */
+
+/******************
+ * These are the containers for the web site.
+ */
+ 
+/********
+ * Site-wide containers.
+ */
+
+body {
+   font-family: 'Lato', sans-serif;
+   background-color: white;
+   height: 100%;
+   margin: 0;
+}
+
+#mobile-nav-bar {
+   width: 100%;
+   height: 15%;
+   max-height: 40px;
+   background-color: #ffffff;
+   position: fixed;
+   float: left;
+   z-index: 1;
+   opacity: 0.65;
+   top: 0;
+   left: 0;
+   right: 0;
+   transform: translateY(-200%);
+   transition: 0.2s transform cubic-bezier(.3,.73,.3,.74);
+}
+#mobile-nav-bar.show {
+  transform: translateY(0);
+}
+#mobile-nav-bar:hover,
+#mobile-nav-bar:focus {
+   opacity: 1;
+}
+
+#sidebar {
+   position: fixed; 
+   right: 0px;
+   height: 100%;
+   font-size: 1.4em;
+   display: none;
+   background-color: transparent;
+   border-left: 2px solid #000;
+}
+
+.tile {
+   margin-top: 20px;
+   margin-bottom: 20px;
+}
+
+/********
+ * Homepage containers.
+ */
+
+#homepage-container {
+   height: 100%;
+}
+
+/********
+ * Post list containers.
+ */
+ 
+#post-list > header,
+#post-list > footer {
+   margin-top: 1em;
+   margin-bottom: 1em;
+}
+#post-list a {
+   text-decoration: none;
+}
+
+.post-list-post {
+   overflow: hidden;
+   height: 250px;
+   background-size: cover;
+   background-repeat: no-repeat;
+   background-position: center;
+   position: relative;
+   display: flex;
+   flex-direction: column;
+   margin-top: 7.5px;
+   margin-bottom: 7.5px;
+   border: 2px solid #000000;
+}
+.post-list-post header {
+   border-bottom: 2px solid #000000;
+}
+.post-list-post header.ohwhatohjeez {
+   background-color: #FFA008;
+}
+
+.index:hover .post-list-post:hover {
+   opacity: 1;
+}
+
+/********
+ * Post containers.
+ */
+ 
+#post-header-details-container {
+   border-top: 3px solid #000000;
+   display: block;
+   position: relative;
+   width: 100%;
+   background-color: #000000;
+   opacity: 0.7;
+   margin-top: auto;
+   text-align: center;
+   max-height: 40%;
+   height: auto;
+   padding: 4% 15px;
+}
+#post header {
+   height:100vh;
+   background-size: cover;
+   background-repeat: no-repeat;
+   background-position: center;
+   position: relative;
+   text-align:center;
+   display: flex;
+   flex-direction: column;
+}
+.entry-content {
+   padding: 20px 0px;
+   display: block;
+   margin-left: auto;
+   margin-right: auto;
+}
+
+#post .entry-content {
+   border-bottom: 2px solid #000000;
+}
+
+#post .entry-content p,
+.tile p {
+   text-align: justify;
+}
+
+.jp-relatedposts-post p {
+   text-align: center !important;
+}
+
+#post .entry-content ul {
+   padding: 0 2em 0 2em;
+}
+
+#post .entry-content ul li {
+   line-height: 1.2em;
+}
+.sharedaddy, #jp-relatedposts {
+   text-align: center !important;
+}
+
+.jp-relatedposts-headline {
+   width: 100%;
+}
+
+figure {
+   margin-top: 10px;
+   margin-bottom: 10px;
+   width: auto !important;
+} 
+
+#comments {
+   margin: auto;
+   margin-top: 20px;
+}
+
+#comments-reply {
+   border-left: 2px solid #000000;
+   margin-bottom: 20px;
+}
+
+.comment {
+   background-color: #ffffff;
+   border-radius: 20px;
+   padding: 20px;
+}
+
+.comment-meta,
+.comment-content {
+   float: left;
+}
+
+.comment-meta {
+   width: 20%;
+}
+
+.comment-content {
+   width: 80%;
+}
+
+/********
+ * Experience containers.
+ */
+ 
+.taxonomy-background-container {
+	height: 100vh;
+	width: 100vw;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: -1;
+	opacity: 0.2;
+}
+
+.location-block {
+   position: fixed;
+   top: 20px;
+   left: 20px;
+   z-index: 1;
+   max-width: 35% !important;
+}
+
+.children {
+	text-align: center;
+}
+
+.company-info-container {
+	background-color: #ffffff;
+	max-width: 60px;
+	overflow: hidden;
+	border-bottom: 1px solid #000000;
+}
+
+.company-info-container.left {
+	border-radius: 0px 0px 15px 0px;
+	float: left;
+	border-right: 1px solid #000000;
+}
+
+.company-info-container.right {
+	border-radius: 0px 0px 0px 15px;
+	float: right;
+	border-left: 1px solid #000000;
+}
+
+#timeline {
+   display: block;
+   margin: auto;
+   min-height: 200px;
+}
+
+.loading {
+   margin: auto;
+   display: block;
+   margin-top: 84px;
+   height: auto;
+}
+
+#companies-grid-small {
+   height: 0;
+}
+
+#companies-grid:hover li:hover,
+#companies-grid-small:hover li:hover {
+   opacity: 1;
+}
+
+#companies-grid li,
+#companies-grid-small li {
+   overflow: hidden;
+   background-color: #ffffff;
+   background-size: contain;
+   background-repeat: no-repeat;
+   background-position: center;
+   background-origin: content-box;
+   background-clip:content-box;
+   padding-top: 7.5px;
+   padding-bottom: 7.5px;
+}
+
+#companies-grid li {
+   min-height: 250px;
+}
+
+#companies-grid-small li {
+   min-height: 140px;
+}
+ 
+/*******************************************************************************
+ * 3. Text
+ */
+ 
+/********
+ * Site-wide text.
+ */
+ 
+h1, h2, h3, h4, h5, h6 {
+   margin: 0;
+   font-family: 'Montserrat', sans-serif;
+   color: #000000;
+}
+
+#mobile-nav-bar h1 {
+   line-height: 40px;
+   font-size: 1.5em;
+   font-weight: bold;
+   color: #000000;
+   text-align: center;
+}
+
+#centered h1 {
+   margin-left: 25px;
+   padding-top: 35vh;
+   text-align: center;
+   font-size: 3.5em;
+   font-weight: bold;
+   text-shadow: -1px -1px 0 white,
+                 1px -1px 0 white,
+                -1px  1px 0 white,
+                 1px  1px 0 white;
+}
+#centered h2 {
+   margin-left: 10px;
+   text-align: center;
+   font-size: 1.2em;
+   color: #000000;
+}
+
+#sidebar>ul {
+   position: relative;
+   top: 45%;
+   transform: translateY(-50%);
+}
+
+#sidebar a,
+#sidebar p {
+   text-decoration: none;
+   color: #000000;
+}
+
+#sidebar li {
+   padding-top: 5px;
+   padding-bottom: 5px;
+}
+#sidebar li.current {
+   background-color: #ffffff;
+   width: 125%;
+   margin-left: -17.5%;
+   border-radius: 50px 0px 0px 50px;  
+   border: 2px solid #000000; 
+}
+#sidebar li.current a {
+   color: #000000;
+}
+#sidebar li i {
+   color: #f99000;
+}
+
+#sidebar-list {
+   list-style: none; 
+   text-align: center; 
+   text-decoration: none;"
+}
+
+p,
+blockquote footer {
+   font-size: 1em;
+   color: #000000;
+   line-height: 1.2em;
+   padding: 0.5em;
+}
+
+li p {
+   padding: 0.2em;
+}
+
+strong { font-weight: bold; }
+
+sup, sup { 
+   font-size:xx-small; 
+   line-height: 1.2em; 
+} 
+sup { vertical-align:top; } 
+sub { vertical-align:bottom; }
+
+nav:not(#mobile-nav-bar) ul:not(#sidebar-list) {
+   list-style: circle;
+   color: #000000;
+   padding-left: 1.8em;
+}
+
+code, 
+samp, 
+var {
+    font-family: "Lucida Console", Monaco, monospace;
+    font-size: 1em;
+}
+
+h2:not(.post-title) code,
+h2:not(.post-title) samp,
+h2:not(.post-title) var {
+    background-color: #d1d1d1;
+    border-radius: 5px;
+    padding: 2px 2px;
+}
+
+.heading code,
+.subheading code {
+    background-color: transparent;
+}
+
+samp {
+    display: block;
+    width: 80ch;
+    margin: 1em 4em 1em 4em;
+    border-left: 2px solid #ccc;
+    color: #333;
+}
+
+/* Source: Stack Overflow */
+
+kbd {
+   padding: 0.1em 0.6em;
+   border: 1px solid #ccc;
+   font-size: 11px;
+   font-family: Arial, Helvetica, sans-serif;
+   background-color: #f7f7f7;
+   color: #333; 
+   box-shadow: 0 1px 0px rgba(0, 0, 0, 0.2), 0 0 0 2px white inset;
+   border-radius: 3px;
+   display: inline-block;
+   margin: 0 0.1em;
+   text-shadow: 0 1px 0 white;
+   line-height: 1.4;
+   white-space: nowrap;
+}
+
+/* End Source */
+
+blockquote {
+   margin: 1em 4em 1em 4em;
+   border-left: 2px solid #000000;
+}
+
+blockquote:first-of-type {
+   margin: 2em 4em 2em 4em;
+   font-size: 1.2em;
+   font-style: italic;
+   border-left: 0;
+}
+
+blockquote footer {
+   text-align: right;
+   margin-right: 10%;
+   font-style: normal;
+}
+
+blockquote footer:before {
+   content: '—';
+}
+
+q, blockquote {
+   quotes: "‘" "’" "“" "”" ;
+}
+q.guillemets {
+   quotes: "«" "»" "«" "»";
+}
+q:before, blockquote p:first-of-type::before {
+   content: open-quote;
+}
+q:after, blockquote p:last-of-type::after {
+   content: close-quote;
+}
+
+cite:not(.smallcite), i, em { font-style: italic; }
+cite.smallcite:before { content: '“'; }
+cite.smallcite:after { content: '”'; }
+
+/********
+ * Homepage text.
+ */
+
+#website-title {
+   margin-left: 25px;
+   padding-top: 35vh;
+   text-align: center;
+   font-size: 3.5em;
+   font-weight: bold;
+   text-shadow: -1px -1px 0 white,
+                 1px -1px 0 white,
+                -1px  1px 0 white,
+                 1px  1px 0 white;
+}
+
+#page-title {
+   text-align: center;
+   font-size: 6em;
+}
+
+#page-subtitle {
+   margin-left: 10px;
+   text-align: center;
+   font-size: 1.2em;
+   color: #000000;
+}
+
+i {
+   color: #000000;
+}
+
+
+/********
+ * Post list text.
+ */
+ 
+#post-list h1 {
+   margin-left: 25px;
+   margin-bottom: 10px;
+   text-align: center;
+   font-size: 4em;
+   font-weight: bold;
+   text-shadow: -1px -1px 0 white,
+                 1px -1px 0 white,
+                -1px  1px 0 white,
+                 1px  1px 0 white;
+
+}
+.pagination > h2 {
+    font-size: 1em;
+}
+ 
+.post-title {
+   text-shadow: -1px -1px 0 #ffffff,
+                 1px -1px 0 #ffffff,
+                -1px  1px 0 #ffffff,
+                1px  1px 0 #ffffff;  
+}
+
+.ohwhatohjeez .post-title {
+   color: #454545;
+   text-shadow: none;
+}
+
+.post-title,
+.subheading {
+   font-size: 2em;
+   margin: 0;
+   text-decoration: none !important;
+   text-align: center;
+}
+.subheading {
+   margin-top: 1em;
+}
+.post-title.qsmall { font-size: 1.5em; }
+.post-title.small { font-size: 1.4em; } 
+.post-title.vsmall { font-size: 1em; }
+
+.subheading-subtitle {
+   color: #ffffff;
+}
+
+/********
+ * Post text.
+ */
+ 
+#post #post-title,
+#post #post-subtitle,
+#post #post-date {
+   background-color: rgba(14, 17, 19, 0.8);
+}
+
+#post #post-title,
+#post #post-subtitle {
+   text-align: center;
+   vertical-align: middle; 
+   color: white;
+}
+#post #post-title {
+   font-size: 6em;
+   margin-top: 35vh;
+}
+#post #post-subtitle {
+   font-size: 2.5em;
+}
+
+#post #post-date {
+   font-size: 1em;
+   color: white;
+   padding-top: 1em;
+}
+#post #post-date::before,
+#post #post-date::after {
+   content: ' — ';
+}
+
+.note {
+   width: 80%;
+   background-color: #fc6f73;
+   padding: 20px;
+   text-align: center;
+   margin: auto;
+   border-radius: 20px;
+   border: 2px dashed #000;
+}
+
+#comments-list-title,
+#comments-reply-title {
+    text-align: center;
+    font-size: 2em;
+}
+
+.entry-content img:not(.latex) {
+   border: 2px solid #444;
+}
+
+.latex {
+   vertical-align: middle;
+}
+
+.nav-links>a,
+.nav-links>span.current {
+    background-color: #ffffff;
+    border-radius: 0.8em;
+    width: 1.6em;
+    display: inline-block;
+    line-height: 1.6em;
+    text-decoration: none;
+    font-weight: normal;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+}
+
+.nav-links>span.current {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+.nav-links>.next,
+.nav-links>.prev {
+    display: none;
+}
+ 
+a {
+   font-weight: bold;
+   color: #000000;
+   padding: 0;
+   opacity: 0.8;
+}
+a:hover {
+   opacity: 1;
+}
+
+#mobile-nav-bar ul {
+   list-style: none;
+   width: 100%;
+}
+
+#mobile-nav-bar li {
+   background-color: #ffffff;
+   margin: 0;
+   padding: 0;
+   height: 40px;
+   text-align: center;
+   border-top: 2px solid #fff;
+   border-right: 1px solid #fff;
+   border-left: 1px solid #fff;
+   line-height: 40px;
+   float: left;
+}
+
+#mobile-nav-bar li {
+   width: 33.33%;
+}
+#mobile-nav-bar a:first-child li {
+   width: 100%;
+}
+ 
+#mobile-nav-bar li:hover {
+   background-color: #000000;
+   color: #ffffff;
+}
+
+.subheading a {
+   font-size: 0.4em;
+   vertical-align: middle;
+   text-decoration: underline;
+} 
+
+.subheading a:not(.company-link) {
+   color: #ffffff;
+} 
+
+.post-list-post h2,
+.post-list-post h3 {
+   color: #fff;
+   background-color: rgba(0, 0, 0, 0.8);
+   text-align: center;
+   text-decoration: none !important;
+}
+.post-list-post h2 {
+   font-size: 1.2em;
+   padding-top: 5px;
+   padding-bottom: 3px;
+}
+.post-list-post h3 {
+   font-size: 0.8em;
+   padding-bottom: 4.5px;
+}
+
+.pagination {
+   text-align: center;
+}
+
+figcaption {
+    font-size: 0.8em;
+    color: #555;
+    font-style: italic;
+}
+
+#intro-text {
+   background-color: #ffffff;
+   padding: 20px;
+   text-align: justify;
+}
+
+/**********
+ * Experience text.
+ */
+ 
+.company-name {
+   font-size: 1.5em;
+   margin-top: 25%;
+}
+
+.company-info-container.right .company-info {
+	padding-left: 4px;
+	font-size: 1em;
+	line-height: 1.3em;
+	color: #000000;
+	opacity: 0.8;
+	padding: 2px;
+	width: auto;
+}
+
+/*******************************************************************************
+ * 4. Images
+ */
+ 
+.aligncenter {
+   text-align: center;
+   margin: 1em auto 1em auto;
+   display: block;
+}
+
+.entry-content img {
+   max-width: 100%;
+   height: auto;
+}
+
+.children {
+   background-size: cover;
+}
+
+
+.taxonomy-background {
+	height: 100%;
+	width: 100%;
+	object-fit: contain;
+	padding: 10vh 20vw;
+}
+
+
+
+/*******************************************************************************
+ * 6. Media Queries
+ *
+ * <767px ≈ Mobile Phone
+ * 768px ≈ Tablet
+ * 1024px ≈ Laptop
+ * 1444px ≈ Desktop
+ */
+
+@media only screen and (min-width: 768px) {
+   #website-title { 
+      font-size: 4.5em;
+   }
+   
+   #post .entry-content,
+   .tile:not(#intro-text),
+	#comments { 
+      width: 80%; 
+      max-width: 1124px;
+   }
+}
+
+@media only screen and (min-width: 1024px) {
+   #website-title {
+      font-size: 8em;
+   }
+   .frontpage-section-title {
+      text-align: left;
+   }
+   #frontpage-img-wrapper { 
+      display: none; 
+   }
+   .wrapper-home { 
+      background-size: contain;     
+      background-repeat: no-repeat;
+      background-position: right top;
+   }
+   #main-background {
+      display: block;
+   }
+   #post .entry-content,
+   .tile  {
+      padding: 20px 40px;
+      background-color: #ffffff;
+      border-bottom: 2px solid #000000;
+   }
+   
+   #mobile-nav-bar {
+      display: none;
+   }
+   #sidebar {
+      display: block;
+   }
+}
+
+@media only screen and (min-width: 1444px) {
+   .wrapper-home .row {
+      margin-bottom: 20px;
+   }
+}
