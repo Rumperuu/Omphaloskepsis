@@ -11,16 +11,18 @@
 <article id="wrapper" <?php post_class(); ?>>
    <header style="background-image: url('<?php the_post_thumbnail_url(); ?>');">
       <div>
-	 <h1 id="post-title"><?php echo get_the_title(); ?></h1>
-      <?php if ($subtitle = get_post_meta(get_the_ID(), 'Subtitle', true)): ?>
-	 <h2 id="post-subtitle"><?php echo $subtitle ?></h2>
-      <?php endif; ?>
-      <?php the_date('F j\<\s\u\p\>S\<\/\s\u\p\>, 1,Y \H\.\E\.', '<h3>', '</h3>'); ?>
+         <h1 id="post-title"><?php echo get_the_title(); ?></h1>
+         <?php if ($subtitle = get_post_meta(get_the_ID(), 'Subtitle', true)): ?>
+         <h2 id="post-subtitle"><?php echo $subtitle ?></h2>
+         <?php endif; ?>
+         <?php //the_date('F j\<\s\u\p\>S\<\/\s\u\p\>, 1,Y \H\.\E\.', '<h3>', '</h3>'); ?>
       </div>
    </header><!-- .entry-header -->
 
    <main id="post-body" class="body">
-   <?php if (has_category()): ?>
+   <?php $date1 = strtotime(get_the_date('Y-m-d')); ?>
+   <?php $date2 = strtotime(date('Y-m-d'));  ?>
+   <?php if (has_category('series') || has_tag('ohwhatohjeez') || get_post_meta(get_the_ID(), 'Note(s)', true) || get_post_meta(get_the_ID(), 'License', true) || ($date1 < $date2 - 31557600)): ?>
       <div id="details">
          <ul>
          <?php 
@@ -47,16 +49,22 @@
                   $catag .= '<a href="/category/series/'.$thisSeries->slug.'">'.$thisSeries->name.'</a>';
                }
                $catag .= '.';
-            } else {
-               $catag = "is not a part of any series.";
+               
+               echo "<li>This <a href='/category/{$type}s'>{$type}</a> {$catag}</li>";
             }
          ?>
-            <li>This <?php echo '<a href="/category/'.$type.'s">'.$type.'</a> '.$catag.'</li>'; ?>
+            
+         <?php if ($date1 < $date2 - 31557600): ?>
+            <li>This piece was written over a year ago. It may no longer accurately reflect my views now, or may be factually outdated.</li>
+		 <?php endif; ?>
          <?php if (has_tag('ohwhatohjeez')): ?>
             <li>This piece was originally written for my old site, Oh What? Oh Jeez! As such, it may not have transferred over properly and some images and links might be broken (and, to a lesser extent, my writing from years ago is about 80% run-on sentences).</li>
          <?php endif; ?>
          <?php if ($notes = get_post_meta(get_the_ID(), 'Note(s)', true)): ?>
-            <li><?php echo $notes ?></li>
+			<li><?php echo $notes ?></li>
+         <?php endif; ?>
+         <?php if ($license = get_post_meta(get_the_ID(), 'License', true)): ?>
+            <li>This work is licensed under <?php echo $license ?>. <a href="https://bengoldsworthy.uk/2018/03/copywrong/">Sorry about that</a>.</li>
          <?php endif; ?>
          </ul>
       </div>
@@ -70,4 +78,16 @@
       endif;
    ?>
    </main><!-- .entry-content -->
+   
+   <footer id="post-toc">
+   <?php if ($content = get_post_meta(get_the_ID(), 'ToC1', true)): ?>
+      <h1>Contents</h1>
+      <ol>
+      <?php $i = 1; ?>
+      <?php while($content = get_post_meta(get_the_ID(), 'ToC'.$i, true)): ?>
+         <li><a href="#section-<?php echo $i++ ?>"><?php echo $content ?></a></li>
+      <?php endwhile; ?>
+      </ol>
+   <?php endif; ?>
+   </footer>
 </article><!-- #post-## -->

@@ -18,7 +18,7 @@
 <div id="comments" class="comments-area">
    <div class="row">
       <div class="col-7" id="comments-list">
-	 <h3 id="comments-list-title">Comments</h3>
+	 <h3 id="comments-list-title">Replies</h3>
 	 <?php if ( have_comments() ) : ?>
 	    <?php the_comments_navigation(); ?>
 

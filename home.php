@@ -13,7 +13,7 @@
 <main id="list-page" class="col-10 col-m-12" role="main">
    <header>
       <h1>Blog.</h1>
-      <h2><a href="/category/thoughts">Thoughts</a> / <a href="/category/reports">Reports</a> / <a href="/category/reviews">Reviews</a> / <a href="/category/projects">Projects</a></h2>
+      <h2><strong>All</strong> / <a href="/category/thoughts">Thoughts</a> / <a href="/category/reports">Reports</a> / <a href="/category/reviews">Reviews</a> / <a href="/category/projects">Projects</a></h2>
       <?php
 	 echo get_the_posts_pagination( array(
 	    'screen_reader_text' => ' ',

@@ -454,44 +454,46 @@ function omphaloskepsis_widget_tag_cloud_args( $args ) {
 }
 add_filter( 'widget_tag_cloud_args', 'omphaloskepsis_widget_tag_cloud_args' );
 
+function clean_script_tag($input) {
+   $input = str_replace("type='text/javascript' ", '', $input);
+   return str_replace("'", '"', $input);
+}
+add_filter('script_loader_tag', 'clean_script_tag');
+
 function omphaloskepsis_the_content($content) {
-    global $post;
-    if ($post->post_type == "program") {
-	$links = '<h2 class="subheading">Links</h2>';
-	if ($meta = get_post_meta($post->ID, 'Link', true))
-	    $links = $links . '<a class="hyperlink-button" target="_blank" href="'.$meta.'">Download</a>';
-	if ($meta = get_post_meta($post->ID, 'Documentation', true))
-	    $links = $links . '<a class="hyperlink-button" target="_blank" href="'.$meta.'">Documentation</a>';
-	if ($meta = get_post_meta($post->ID, 'Repo', true))
-	    $links = $links . '<a class="hyperlink-button" target="_blank" href="'.$meta.'">Repo</a>';
-	if ($meta = get_post_meta($post->ID, 'Licence', true))
-	    $links = $links . '<a class="hyperlink-button" target="_blank" href="'.$meta.'">Licence</a>';
-	if ($meta = get_post_meta($post->ID, 'MD5', true))
-	    $links = $links . '<p class="checksum">MD5 checksum: '.$meta.'</p>';
-	return $content . $links;
-    } elseif ($post->post_type == "website") {
-	$links = '<h2 class="subheading">Links</h2>';
-	if ($meta = get_post_meta($post->ID, 'Link', true))
-	    $links = $links . '<a class="hyperlink-button" target="_blank" href="'.$meta.'">Visit</a>';
-	if ($meta = get_post_meta($post->ID, 'Repo', true))
-	    $links = $links . '<a class="hyperlink-button" target="_blank" href="'.$meta.'">Repo</a>';
-	if ($meta = get_post_meta($post->ID, 'Licence', true))
-	    $links = $links . '<a class="hyperlink-button" target="_blank" href="'.$meta.'">Licence</a>';
-	return '<h2 class="subheading">Summary</h2>' . $content . $links;
-    } elseif ($post->post_type == "writing") {
-	$links = '<h2 class="subheading">Links</h2>';
-	if ($meta = get_post_meta($post->ID, 'Link', true))
-	    $links = $links . '<a class="hyperlink-button" target="_blank" href="'.$meta.'">Read</a>';
-	if ($meta = get_post_meta($post->ID, 'Licence', true))
-	    $links = $links . '<a class="hyperlink-button" target="_blank" href="'.$meta.'">Licence</a>';
-	return '<h2 class="subheading">Summary</h2>' . $content . $links;
-    } elseif ($post->post_type == "other") {
-	$links = '<h2 class="subheading">Links</h2>';
-	if ($meta = get_post_meta($post->ID, 'Link', true))
-	    $links = $links . '<a class="hyperlink-button" target="_blank" href="'.$meta.'">Download</a>';
-	return '<h2 class="subheading">Summary</h2>' . $content . $links;
-    }
-    return $content;
+   global $post;
+   if ($post->post_type == "program") {
+      if ($meta = get_post_meta($post->ID, 'Link', true))
+         $links = $links . '<a class="hyperlink-button" target="_blank" href="'.$meta.'">Download</a>';
+      if ($meta = get_post_meta($post->ID, 'Documentation', true))
+         $links = $links . '<a class="hyperlink-button" target="_blank" href="'.$meta.'">Documentation</a>';
+      if ($meta = get_post_meta($post->ID, 'Repo', true))
+         $links = $links . '<a class="hyperlink-button" target="_blank" href="'.$meta.'">Repo</a>';
+      if ($meta = get_post_meta($post->ID, 'Licence', true))
+         $links = $links . '<a class="hyperlink-button" target="_blank" href="'.$meta.'">Licence</a>';
+      if ($meta = get_post_meta($post->ID, 'MD5', true))
+         $links = $links . '<p class="checksum">MD5 checksum: '.$meta.'</p>';
+      return $content . $links;
+   } elseif ($post->post_type == "website") {
+      if ($meta = get_post_meta($post->ID, 'Link', true))
+         $links = $links . '<a class="hyperlink-button" target="_blank" href="'.$meta.'">Visit</a>';
+      if ($meta = get_post_meta($post->ID, 'Repo', true))
+         $links = $links . '<a class="hyperlink-button" target="_blank" href="'.$meta.'">Repo</a>';
+      if ($meta = get_post_meta($post->ID, 'Licence', true))
+         $links = $links . '<a class="hyperlink-button" target="_blank" href="'.$meta.'">Licence</a>';
+      return $content . $links;
+   } elseif ($post->post_type == "writing") {
+      if ($meta = get_post_meta($post->ID, 'Link', true))
+         $links = $links . '<a class="hyperlink-button" target="_blank" href="'.$meta.'">Read</a>';
+      if ($meta = get_post_meta($post->ID, 'Licence', true))
+         $links = $links . '<a class="hyperlink-button" target="_blank" href="'.$meta.'">Licence</a>';
+      return $content . $links;
+   } elseif ($post->post_type == "other") {
+      if ($meta = get_post_meta($post->ID, 'Link', true))
+         $links = $links . '<a class="hyperlink-button" target="_blank" href="'.$meta.'">Download</a>';
+      return  $content . $links;
+   }
+   return $content;
 }
 add_filter('the_content', 'omphaloskepsis_the_content', 10);
 
@@ -501,122 +503,163 @@ function load_dashicons_front_end() {
 }
 
 function display_companies() {
-    echo "<ul>";
-    if ($_POST['toplevel'] == "true") {
-	// Gets all of the top-level company terms.
-	$terms = apply_filters("taxonomy-images-get-terms", "", array('having_images' => false, 'taxonomy' => 'company', 'term_args' => array('parent' => 0)));
-	$include = 1;
-    } else {
-	// Gets all of the company terms.
-	$terms = apply_filters("taxonomy-images-get-terms", "", array('having_images' => false, 'taxonomy' => 'company',));
-	$include = 0;
-    }
-    if(!empty($terms)) {
-	foreach($terms as $term) {
-	    $term_children = get_term_children($term->term_id, "company");
-	 
-	    // 0 = Jobs
-	    // 1 = Blog Posts
-	    // 2 = Websites
-	    // 3 = Programs
-	    // 4 = Writings
-	    // 5 = Videos
-	    // 6 = Others
-	    // 7 = Qualifications
-	    // 8 = Awards
-	    $post_types = array('job', 'post', 'website', 'program', 'writing', 'video', 'other', 'qualification', 'award');
-	    $dashicons = array('hammer', 'admin-post', 'schedule', 'desktop', 'format-aside', 'video-alt', 'archive', 'id', 'awards');
-	    $term_items = array();
-	    $term_item_counts = array();
+   echo '<tr>';
+      echo '<th colspan="2">Organisation</th>';
+      echo '<th>Children</th>';
+      echo '<th>Associated Items</th>';
+   echo '</tr>';
+   
+   if ($_POST['toplevel'] == "true") {
+      // Gets all of the top-level company terms.
+      $terms = apply_filters("taxonomy-images-get-terms", "", array('having_images' => false, 'taxonomy' => 'company', 'term_args' => array('parent' => 0)));
+      $include = 1;
+   } else {
+      // Gets all of the company terms.
+      $terms = apply_filters("taxonomy-images-get-terms", "", array('having_images' => false, 'taxonomy' => 'company',));
+      $include = 0;
+   }
+   
+   if(!empty($terms)) {
+      foreach($terms as $term) {
+         $term_children = get_term_children($term->term_id, "company");
+       
+         // 0 = Jobs
+         // 1 = Blog Posts
+         // 2 = Websites
+         // 3 = Programs
+         // 4 = Writings
+         // 5 = Videos
+         // 6 = Others
+         // 7 = Qualifications
+         // 8 = Awards
+         $post_types = array('job', 'post', 'website', 'program', 'writing', 'video', 'other', 'qualification', 'award');
+         $dashicons = array('hammer', 'admin-post', 'schedule', 'desktop', 'format-aside', 'video-alt', 'archive', 'id', 'awards');
+         $term_items = array();
+         $term_item_counts = array();
 
-	    foreach ($post_types as $post_type) {
-		$args = array(  
-		    'posts_per_page' => -1, 
-		    'post_type' => $post_type, 
-		    'tax_query' => array(
-			array(
-			    'taxonomy' => 'company', 
-			    'field' => 'slug', 
-			    'terms' => $term->slug,
-			    'include_children' => $include,
-			),
-		    ),
-		    'meta_query' => array(),
-		);
-		     
-		if ($_POST['currentjobs'] == "true" && $post_type == "job") {
-		    $args['meta_query'] = array(
-			array(
-			    'key' => 'end-date',
-			    'compare' => 'NOT EXISTS',
-			    'value'   => '1',
-			),
-		    );
-		}
-		
-		if ($_POST['showexpired'] != "true" && $post_type == "qualification") {
-		    $args['meta_query'] = array(
-			array(
-			    'key' => 'Expired',
-			    'compare' => 'NOT EXISTS',
-			    'value'   => '1',
-			),
-		    );
-		}
+         
+         
+         foreach ($post_types as $post_type) {
+            $args = array(  
+               'posts_per_page' => -1, 
+               'post_type' => $post_type, 
+               'tax_query' => array(
+                  array(
+                     'taxonomy' => 'company', 
+                     'field' => 'slug', 
+                     'terms' => $term->slug,
+                     'include_children' => $include,
+                  ),
+               ),
+               'meta_query' => array(),
+            );
+                
+            if ($_POST['currentjobs'] == "true" && $post_type == "job") {
+               $args['meta_query'] = array(
+                  array(
+                     'key' => 'end-date',
+                     'compare' => 'NOT EXISTS',
+                     'value'   => '1',
+                  ),
+               );
+            }
+            
+            if ($_POST['showexpired'] != "true" && $post_type == "qualification") {
+               $args['meta_query'] = array(
+                  array(
+                     'key' => 'Expired',
+                     'compare' => 'NOT EXISTS',
+                     'value'   => '1',
+                  ),
+               );
+            }
 
-		$posts = get_posts($args);
+            $posts = get_posts($args);
 
-		array_push($term_items, $posts);
-		array_push($term_item_counts, count($posts));
-	    }
+            array_push($term_items, $posts);
+            array_push($term_item_counts, count($posts));
+         }
+         
+         if(($_POST['job'] == "true" && $term_item_counts[0] > 0) ||
+         ($_POST['post'] == "true" && $term_item_counts[1] > 0) ||
+         ($_POST['website'] == "true" && $term_item_counts[2] > 0) ||
+         ($_POST['program'] == "true" && $term_item_counts[3] > 0) ||
+         ($_POST['writing'] == "true" && $term_item_counts[4] > 0) ||
+         ($_POST['video'] == "true" && $term_item_counts[5] > 0) ||
+         ($_POST['other'] == "true" && $term_item_counts[6] > 0) ||
+         ($_POST['qualification'] == "true" && $term_item_counts[7] > 0) ||
+         ($_POST['award'] == "true" && $term_item_counts[8] > 0)) {
+            $imgURL = wp_get_attachment_image_src($term->image_id, 'full')[0];
+            $bgImg = (!$imgURL) ? "" : " background-image: url(".strtok($imgURL, '?').");";
+            $colour = get_term_meta($term->term_id, 'color', true);
+            $colour = ($colour != "") ? $colour : "transparent";
+            
+            echo '<tr class="organisation">';
+                  echo '<td class="organisation-logo">';
+                     echo '<a href="'.esc_url(get_term_link($term, $term->taxonomy)).'">';
+                        echo '<img style="background-color: '.$colour.';" src="'.strtok($imgURL, '?').'" alt="'.$term->name.' logo">';
+                     echo '</a>';
+                  echo '</td>';
+                  
+                  echo '<td class="organisation-name">';
+                     echo '<a href="'.esc_url(get_term_link($term, $term->taxonomy)).'">';
+                        echo '<p>'.$term->name.'</p>';
+                     echo '</a>';
+                  echo '</td>';
+                  
+                  echo '<td class="organisation-items organisation-children">';
+                     $num = (count($term_children) > 0) ? "" : "none";
+                     echo '<div class="organisation-item '.$num.'">';
+                        echo '<span class="dashicons dashicons-groups"></span><br>'.count($term_children);
+                     echo '</div>';
+                  echo '</td>';
+                        
+                  echo '<td class="organisation-items">';
+                     $i = 0;
+                     foreach ($post_types as $post_type) {
+                        $num = ($term_item_counts[$i] > 0) ? "" : "none";
+                        echo '<div class="organisation-item '.$num.'">';
+                           echo '<span class="dashicons dashicons-'.$dashicons[$i].'"></span><br>'.$term_item_counts[$i];
+                        echo '</div>';
+                        $i++;
+                     };
+                  echo '</td>';
+            echo '</tr>';
+            
+            /*
+            echo '<a href="'.esc_url(get_term_link($term, $term->taxonomy)).'">';
+               echo '<li class="col-2 col-m-4" style="background-color: '.$colour.'; '.$bgImg.'">';
+                  echo '<div class="company-info-container left">';
+                  if (count($term_children) > 0) {
+                     echo '<div class="company-info children">';
+                        echo count($term_children).'<br><span class="dashicons dashicons-groups"></span>';
+                     echo '</div>';
+                  }
+                  echo '</div>';
+                 
+                  echo '<div class="company-info-container right">';
+                  $i = 0;
+                  foreach ($post_types as $post_type) {
+                     if ($_POST[$post_type] == "true") {
+                     echo '<div class="company-info jobs">';
+                        echo $term_item_counts[$i].'<span class="dashicons dashicons-'.$dashicons[$i].'"></span>';
+                     echo '</div>';
+                     }
+                     $i++;
+                  }
+                  echo '</div>';
+                  if (!$imgURL) echo '<p class="company-name">'.$term->name.'</p>';
+               echo '</li>';
+            echo '</a>';
+            */
+         }
+      }
+   } else {
+      echo '<p>No companies found</p>';
+   }
 
-	    if(($_POST['job'] == "true" && $term_item_counts[0] > 0) ||
-		($_POST['post'] == "true" && $term_item_counts[1] > 0) ||
-		($_POST['website'] == "true" && $term_item_counts[2] > 0) ||
-		($_POST['program'] == "true" && $term_item_counts[3] > 0) ||
-		($_POST['writing'] == "true" && $term_item_counts[4] > 0) ||
-		($_POST['video'] == "true" && $term_item_counts[5] > 0) ||
-		($_POST['other'] == "true" && $term_item_counts[6] > 0) ||
-		($_POST['qualification'] == "true" && $term_item_counts[7] > 0) ||
-		($_POST['award'] == "true" && $term_item_counts[8] > 0)) {
-		   
-		$imgURL = wp_get_attachment_image_src($term->image_id, 'full')[0];
-		$bgImg = (!$imgURL) ? "" : " background-image: url(".strtok($imgURL, '?').");";
-		$colour = get_term_meta($term->term_id, 'color', true);
-		$colour = ($colour != "") ? $colour : "transparent";
-		
-		echo '<a href="'.esc_url(get_term_link($term, $term->taxonomy)).'">';
-		    echo '<li class="col-2 col-m-4" style="background-color: '.$colour.'; '.$bgImg.'">';
-			echo '<div class="company-info-container left">';
-			if (count($term_children) > 0) {
-			    echo '<div class="company-info children">';
-				echo count($term_children).'<br><span class="dashicons dashicons-groups"></span>';
-			    echo '</div>';
-			}
-			echo '</div>';
-		      
-			echo '<div class="company-info-container right">';
-			$i = 0;
-			foreach ($post_types as $post_type) {
-			    if ($_POST[$post_type] == "true") {
-				echo '<div class="company-info jobs">';
-				echo $term_item_counts[$i].'<span class="dashicons dashicons-'.$dashicons[$i].'"></span>';
-				echo '</div>';
-			    }
-			    $i++;
-			}
-			echo '</div>';
-			if (!$imgURL) echo '<p class="company-name">'.$term->name.'</p>';
-		    echo '</li>';
-		echo '</a>';
-	    }
-	}
-    } else {
-	echo '<p>No companies found</p>';
-    }
-    echo '</ul>';
-
-    die();
+   die();
 }
 add_action('wp_ajax_display_companies', 'display_companies');
 add_action('wp_ajax_nopriv_display_companies', 'display_companies');
+
