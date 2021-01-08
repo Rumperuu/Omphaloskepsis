@@ -1118,7 +1118,10 @@ article.tile > header > h2 {
 
 a {
    opacity: 0.8;
-   text-decoration: underline;
+   text-decoration: underline !important;
+}
+.footnote_plugin_index a {
+   text-decoration: none !important;
 }
 a:hover, a:focus {
    opacity: 1;

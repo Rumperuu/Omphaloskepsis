@@ -10,7 +10,7 @@ Omphaloskepsis is a portfolio- and experience-centric WordPress Theme.
 
 ## Copyright
 
-Omphaloskepsis WordPress Theme, Copyright 2016-2020 Ben Goldsworthy
+Omphaloskepsis WordPress Theme, Copyright 2016-2017 Ben Goldsworthy
 Omphaloskepsis is distributed under the terms of the GNU GPL
 
 This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
-Omphaloskepsis Theme bundles the following third-party resources:
+Twenty Sixteen Theme bundles the following third-party resources:
 
 HTML5 Shiv v3.7.0, Copyright 2014 Alexander Farkas
 Licenses: MIT/GPL2
