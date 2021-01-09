@@ -55,7 +55,7 @@ if ( ! function_exists( 'omphaloskepsis_setup' ) ) :
 		 * to change 'omphaloskepsis' to the name of your theme in all the template files
 		 */
 		load_theme_textdomain( 'omphaloskepsis', get_template_directory() . '/languages' );
-		
+
 		// Add default posts and comments RSS feed links to head.
 		add_theme_support( 'automatic-feed-links' );
 
@@ -72,11 +72,14 @@ if ( ! function_exists( 'omphaloskepsis_setup' ) ) :
 		 *
 		 *  @since Omphaloskepsis 1.2
 		 */
-		add_theme_support( 'custom-logo', array(
-			'height'      => 2256,
-			'width'       => 1622,
-			'flex-height' => true,
-		) );
+		add_theme_support(
+			'custom-logo',
+			array(
+				'height'      => 2256,
+				'width'       => 1622,
+				'flex-height' => true,
+			)
+		);
 
 		/*
 		 * Enable support for Post Thumbnails on posts and pages.
@@ -87,62 +90,73 @@ if ( ! function_exists( 'omphaloskepsis_setup' ) ) :
 		set_post_thumbnail_size( 1200, 9999 );
 
 		// This theme uses wp_nav_menu() in two locations.
-		register_nav_menus( array(
-			'primary' => __( 'Primary Menu', 'omphaloskepsis' ),
-			'social'  => __( 'Social Links Menu', 'omphaloskepsis' ),
-		) );
-		
-		function omphaloskepsis_infinite_scroll_init() {
-	add_theme_support( 'infinite-scroll', array(
-		'container' => 'main',
-		'render'    => 'omphaloskepsis_infinite_scroll_render',
-		'footer'    => 'colophon',
-	) );
-}
+		register_nav_menus(
+			array(
+				'primary' => __( 'Primary Menu', 'omphaloskepsis' ),
+				'social'  => __( 'Social Links Menu', 'omphaloskepsis' ),
+			)
+		);
 
-add_action( 'init', 'omphaloskepsis_infinite_scroll_init' );
-/**
- * Custom render function for Infinite Scroll.
- */
-function omphaloskepsis_infinite_scroll_render() {
-	while ( have_posts() ) {
-		the_post();
-		if ( is_search() ) {
-			get_template_part( 'template-parts/content', 'search' );
-		} else {
-			get_template_part( 'template-parts/content', get_post_format() );
+		function omphaloskepsis_infinite_scroll_init() {
+			add_theme_support(
+				'infinite-scroll',
+				array(
+					'container' => 'main',
+					'render'    => 'omphaloskepsis_infinite_scroll_render',
+					'footer'    => 'colophon',
+				)
+			);
 		}
-	}
-}
+
+		add_action( 'init', 'omphaloskepsis_infinite_scroll_init' );
+		/**
+		 * Custom render function for Infinite Scroll.
+		 */
+		function omphaloskepsis_infinite_scroll_render() {
+			while ( have_posts() ) {
+				the_post();
+				if ( is_search() ) {
+					get_template_part( 'template-parts/content', 'search' );
+				} else {
+					get_template_part( 'template-parts/content', get_post_format() );
+				}
+			}
+		}
 
 		/*
 		 * Switch default core markup for search form, comment form, and comments
 		 * to output valid HTML5.
 		 */
-		add_theme_support( 'html5', array(
-			'search-form',
-			'comment-form',
-			'comment-list',
-			'gallery',
-			'caption',
-		) );
+		add_theme_support(
+			'html5',
+			array(
+				'search-form',
+				'comment-form',
+				'comment-list',
+				'gallery',
+				'caption',
+			)
+		);
 
 		/*
 		 * Enable support for Post Formats.
 		 *
 		 * See: https://codex.wordpress.org/Post_Formats
 		 */
-		add_theme_support( 'post-formats', array(
-			'aside',
-			'image',
-			'video',
-			'quote',
-			'link',
-			'gallery',
-			'status',
-			'audio',
-			'chat',
-		) );
+		add_theme_support(
+			'post-formats',
+			array(
+				'aside',
+				'image',
+				'video',
+				'quote',
+				'link',
+				'gallery',
+				'status',
+				'audio',
+				'chat',
+			)
+		);
 
 		/*
 		 * This theme styles the visual editor to resemble the theme style,
@@ -178,35 +192,41 @@ add_action( 'after_setup_theme', 'omphaloskepsis_content_width', 0 );
  * @since Omphaloskepsis 1.0
  */
 function omphaloskepsis_widgets_init() {
-	register_sidebar( array(
-		'name'          => __( 'Sidebar', 'omphaloskepsis' ),
-		'id'            => 'sidebar-1',
-		'description'   => __( 'Add widgets here to appear in your sidebar.', 'omphaloskepsis' ),
-		'before_widget' => '<section id="%1$s" class="widget %2$s">',
-		'after_widget'  => '</section>',
-		'before_title'  => '<h2 class="widget-title">',
-		'after_title'   => '</h2>',
-	) );
+	register_sidebar(
+		array(
+			'name'          => __( 'Sidebar', 'omphaloskepsis' ),
+			'id'            => 'sidebar-1',
+			'description'   => __( 'Add widgets here to appear in your sidebar.', 'omphaloskepsis' ),
+			'before_widget' => '<section id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</section>',
+			'before_title'  => '<h2 class="widget-title">',
+			'after_title'   => '</h2>',
+		)
+	);
 
-	register_sidebar( array(
-		'name'          => __( 'Content Bottom 1', 'omphaloskepsis' ),
-		'id'            => 'sidebar-2',
-		'description'   => __( 'Appears at the bottom of the content on posts and pages.', 'omphaloskepsis' ),
-		'before_widget' => '<section id="%1$s" class="widget %2$s">',
-		'after_widget'  => '</section>',
-		'before_title'  => '<h2 class="widget-title">',
-		'after_title'   => '</h2>',
-	) );
+	register_sidebar(
+		array(
+			'name'          => __( 'Content Bottom 1', 'omphaloskepsis' ),
+			'id'            => 'sidebar-2',
+			'description'   => __( 'Appears at the bottom of the content on posts and pages.', 'omphaloskepsis' ),
+			'before_widget' => '<section id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</section>',
+			'before_title'  => '<h2 class="widget-title">',
+			'after_title'   => '</h2>',
+		)
+	);
 
-	register_sidebar( array(
-		'name'          => __( 'Content Bottom 2', 'omphaloskepsis' ),
-		'id'            => 'sidebar-3',
-		'description'   => __( 'Appears at the bottom of the content on posts and pages.', 'omphaloskepsis' ),
-		'before_widget' => '<section id="%1$s" class="widget %2$s">',
-		'after_widget'  => '</section>',
-		'before_title'  => '<h2 class="widget-title">',
-		'after_title'   => '</h2>',
-	) );
+	register_sidebar(
+		array(
+			'name'          => __( 'Content Bottom 2', 'omphaloskepsis' ),
+			'id'            => 'sidebar-3',
+			'description'   => __( 'Appears at the bottom of the content on posts and pages.', 'omphaloskepsis' ),
+			'before_widget' => '<section id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</section>',
+			'before_title'  => '<h2 class="widget-title">',
+			'after_title'   => '</h2>',
+		)
+	);
 }
 add_action( 'widgets_init', 'omphaloskepsis_widgets_init' );
 
@@ -241,10 +261,13 @@ if ( ! function_exists( 'omphaloskepsis_fonts_url' ) ) :
 		}
 
 		if ( $fonts ) {
-			$fonts_url = add_query_arg( array(
-				'family' => urlencode( implode( '|', $fonts ) ),
-				'subset' => urlencode( $subsets ),
-			), 'https://fonts.googleapis.com/css' );
+			$fonts_url = add_query_arg(
+				array(
+					'family' => urlencode( implode( '|', $fonts ) ),
+					'subset' => urlencode( $subsets ),
+				),
+				'https://fonts.googleapis.com/css'
+			);
 		}
 
 		return $fonts_url;
@@ -270,8 +293,8 @@ add_action( 'wp_head', 'omphaloskepsis_javascript_detection', 0 );
  */
 function omphaloskepsis_scripts() {
 	// Load the normalisation stylesheet.
-	wp_enqueue_style( 'omphaloskepsis-reset', get_template_directory_uri() . '/css/reset.css', array( ), null );
-	
+	wp_enqueue_style( 'omphaloskepsis-reset', get_template_directory_uri() . '/css/reset.css', array(), null );
+
 	wp_style_add_data( 'omphaloskepsis-ie', 'conditional', 'lt IE 10' );
 	// Add custom fonts, used in the main stylesheet.
 	wp_enqueue_style( 'omphaloskepsis-fonts', omphaloskepsis_fonts_url(), array(), null );
@@ -281,10 +304,10 @@ function omphaloskepsis_scripts() {
 
 	// Theme stylesheet.
 	wp_enqueue_style( 'omphaloskepsis-style', get_stylesheet_uri() );
-	
-	wp_enqueue_style('font-awesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'); 
-	
-	wp_enqueue_style( 'montserrat', "https://fonts.googleapis.com/css?family=Montserrat" );
+
+	wp_enqueue_style( 'font-awesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css' );
+
+	wp_enqueue_style( 'montserrat', 'https://fonts.googleapis.com/css?family=Montserrat' );
 
 	// Load the Internet Explorer specific stylesheet.
 	wp_enqueue_style( 'omphaloskepsis-ie', get_template_directory_uri() . '/css/ie.css', array( 'omphaloskepsis-style' ), '20160412' );
@@ -314,10 +337,14 @@ function omphaloskepsis_scripts() {
 
 	wp_enqueue_script( 'omphaloskepsis-script', get_template_directory_uri() . '/js/functions.js', array( 'jquery' ), '20160412', true );
 
-	wp_localize_script( 'omphaloskepsis-script', 'screenReaderText', array(
-		'expand'   => __( 'expand child menu', 'omphaloskepsis' ),
-		'collapse' => __( 'collapse child menu', 'omphaloskepsis' ),
-	) );
+	wp_localize_script(
+		'omphaloskepsis-script',
+		'screenReaderText',
+		array(
+			'expand'   => __( 'expand child menu', 'omphaloskepsis' ),
+			'collapse' => __( 'collapse child menu', 'omphaloskepsis' ),
+		)
+	);
 }
 add_action( 'wp_enqueue_scripts', 'omphaloskepsis_scripts' );
 
@@ -367,9 +394,9 @@ function omphaloskepsis_hex2rgb( $color ) {
 	$color = trim( $color, '#' );
 
 	if ( strlen( $color ) === 3 ) {
-		$r = hexdec( substr( $color, 0, 1 ).substr( $color, 0, 1 ) );
-		$g = hexdec( substr( $color, 1, 1 ).substr( $color, 1, 1 ) );
-		$b = hexdec( substr( $color, 2, 1 ).substr( $color, 2, 1 ) );
+		$r = hexdec( substr( $color, 0, 1 ) . substr( $color, 0, 1 ) );
+		$g = hexdec( substr( $color, 1, 1 ) . substr( $color, 1, 1 ) );
+		$b = hexdec( substr( $color, 2, 1 ) . substr( $color, 2, 1 ) );
 	} else if ( strlen( $color ) === 6 ) {
 		$r = hexdec( substr( $color, 0, 2 ) );
 		$g = hexdec( substr( $color, 2, 2 ) );
@@ -378,7 +405,11 @@ function omphaloskepsis_hex2rgb( $color ) {
 		return array();
 	}
 
-	return array( 'red' => $r, 'green' => $g, 'blue' => $b );
+	return array(
+		'red' => $r,
+		'green' => $g,
+		'blue' => $b,
+	);
 }
 
 /**
@@ -416,7 +447,7 @@ function omphaloskepsis_content_image_sizes_attr( $sizes, $size ) {
 
 	return $sizes;
 }
-add_filter( 'wp_calculate_image_sizes', 'omphaloskepsis_content_image_sizes_attr', 10 , 2 );
+add_filter( 'wp_calculate_image_sizes', 'omphaloskepsis_content_image_sizes_attr', 10, 2 );
 
 /**
  * Add custom image sizes attribute to enhance responsive image functionality
@@ -436,7 +467,7 @@ function omphaloskepsis_post_thumbnail_sizes_attr( $attr, $attachment, $size ) {
 	}
 	return $attr;
 }
-add_filter( 'wp_get_attachment_image_attributes', 'omphaloskepsis_post_thumbnail_sizes_attr', 10 , 3 );
+add_filter( 'wp_get_attachment_image_attributes', 'omphaloskepsis_post_thumbnail_sizes_attr', 10, 3 );
 
 /**
  * Modifies tag cloud widget arguments to have all tags in the widget same font size.
@@ -447,219 +478,243 @@ add_filter( 'wp_get_attachment_image_attributes', 'omphaloskepsis_post_thumbnail
  * @return array A new modified arguments.
  */
 function omphaloskepsis_widget_tag_cloud_args( $args ) {
-    $args['largest'] = 1;
-    $args['smallest'] = 1;
-    $args['unit'] = 'em';
-    return $args;
+	$args['largest'] = 1;
+	$args['smallest'] = 1;
+	$args['unit'] = 'em';
+	return $args;
 }
 add_filter( 'widget_tag_cloud_args', 'omphaloskepsis_widget_tag_cloud_args' );
 
-function clean_script_tag($input) {
-   $input = str_replace("type='text/javascript' ", '', $input);
-   return str_replace("'", '"', $input);
+function clean_script_tag( $input ) {
+	$input = str_replace( "type='text/javascript' ", '', $input );
+	return str_replace( "'", '"', $input );
 }
-add_filter('script_loader_tag', 'clean_script_tag');
+add_filter( 'script_loader_tag', 'clean_script_tag' );
 
-function omphaloskepsis_the_content($content) {
-   global $post;
-   if ($post->post_type == "program") {
-      if ($meta = get_post_meta($post->ID, 'Link', true))
-         $links = $links . '<a class="hyperlink-button" target="_blank" href="'.$meta.'">Download</a>';
-      if ($meta = get_post_meta($post->ID, 'Documentation', true))
-         $links = $links . '<a class="hyperlink-button" target="_blank" href="'.$meta.'">Documentation</a>';
-      if ($meta = get_post_meta($post->ID, 'Repo', true))
-         $links = $links . '<a class="hyperlink-button" target="_blank" href="'.$meta.'">Repo</a>';
-      if ($meta = get_post_meta($post->ID, 'Licence', true))
-         $links = $links . '<a class="hyperlink-button" target="_blank" href="'.$meta.'">Licence</a>';
-      if ($meta = get_post_meta($post->ID, 'MD5', true))
-         $links = $links . '<p class="checksum">MD5 checksum: '.$meta.'</p>';
-      return $content . $links;
-   } elseif ($post->post_type == "website") {
-      if ($meta = get_post_meta($post->ID, 'Link', true))
-         $links = $links . '<a class="hyperlink-button" target="_blank" href="'.$meta.'">Visit</a>';
-      if ($meta = get_post_meta($post->ID, 'Repo', true))
-         $links = $links . '<a class="hyperlink-button" target="_blank" href="'.$meta.'">Repo</a>';
-      if ($meta = get_post_meta($post->ID, 'Licence', true))
-         $links = $links . '<a class="hyperlink-button" target="_blank" href="'.$meta.'">Licence</a>';
-      return $content . $links;
-   } elseif ($post->post_type == "writing") {
-      if ($meta = get_post_meta($post->ID, 'Link', true))
-         $links = $links . '<a class="hyperlink-button" target="_blank" href="'.$meta.'">Read</a>';
-      if ($meta = get_post_meta($post->ID, 'Licence', true))
-         $links = $links . '<a class="hyperlink-button" target="_blank" href="'.$meta.'">Licence</a>';
-      return $content . $links;
-   } elseif ($post->post_type == "other") {
-      if ($meta = get_post_meta($post->ID, 'Link', true))
-         $links = $links . '<a class="hyperlink-button" target="_blank" href="'.$meta.'">Download</a>';
-      return  $content . $links;
-   }
-   return $content;
+function omphaloskepsis_the_content( $content ) {
+	global $post;
+	if ( $post->post_type == 'program' ) {
+		if ( $meta = get_post_meta( $post->ID, 'Link', true ) ) {
+			$links = $links . '<a class="hyperlink-button" target="_blank" href="' . $meta . '">Download</a>';
+		}
+		if ( $meta = get_post_meta( $post->ID, 'Documentation', true ) ) {
+			$links = $links . '<a class="hyperlink-button" target="_blank" href="' . $meta . '">Documentation</a>';
+		}
+		if ( $meta = get_post_meta( $post->ID, 'Repo', true ) ) {
+			$links = $links . '<a class="hyperlink-button" target="_blank" href="' . $meta . '">Repo</a>';
+		}
+		if ( $meta = get_post_meta( $post->ID, 'Licence', true ) ) {
+			$links = $links . '<a class="hyperlink-button" target="_blank" href="' . $meta . '">Licence</a>';
+		}
+		if ( $meta = get_post_meta( $post->ID, 'MD5', true ) ) {
+			$links = $links . '<p class="checksum">MD5 checksum: ' . $meta . '</p>';
+		}
+		return $content . $links;
+	} elseif ( $post->post_type == 'website' ) {
+		if ( $meta = get_post_meta( $post->ID, 'Link', true ) ) {
+			$links = $links . '<a class="hyperlink-button" target="_blank" href="' . $meta . '">Visit</a>';
+		}
+		if ( $meta = get_post_meta( $post->ID, 'Repo', true ) ) {
+			$links = $links . '<a class="hyperlink-button" target="_blank" href="' . $meta . '">Repo</a>';
+		}
+		if ( $meta = get_post_meta( $post->ID, 'Licence', true ) ) {
+			$links = $links . '<a class="hyperlink-button" target="_blank" href="' . $meta . '">Licence</a>';
+		}
+		return $content . $links;
+	} elseif ( $post->post_type == 'writing' ) {
+		if ( $meta = get_post_meta( $post->ID, 'Link', true ) ) {
+			$links = $links . '<a class="hyperlink-button" target="_blank" href="' . $meta . '">Read</a>';
+		}
+		if ( $meta = get_post_meta( $post->ID, 'Licence', true ) ) {
+			$links = $links . '<a class="hyperlink-button" target="_blank" href="' . $meta . '">Licence</a>';
+		}
+		return $content . $links;
+	} elseif ( $post->post_type == 'other' ) {
+		if ( $meta = get_post_meta( $post->ID, 'Link', true ) ) {
+			$links = $links . '<a class="hyperlink-button" target="_blank" href="' . $meta . '">Download</a>';
+		}
+		return $content . $links;
+	}
+	return $content;
 }
-add_filter('the_content', 'omphaloskepsis_the_content', 10);
+add_filter( 'the_content', 'omphaloskepsis_the_content', 10 );
 
 add_action( 'wp_enqueue_scripts', 'load_dashicons_front_end' );
 function load_dashicons_front_end() {
-    wp_enqueue_style( 'dashicons' );
+	wp_enqueue_style( 'dashicons' );
 }
 
 function display_companies() {
-   echo '<tr>';
-      echo '<th colspan="2">Organisation</th>';
-      echo '<th>Children</th>';
-      echo '<th>Associated Items</th>';
-   echo '</tr>';
-   
-   if ($_POST['toplevel'] == "true") {
-      // Gets all of the top-level company terms.
-      $terms = apply_filters("taxonomy-images-get-terms", "", array('having_images' => false, 'taxonomy' => 'company', 'term_args' => array('parent' => 0)));
-      $include = 1;
-   } else {
-      // Gets all of the company terms.
-      $terms = apply_filters("taxonomy-images-get-terms", "", array('having_images' => false, 'taxonomy' => 'company',));
-      $include = 0;
-   }
-   
-   if(!empty($terms)) {
-      foreach($terms as $term) {
-         $term_children = get_term_children($term->term_id, "company");
-       
-         // 0 = Jobs
-         // 1 = Blog Posts
-         // 2 = Websites
-         // 3 = Programs
-         // 4 = Writings
-         // 5 = Videos
-         // 6 = Others
-         // 7 = Qualifications
-         // 8 = Awards
-         $post_types = array('job', 'post', 'website', 'program', 'writing', 'video', 'other', 'qualification', 'award');
-         $dashicons = array('hammer', 'admin-post', 'schedule', 'desktop', 'format-aside', 'video-alt', 'archive', 'id', 'awards');
-         $term_items = array();
-         $term_item_counts = array();
+	echo '<tr>';
+	  echo '<th colspan="2">Organisation</th>';
+	  echo '<th>Children</th>';
+	  echo '<th>Associated Items</th>';
+	echo '</tr>';
 
-         
-         
-         foreach ($post_types as $post_type) {
-            $args = array(  
-               'posts_per_page' => -1, 
-               'post_type' => $post_type, 
-               'tax_query' => array(
-                  array(
-                     'taxonomy' => 'company', 
-                     'field' => 'slug', 
-                     'terms' => $term->slug,
-                     'include_children' => $include,
-                  ),
-               ),
-               'meta_query' => array(),
-            );
-                
-            if ($_POST['currentjobs'] == "true" && $post_type == "job") {
-               $args['meta_query'] = array(
-                  array(
-                     'key' => 'end-date',
-                     'compare' => 'NOT EXISTS',
-                     'value'   => '1',
-                  ),
-               );
-            }
-            
-            if ($_POST['showexpired'] != "true" && $post_type == "qualification") {
-               $args['meta_query'] = array(
-                  array(
-                     'key' => 'Expired',
-                     'compare' => 'NOT EXISTS',
-                     'value'   => '1',
-                  ),
-               );
-            }
+	if ( $_POST['toplevel'] == 'true' ) {
+		// Gets all of the top-level company terms.
+		$terms = apply_filters(
+			'taxonomy-images-get-terms',
+			'',
+			array(
+				'having_images' => false,
+				'taxonomy' => 'company',
+				'term_args' => array( 'parent' => 0 ),
+			)
+		);
+		$include = 1;
+	} else {
+		// Gets all of the company terms.
+		$terms = apply_filters(
+			'taxonomy-images-get-terms',
+			'',
+			array(
+				'having_images' => false,
+				'taxonomy' => 'company',
+			)
+		);
+		$include = 0;
+	}
 
-            $posts = get_posts($args);
+	if ( ! empty( $terms ) ) {
+		foreach ( $terms as $term ) {
+			$term_children = get_term_children( $term->term_id, 'company' );
 
-            array_push($term_items, $posts);
-            array_push($term_item_counts, count($posts));
-         }
-         
-         if(($_POST['job'] == "true" && $term_item_counts[0] > 0) ||
-         ($_POST['post'] == "true" && $term_item_counts[1] > 0) ||
-         ($_POST['website'] == "true" && $term_item_counts[2] > 0) ||
-         ($_POST['program'] == "true" && $term_item_counts[3] > 0) ||
-         ($_POST['writing'] == "true" && $term_item_counts[4] > 0) ||
-         ($_POST['video'] == "true" && $term_item_counts[5] > 0) ||
-         ($_POST['other'] == "true" && $term_item_counts[6] > 0) ||
-         ($_POST['qualification'] == "true" && $term_item_counts[7] > 0) ||
-         ($_POST['award'] == "true" && $term_item_counts[8] > 0)) {
-            $imgURL = wp_get_attachment_image_src($term->image_id, 'full')[0];
-            $bgImg = (!$imgURL) ? "" : " background-image: url(".strtok($imgURL, '?').");";
-            $colour = get_term_meta($term->term_id, 'color', true);
-            $colour = ($colour != "") ? $colour : "transparent";
-            
-            echo '<tr class="organisation">';
-                  echo '<td class="organisation-logo">';
-                     echo '<a href="'.esc_url(get_term_link($term, $term->taxonomy)).'">';
-                        echo '<img style="background-color: '.$colour.';" src="'.strtok($imgURL, '?').'" alt="'.$term->name.' logo">';
-                     echo '</a>';
-                  echo '</td>';
-                  
-                  echo '<td class="organisation-name">';
-                     echo '<a href="'.esc_url(get_term_link($term, $term->taxonomy)).'">';
-                        echo '<p>'.$term->name.'</p>';
-                     echo '</a>';
-                  echo '</td>';
-                  
-                  echo '<td class="organisation-items organisation-children">';
-                     $num = (count($term_children) > 0) ? "" : "none";
-                     echo '<div class="organisation-item '.$num.'">';
-                        echo '<span class="dashicons dashicons-groups"></span><br>'.count($term_children);
-                     echo '</div>';
-                  echo '</td>';
-                        
-                  echo '<td class="organisation-items">';
-                     $i = 0;
-                     foreach ($post_types as $post_type) {
-                        $num = ($term_item_counts[$i] > 0) ? "" : "none";
-                        echo '<div class="organisation-item '.$num.'">';
-                           echo '<span class="dashicons dashicons-'.$dashicons[$i].'"></span><br>'.$term_item_counts[$i];
-                        echo '</div>';
-                        $i++;
-                     };
-                  echo '</td>';
-            echo '</tr>';
-            
-            /*
-            echo '<a href="'.esc_url(get_term_link($term, $term->taxonomy)).'">';
-               echo '<li class="col-2 col-m-4" style="background-color: '.$colour.'; '.$bgImg.'">';
-                  echo '<div class="company-info-container left">';
-                  if (count($term_children) > 0) {
-                     echo '<div class="company-info children">';
-                        echo count($term_children).'<br><span class="dashicons dashicons-groups"></span>';
-                     echo '</div>';
-                  }
-                  echo '</div>';
-                 
-                  echo '<div class="company-info-container right">';
-                  $i = 0;
-                  foreach ($post_types as $post_type) {
-                     if ($_POST[$post_type] == "true") {
-                     echo '<div class="company-info jobs">';
-                        echo $term_item_counts[$i].'<span class="dashicons dashicons-'.$dashicons[$i].'"></span>';
-                     echo '</div>';
-                     }
-                     $i++;
-                  }
-                  echo '</div>';
-                  if (!$imgURL) echo '<p class="company-name">'.$term->name.'</p>';
-               echo '</li>';
-            echo '</a>';
-            */
-         }
-      }
-   } else {
-      echo '<p>No companies found</p>';
-   }
+			// 0 = Jobs
+			// 1 = Blog Posts
+			// 2 = Websites
+			// 3 = Programs
+			// 4 = Writings
+			// 5 = Videos
+			// 6 = Others
+			// 7 = Qualifications
+			// 8 = Awards
+			$post_types = array( 'job', 'post', 'website', 'program', 'writing', 'video', 'other', 'qualification', 'award' );
+			$dashicons = array( 'hammer', 'admin-post', 'schedule', 'desktop', 'format-aside', 'video-alt', 'archive', 'id', 'awards' );
+			$term_items = array();
+			$term_item_counts = array();
 
-   die();
+			foreach ( $post_types as $post_type ) {
+				$args = array(
+					'posts_per_page' => -1,
+					'post_type' => $post_type,
+					'tax_query' => array(
+						array(
+							'taxonomy' => 'company',
+							'field' => 'slug',
+							'terms' => $term->slug,
+							'include_children' => $include,
+						),
+					),
+					'meta_query' => array(),
+				);
+
+				if ( $_POST['currentjobs'] == 'true' && $post_type == 'job' ) {
+					$args['meta_query'] = array(
+						array(
+							'key' => 'end-date',
+							'compare' => 'NOT EXISTS',
+							'value'   => '1',
+						),
+					);
+				}
+
+				if ( $_POST['showexpired'] != 'true' && $post_type == 'qualification' ) {
+					$args['meta_query'] = array(
+						array(
+							'key' => 'Expired',
+							'compare' => 'NOT EXISTS',
+							'value'   => '1',
+						),
+					);
+				}
+
+				$posts = get_posts( $args );
+
+				array_push( $term_items, $posts );
+				array_push( $term_item_counts, count( $posts ) );
+			}
+
+			if ( ( $_POST['job'] == 'true' && $term_item_counts[0] > 0 ) ||
+			( $_POST['post'] == 'true' && $term_item_counts[1] > 0 ) ||
+			( $_POST['website'] == 'true' && $term_item_counts[2] > 0 ) ||
+			( $_POST['program'] == 'true' && $term_item_counts[3] > 0 ) ||
+			( $_POST['writing'] == 'true' && $term_item_counts[4] > 0 ) ||
+			( $_POST['video'] == 'true' && $term_item_counts[5] > 0 ) ||
+			( $_POST['other'] == 'true' && $term_item_counts[6] > 0 ) ||
+			( $_POST['qualification'] == 'true' && $term_item_counts[7] > 0 ) ||
+			( $_POST['award'] == 'true' && $term_item_counts[8] > 0 ) ) {
+				$imgURL = wp_get_attachment_image_src( $term->image_id, 'full' )[0];
+				$bgImg = ( ! $imgURL ) ? '' : ' background-image: url(' . strtok( $imgURL, '?' ) . ');';
+				$colour = get_term_meta( $term->term_id, 'color', true );
+				$colour = ( $colour != '' ) ? $colour : 'transparent';
+
+				echo '<tr class="organisation">';
+				  echo '<td class="organisation-logo">';
+					 echo '<a href="' . esc_url( get_term_link( $term, $term->taxonomy ) ) . '">';
+						echo '<img style="background-color: ' . $colour . ';" src="' . strtok( $imgURL, '?' ) . '" alt="' . $term->name . ' logo">';
+					 echo '</a>';
+				  echo '</td>';
+
+				  echo '<td class="organisation-name">';
+					 echo '<a href="' . esc_url( get_term_link( $term, $term->taxonomy ) ) . '">';
+						echo '<p>' . $term->name . '</p>';
+					 echo '</a>';
+				  echo '</td>';
+
+				  echo '<td class="organisation-items organisation-children">';
+					 $num = ( count( $term_children ) > 0 ) ? '' : 'none';
+					 echo '<div class="organisation-item ' . $num . '">';
+						echo '<span class="dashicons dashicons-groups"></span><br>' . count( $term_children );
+					 echo '</div>';
+				  echo '</td>';
+
+				  echo '<td class="organisation-items">';
+					 $i = 0;
+				foreach ( $post_types as $post_type ) {
+					$num = ( $term_item_counts[ $i ] > 0 ) ? '' : 'none';
+					echo '<div class="organisation-item ' . $num . '">';
+					echo '<span class="dashicons dashicons-' . $dashicons[ $i ] . '"></span><br>' . $term_item_counts[ $i ];
+					echo '</div>';
+					$i++;
+				};
+				  echo '</td>';
+				echo '</tr>';
+
+				/*
+				echo '<a href="'.esc_url(get_term_link($term, $term->taxonomy)).'">';
+				echo '<li class="col-2 col-m-4" style="background-color: '.$colour.'; '.$bgImg.'">';
+				  echo '<div class="company-info-container left">';
+				  if (count($term_children) > 0) {
+					 echo '<div class="company-info children">';
+						echo count($term_children).'<br><span class="dashicons dashicons-groups"></span>';
+					 echo '</div>';
+				  }
+				  echo '</div>';
+
+				  echo '<div class="company-info-container right">';
+				  $i = 0;
+				  foreach ($post_types as $post_type) {
+					 if ($_POST[$post_type] == "true") {
+					 echo '<div class="company-info jobs">';
+						echo $term_item_counts[$i].'<span class="dashicons dashicons-'.$dashicons[$i].'"></span>';
+					 echo '</div>';
+					 }
+					 $i++;
+				  }
+				  echo '</div>';
+				  if (!$imgURL) echo '<p class="company-name">'.$term->name.'</p>';
+				echo '</li>';
+				echo '</a>';
+				*/
+			}
+		}
+	} else {
+		echo '<p>No companies found</p>';
+	}
+
+	die();
 }
-add_action('wp_ajax_display_companies', 'display_companies');
-add_action('wp_ajax_nopriv_display_companies', 'display_companies');
+add_action( 'wp_ajax_display_companies', 'display_companies' );
+add_action( 'wp_ajax_nopriv_display_companies', 'display_companies' );
 
