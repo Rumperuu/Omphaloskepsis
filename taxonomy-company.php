@@ -35,7 +35,7 @@
   google.charts.load('current', {'packages':['timeline']});
    
   <?php if ( $loop->have_posts() ) : ?>
-    google.charts.setOnLoadCallback(drawChart);
+	google.charts.setOnLoadCallback(drawChart);
   <?php endif; ?>
    
   function drawChart() {
