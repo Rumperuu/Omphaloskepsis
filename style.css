@@ -988,6 +988,10 @@ body > header h1 {
    }
 }
 
+#timeline h1.timeline-entry-title {
+  font-size: 1.2em;
+}
+
 #comments-list-title, #comments-reply-title {
    font-size: 1.6em;
    margin-bottom: 0.5em;
