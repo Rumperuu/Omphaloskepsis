@@ -64,7 +64,7 @@
 			<li><?php echo $notes ?></li>
          <?php endif; ?>
          <?php if ($license = get_post_meta(get_the_ID(), 'License', true)): ?>
-            <li>This work is licensed under <?php echo $license ?>. <a href="https://bengoldsworthy.uk/2018/03/copywrong/">Sorry about that</a>.</li>
+            <li>This work is licensed under <?php echo $license ?>. <a href="/2018/03/copywrong/">Sorry about that</a>.</li>
          <?php endif; ?>
          </ul>
       </div>
@@ -79,15 +79,28 @@
    ?>
    </main><!-- .entry-content -->
    
-   <footer id="post-toc">
+   <footer id="post-meta">
+      <h1>Post Meta</h1>
    <?php if ($content = get_post_meta(get_the_ID(), 'ToC1', true)): ?>
-      <h1>Contents</h1>
-      <ol>
-      <?php $i = 1; ?>
-      <?php while($content = get_post_meta(get_the_ID(), 'ToC'.$i, true)): ?>
-         <li><a href="#section-<?php echo $i++ ?>"><?php echo $content ?></a></li>
-      <?php endwhile; ?>
-      </ol>
+      <section id="post-contents">
+          <h2>Contents</h2>
+          <ol>
+          <?php $i = 1; ?>
+          <?php while($content = get_post_meta(get_the_ID(), 'ToC'.$i, true)): ?>
+             <li><a href="#section-<?php echo $i++ ?>"><?php echo $content ?></a></li>
+          <?php endwhile; ?>
+          </ol>
+      </section>
+   <?php endif; ?>
+   <?php if ($tags = get_the_tags(get_the_ID())): ?>
+      <section id="post-tags">
+          <h2>Tags</h2>
+      <?php foreach ($tags as $tag): ?>
+          <a href="<?php echo get_tag_link($tag->term_id) ?>" title="<?php echo $tag->name ?> Tag" class="tag-link">
+             <?php echo $tag->name ?>
+          </a>
+      <?php endforeach; ?>
+      </section>
    <?php endif; ?>
    </footer>
 </article><!-- #post-## -->
