@@ -32,13 +32,13 @@
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript">
-   google.charts.load('current', {'packages':['timeline']});
+  google.charts.load('current', {'packages':['timeline']});
    
-   <?php if ( $loop->have_posts() ) : ?>
-   google.charts.setOnLoadCallback(drawChart);
-   <?php endif; ?>
+  <?php if ( $loop->have_posts() ) : ?>
+    google.charts.setOnLoadCallback(drawChart);
+  <?php endif; ?>
    
-   function drawChart() {
+  function drawChart() {
 	  var container = document.getElementById('timeline');
 	  var chart = new google.visualization.Timeline(container);
 	  var dataTable = new google.visualization.DataTable();
@@ -66,7 +66,7 @@
 
 			$title = html_entity_decode( get_the_title() );
 			$start = get_the_date();
-			$end = ( ! get_post_meta( get_the_ID(), 'end-date', true ) ) ? date( 'D M d Y H:i:s O' ) : get_post_meta( get_the_ID(), 'end-date', true );
+			$end = ( ! get_post_meta( get_the_ID(), 'end-date', true ) ) ? date( 'c' ) : get_post_meta( get_the_ID(), 'end-date', true );
 			echo "[ '" . html_entity_decode( $companies[ $lowestDepthCompany ]->name ) . "', '$title', new Date('$start'), new Date('$end') ],\n";
 	  endwhile;
 		?>
@@ -75,7 +75,7 @@
 	  // Draws the table, then resizes the element height and re-draws it
 	  // to avoid needing to scroll vertically.
 	  chart.draw(dataTable);
-	  var realheight = parseInt(jQuery("#timeline div:first-child div:first-child div:first-child div svg").attr("height"))+70;
+	  var realheight = parseInt(jQuery("#timeline div:first-child div:first-child div:first-child svg").attr("height"))+70;
 	  var options = {};
 	  options.height = realheight;
 	  chart.draw(dataTable, options);
