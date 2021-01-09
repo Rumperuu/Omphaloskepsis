@@ -1,11 +1,11 @@
 <?php
    /**
-    * The template part for displaying a message that posts cannot be found.
-    *
-    * @package WordPress
-    * @subpackage Omphaloskepsis
-    * @since Omphaloskepsis 1.0
-    */
+	* The template part for displaying a message that posts cannot be found.
+	*
+	* @package WordPress
+	* @subpackage Omphaloskepsis
+	* @since Omphaloskepsis 1.0
+	*/
 ?>
 
 <section class="no-results not-found">

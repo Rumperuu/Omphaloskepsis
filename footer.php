@@ -1,13 +1,13 @@
 <?php
    /**
-    * The template for displaying the footer
-    *
-    * @package WordPress
-    * @subpackage Omphaloskepsis
-    * @since Omphaloskepsis 1.0
-    */
+	* The template for displaying the footer
+	*
+	* @package WordPress
+	* @subpackage Omphaloskepsis
+	* @since Omphaloskepsis 1.0
+	*/
 ?>
-      
+	  
 		<script type="text/javascript">
 			// Displays and hides the top header bar on page scroll.
 			jQuery(document).ready(function($) {
@@ -26,20 +26,20 @@
 					}
 				});
 			});
-      
-         function toggleCommentary() {
-            var linkText = ["Click here to hide all commentary and leave only reportage.", "Click here to show commentary."];
-            var commentaries = document.getElementsByClassName("article__text--commentary");
-            var link = document.getElementById("toggleCommentary");
-            
-            for (var i = 0; i < commentaries.length; i++) {
-               commentaries[i].style.display = (commentaries[i].style.display == 'none') ? 'inline' : 'none';
-            }
+	  
+		 function toggleCommentary() {
+			var linkText = ["Click here to hide all commentary and leave only reportage.", "Click here to show commentary."];
+			var commentaries = document.getElementsByClassName("article__text--commentary");
+			var link = document.getElementById("toggleCommentary");
+			
+			for (var i = 0; i < commentaries.length; i++) {
+			   commentaries[i].style.display = (commentaries[i].style.display == 'none') ? 'inline' : 'none';
+			}
 
-            link.innerHTML = (link.innerHTML == linkText[0]) ? linkText[1] : linkText[0];
-         }
-      </script>
-      
+			link.innerHTML = (link.innerHTML == linkText[0]) ? linkText[1] : linkText[0];
+		 }
+	  </script>
+	  
 		<?php wp_footer(); ?>
 		
 	</body>

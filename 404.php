@@ -1,11 +1,11 @@
 <?php
    /**
-    * The template for displaying 404 (not found) errors.
-    *
-    * @package WordPress
-    * @subpackage Omphaloskepsis
-    * @since Omphaloskepsis 1.0
-    */
+	* The template for displaying 404 (not found) errors.
+	*
+	* @package WordPress
+	* @subpackage Omphaloskepsis
+	* @since Omphaloskepsis 1.0
+	*/
 ?>
 
 <?php get_header(); ?>

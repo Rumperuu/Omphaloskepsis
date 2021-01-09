@@ -320,7 +320,7 @@ html {
          align-items: center;
          grid-template-areas:
             "post-content-header post-content"
-            "     post-toc       post-content"
+            "     post-meta       post-content"
             "        .           post-content";
       }
    }
@@ -378,23 +378,37 @@ html {
       grid-area: post-date;
    }
    
-   #split-page #post-toc {
-      grid-area: post-toc;
+   #split-page #post-meta {
+      grid-area: post-meta;
       width: 100%;
       text-align: left;
    }
    
-   #split-page #post-toc > h1 {
+   #split-page #post-meta > h1 {
       border-bottom: 2px inset var(--dark);
       margin-top: 0.5em;
       margin-bottom: 0.5em;
       line-height: 1.2em;
-      text-align: center;
+      text-align: left;
    }
    
-   #split-page #post-toc > ol > li {
+   #split-page #post-meta h2 {
+      margin-top: 0.5em;
+      font-size: 1.4em;
+      margin-bottom: 0.5em;
+      line-height: 1.2em;
+      text-align: left;
+   }
+   
+   #split-page #post-meta > #post-contents > ol > li {
       margin-top: 0.5em;
       margin-bottom: 0.5em;
+   }
+   
+   
+   #split-page #post-meta > #post-tags > a {
+      margin-top: 0.2em;
+      margin-left: 1em;
    }
    
    #split-page > #wrapper > .body {
