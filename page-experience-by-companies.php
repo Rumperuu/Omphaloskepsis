@@ -1,20 +1,17 @@
 <?php
 /*
  * Template Name: Experience by Companies
- */
-
+ * /
+ 
 /**
+ * The template for displaying all items, indexed by organisation.
  *
- *
- * The template for displaying all single posts and attachments
- *
- * @package WordPress
- * @subpackage Twenty_Sixteen
- * @since Twenty Sixteen 1.0
+ * @package Omphaloskepsis
+ * @since Omphaloskepsis 1.0
  */
 get_header(); ?>
 
-<div id="experience-wrapper" class="content-area col-10 col-m-12">
+<main id="experience-wrapper" class="content-area col-10 col-m-12">
    <!--Page Title & Details-->
    <header class="post-header-title">
 	  <h1 style="margin-bottom: 20px;" id="page-title">Experience.</h1>
@@ -26,7 +23,7 @@ get_header(); ?>
 		<?php the_content(); ?>
 	  </div>
 	
-	  <div style="width: 70%; margin: auto; margin-top: 20px; border: 2px dashed #020202; padding: 20px; border-radius: 25px;" class="entry-content tile" id="settings">
+	  <div class="entry-content tile" id="settings">
 		 <h3 style="margin-bottom: 14px;" class="subheading">Settings</h3>
 		 <form action="/experience-by-companies" id="settings" method="GET">
 			<input class="checkbox" type="checkbox" id="toplevel" value="toplevel" checked="checked">
@@ -136,6 +133,6 @@ get_header(); ?>
 		 }
 	  });
    </script>
-</div>
+</main>
 
 <?php get_footer(); ?>
