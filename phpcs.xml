@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<ruleset name="Pivotal Agency">
-  <description>Pivotol Wordpress Coding Standards</description>
+<ruleset name="WordPress Coding Standards">
+  <description>Wordpress Coding Standards</description>
 
   <!-- Scan all files in directory -->
   <file>.</file>
