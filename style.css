@@ -320,7 +320,7 @@ html {
          align-items: center;
          grid-template-areas:
             "post-content-header post-content"
-            "     post-meta       post-content"
+            "     post-meta      post-content"
             "        .           post-content";
       }
    }
@@ -957,6 +957,7 @@ body > header h1 {
 
 #split-page > #wrapper > header {
    text-align: center;
+   margin-right: 4em;
 }
 #split-page > #wrapper > header > div {
    opacity: 0.8;
@@ -1272,6 +1273,7 @@ a:hover, a:focus {
    display: block;
    margin: auto;
    min-height: 200px;
+   max-width: 950%;
 }
 
 .loading {
@@ -1396,3 +1398,45 @@ table:not(.footnote-reference-container) td {
    padding: 0.5em 1em;
    text-align: left;
 }
+
+details {
+  background-color: #eee;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 50%;
+  text-align: left;
+  border: none;
+  outline: none;
+  transition: 0.4s;
+  margin-bottom: 0.5em;
+}
+
+details[open] {
+  background-color: #ccc;
+}
+
+/* Style the accordion panel. Note: hidden by default */
+details p:first-child {
+  padding-top: 1em;
+}
+
+details p {
+	line-height: 1em;
+}
+
+summary {
+	font-size: 1.1em;
+	font-weight: bold;
+}
+
+/* shorter version!
+a[href*="//"]:not([href*="bengoldsworthy.net"]):after {
+  content: url('./icons/extlink.svg');
+  margin: 0 0 0 5px;
+}
+
+a[href="#"] {
+    color: red;
+}
+ */

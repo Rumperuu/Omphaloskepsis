@@ -1,11 +1,10 @@
 <?php
-   /**
-	* The template for showing experience (by organisation).
-	*
-	* @package WordPress
-	* @subpackage Omphaloskepsis
-	* @since Omphaloskepsis 1.0
-	*/
+/**
+ * The template for showing items indexed by organisation.
+ *
+ * @package Omphaloskepsis
+ * @since Omphaloskepsis 1.0
+ */
 ?>
 
 <?php get_header(); ?>
@@ -63,10 +62,12 @@
 					$lowestDepthCompany = $i++;
 				}
 			}
+			
+			$endDate = get_post_meta( get_the_ID(), 'end-date', true );
 
-			$title = html_entity_decode( get_the_title() );
+			$title = htmlspecialchars_decode(strip_tags( get_the_title() ));
 			$start = get_the_date();
-			$end = ( ! get_post_meta( get_the_ID(), 'end-date', true ) ) ? date( 'c' ) : get_post_meta( get_the_ID(), 'end-date', true );
+			$end = ( ! $endDate || ( $endDate && $endDate > date('Y-m-d') ) ) ? date( 'Y-m-d' ) : $endDate;
 			echo "[ '" . html_entity_decode( $companies[ $lowestDepthCompany ]->name ) . "', '$title', new Date('$start'), new Date('$end') ],\n";
 	  endwhile;
 		?>
@@ -74,10 +75,17 @@
 	  
 	  // Draws the table, then resizes the element height and re-draws it
 	  // to avoid needing to scroll vertically.
-	  chart.draw(dataTable);
-	  var realheight = parseInt(jQuery("#timeline div:first-child div:first-child div:first-child svg").attr("height"))+70;
-	  var options = {};
-	  options.height = realheight;
+	  var rowHeight = 15;
+    var chartHeight = dataTable.getNumberOfRows() * rowHeight + 50;
+    var options = {
+      tooltip: {isHtml: true},
+      timeline: {
+        showRowLabels: true,
+      },
+      height: chartHeight,
+      width: '100%',
+    };
+          
 	  chart.draw(dataTable, options);
    }
 </script>
@@ -111,11 +119,9 @@
 		 </section>
 		 <?php if ( $loop->have_posts() ) : ?>
 		 <section id="timeline">
-			<div class="row">
-			   <div id="timeline" class="col-12">
-				  <img class="loading" src="/wp-content/uploads/2016/12/ajax-loader.gif">
-			   </div>
-			</div>
+		   <div id="timeline" class="col-12">
+			  	<img class="loading" src="/wp-content/uploads/2016/12/ajax-loader.gif">
+		   </div>
 		 </section>
 		 <?php endif; ?>
 		 <section id="related" class="row">

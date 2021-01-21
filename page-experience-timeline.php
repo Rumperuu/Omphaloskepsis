@@ -92,7 +92,9 @@ get_header(); ?>
             $loop->the_post();
           ?>
           <?php
-            $isCurrent = ( get_post_meta( get_the_ID(), 'end-date', true ) ) ? false : true;
+          	$endDate = get_post_meta( get_the_ID(), 'end-date', true );
+          	
+            $isCurrent = ( ! $endDate || ( $endDate && $endDate > date('Y-m-d') ) ) ? true : false;
             $company   = wp_get_object_terms(
               get_the_ID(),
               'company',
@@ -100,9 +102,10 @@ get_header(); ?>
                 'fields' => 'names',
               )
             );
-            $title     = html_entity_decode( get_the_title() );
-            $start     = get_the_date();
-            $end       = ( ! get_post_meta( get_the_ID(), 'end-date', true ) ) ? date( 'c' ) : get_post_meta( get_the_ID(), 'end-date', true );
+            
+            $title = htmlspecialchars_decode(strip_tags( get_the_title() ));
+            $start = get_the_date();
+            $end = ( ! $endDate || ( $endDate && $endDate > date('Y-m-d') ) ) ? date( 'Y-m-d' ) : $endDate;
           ?>
             [
               '<?php echo ( $isCurrent ) ? 'Current' : 'Past'; ?>',
