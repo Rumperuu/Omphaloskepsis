@@ -1167,11 +1167,21 @@ a:hover, a:focus {
 
 #experience-wrapper {
    grid-area: page-container;
+   width: 100%;
+}
+
+.entry-content.tile#settings {
+	width: 70%; 
+	margin: auto; 
+	margin-top: 1em; 
+	border: 2px dashed #020202; 
+	padding: 1em; 
+	border-radius: 25px;
+	margin-bottom: 1em;
 }
 
 #organisations-grid {
    border-spacing: 1em;
-   margin-top: 1em;
    margin-bottom: 1em;
    border-radius: 10px;
 }
