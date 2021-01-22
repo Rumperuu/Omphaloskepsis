@@ -1,11 +1,11 @@
 <?php
-   /**
-	* The blogroll template file.
-	*
-	* @package WordPress
-	* @subpackage Omphaloskepsis
-	* @since Omphaloskepsis 1.0
-	*/
+/**
+ * The blogroll template file.
+ *
+ * @package Omphaloskepsis
+ * @since Omphaloskepsis 1.0
+ */
+
 ?>
 
 <?php get_header(); ?>
@@ -15,12 +15,14 @@
 	  <h1>Blog.</h1>
 	  <h2><strong>All</strong> / <a href="/category/thoughts">Thoughts</a> / <a href="/category/reports">Reports</a> / <a href="/category/reviews">Reviews</a> / <a href="/category/projects">Projects</a></h2>
 	  <?php
-		echo get_the_posts_pagination(
-			array(
-				'screen_reader_text' => ' ',
-				'mid_size' => 20,
-				'prev_text' => '',
-				'next_text' => '',
+		echo wp_kses_post(
+			get_the_posts_pagination(
+				array(
+					'screen_reader_text' => ' ',
+					'mid_size'           => 20,
+					'prev_text'          => '',
+					'next_text'          => '',
+				)
 			)
 		);
 		?>
@@ -32,7 +34,7 @@
 		// Start the loop.
 		while ( have_posts() ) :
 			the_post();
-			/*
+			/**
 			* Include the Post-Format-specific template for the content.
 			* If you want to override this in a child theme, then include a file
 			* called content-___.php (where ___ is the Post Format name) and that will be used instead.
@@ -49,18 +51,18 @@
    
    <footer>
 	  <?php
-		echo get_the_posts_pagination(
-			array(
-				'screen_reader_text' => ' ',
-				'mid_size' => 20,
-				'prev_text' => '',
-				'next_text' => '',
+		echo wp_kses_post(
+			get_the_posts_pagination(
+				array(
+					'screen_reader_text' => ' ',
+					'mid_size'           => 20,
+					'prev_text'          => '',
+					'next_text'          => '',
+				)
 			)
 		);
 		?>
    </footer>
 </main><!-- .content-area -->
-
-<?php // get_sidebar(); ?>
 
 <?php get_footer(); ?>

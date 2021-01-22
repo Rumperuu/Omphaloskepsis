@@ -1,11 +1,11 @@
 <?php
-   /**
-	* The template for displaying the header.
-	*
-	* @package WordPress
-	* @subpackage Omphaloskepsis
-	* @since Omphaloskepsis 1.0
-	*/
+/**
+ * The template for displaying the header.
+ *
+ * @package Omphaloskepsis
+ * @since Omphaloskepsis 1.0
+ */
+
 ?>
 
 <!DOCTYPE html>
@@ -14,15 +14,17 @@
 	  <meta charset="<?php bloginfo( 'charset' ); ?>">
 	  <meta name="viewport" content="width=device-width, initial-scale=1">
 	  <?php $index = get_post_meta( get_the_ID(), 'Index', true ); ?>
-   <?php if ( ! ( is_single() && ! is_page() && $index == 'true' ) ) : ?>
+   <?php if ( ! ( is_single() && ! is_page() && $index ) ) : ?>
 	  <meta name="robots" content="noindex">
    <?php endif; ?>
 	  <link rel="profile" href="http://gmpg.org/xfn/11">
    <?php if ( is_singular() && pings_open( get_queried_object() ) ) : ?>
 	  <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
    <?php endif; ?>
-	  <?php wp_head(); ?>
-	  <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+		<?php wp_head(); ?>
+		<?php // phpcs:disable WordPress.WP.EnqueuedResources ?> 
+		<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+		<?php // phpcs:enable ?>
    </head>
 
    <body <?php body_class(); ?> id="site-wrapper">

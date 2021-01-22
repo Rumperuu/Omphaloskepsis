@@ -2,10 +2,10 @@
 /**
  * The template file for when no more specific template is found.
  *
- * @package WordPress
- * @subpackage Omphaloskepsis
+ * @package Omphaloskepsis
  * @since Omphaloskepsis 1.0
  */
+
 ?>
 
 <?php get_header(); ?>

@@ -606,6 +606,7 @@ html {
    
    body > footer {
       grid-area: footer;
+      margin-top: 1em;
    }
 }
 
@@ -1134,6 +1135,24 @@ article.tile > header > h2 {
    font-size: 0.8em;
 }
 
+a[href*="//"]:not([href*="bengoldsworthy.net"]):after {
+  content: url('https://upload.wikimedia.org/wikipedia/commons/6/64/Icon_External_Link.png');
+  margin: 0 0 0 4px;
+  filter: invert(0%) sepia(0%) saturate(15%) hue-rotate(246deg) brightness(104%) contrast(98%);
+}
+
+a[href*="//"].item:not([href*="bengoldsworthy.net"]):after {
+	position: relative;
+	top: -1em;
+	float: right;
+}
+
+a[href="#"],
+a[href=""] {
+  color: red;
+}
+
+
 a {
    opacity: 0.8;
    text-decoration: underline !important;
@@ -1429,14 +1448,3 @@ summary {
 	font-size: 1.1em;
 	font-weight: bold;
 }
-
-/* shorter version!
-a[href*="//"]:not([href*="bengoldsworthy.net"]):after {
-  content: url('./icons/extlink.svg');
-  margin: 0 0 0 5px;
-}
-
-a[href="#"] {
-    color: red;
-}
- */

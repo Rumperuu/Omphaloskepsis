@@ -1,13 +1,12 @@
 <?php
-   /**
-	* The template for displaying comments.
-	*
-	* @package WordPress
-	* @subpackage Omphaloskepsis
-	* @since Omphaloskepsis 1.0
-	*/
+/**
+ * The template for displaying comments.
+ *
+ * @package Omphaloskepsis
+ * @since Omphaloskepsis 1.0
+ */
 
-   /*
+/*
 	* If the current post is protected by a password and
 	* the visitor has not yet entered the password we will
 	* return early without loading the comments.
@@ -41,7 +40,7 @@ if ( post_password_required() ) {
 		<p id="no-comments">No comments yet.</p>
 	 <?php endif; ?>
 	 <?php	if ( ! comments_open() && get_comments_number() && post_type_supports( get_post_type(), 'comments' ) ) : ?>
-		<p class="no-comments"><?php _e( 'Comments are closed.', 'twentysixteen' ); ?></p>
+		<p class="no-comments"><?php wp_kses_post_e( 'Comments are closed.', 'twentysixteen' ); ?></p>
 	 <?php endif; ?>
 	  </div>
 	  

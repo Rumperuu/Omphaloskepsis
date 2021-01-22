@@ -2,8 +2,7 @@
 /**
  * The template for displaying search results pages
  *
- * @package WordPress
- * @subpackage Twenty_Sixteen
+ * @package Twenty_Sixteen
  * @since Twenty Sixteen 1.0
  */
 
@@ -15,7 +14,7 @@ get_header(); ?>
 		<?php if ( have_posts() ) : ?>
 
 			<header class="page-header">
-				<h1 class="page-title"><?php printf( __( 'Search Results for: %s', 'twentysixteen' ), '<span>' . esc_html( get_search_query() ) . '</span>' ); ?></h1>
+				<!-- TODO: Add header -->
 			</header><!-- .page-header -->
 
 			<?php

@@ -2,10 +2,10 @@
    /**
 	* The template for displaying all single Pages.
 	*
-	* @package WordPress
-	* @subpackage Omphaloskepsis
+	* @package Omphaloskepsis
 	* @since Omphaloskepsis 1.0
 	*/
+
 ?>
 
 <?php get_header(); ?>
