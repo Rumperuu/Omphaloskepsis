@@ -6,35 +6,13 @@
  * theme as custom template tags. Others are attached to action and filter
  * hooks in WordPress to change core functionality.
  *
- * When using a child theme you can override certain functions (those wrapped
- * in a function_exists() call) by defining them first in your child theme's
- * functions.php file. The child theme's functions.php file is included before
- * the parent theme's file, so the child theme functions would be used.
- *
- * @link https://codex.wordpress.org/Theme_Development
- * @link https://codex.wordpress.org/Child_Themes
- *
- * Functions that are not pluggable (not wrapped in function_exists()) are
- * instead attached to a filter or action hook.
- *
- * For more information on hooks, actions, and filters,
- * {@link https://codex.wordpress.org/Plugin_API}
- *
- * @package WordPress
- * @subpackage omphaloskepsis
+ * @package omphaloskepsis
  * @since Omphaloskepsis 1.0
  */
 
-/**
- * Omphaloskepsis only works in WordPress 4.4 or later.
- */
-if ( version_compare( $GLOBALS['wp_version'], '4.4-alpha', '<' ) ) {
-	require get_template_directory() . '/inc/back-compat.php';
-}
-
 // This sets the correct background colour for any LaTeX.
 global $themecolors;
-$themecolors['bg'] = 'FFFFF0';
+$themecolors['bg']   = 'FFFFF0';
 $themecolors['text'] = '020202';
 
 if ( ! function_exists( 'omphaloskepsis_setup' ) ) :
@@ -97,32 +75,6 @@ if ( ! function_exists( 'omphaloskepsis_setup' ) ) :
 			)
 		);
 
-		function omphaloskepsis_infinite_scroll_init() {
-			add_theme_support(
-				'infinite-scroll',
-				array(
-					'container' => 'main',
-					'render'    => 'omphaloskepsis_infinite_scroll_render',
-					'footer'    => 'colophon',
-				)
-			);
-		}
-
-		add_action( 'init', 'omphaloskepsis_infinite_scroll_init' );
-		/**
-		 * Custom render function for Infinite Scroll.
-		 */
-		function omphaloskepsis_infinite_scroll_render() {
-			while ( have_posts() ) {
-				the_post();
-				if ( is_search() ) {
-					get_template_part( 'template-parts/content', 'search' );
-				} else {
-					get_template_part( 'template-parts/content', get_post_format() );
-				}
-			}
-		}
-
 		/*
 		 * Switch default core markup for search form, comment form, and comments
 		 * to output valid HTML5.
@@ -167,7 +119,7 @@ if ( ! function_exists( 'omphaloskepsis_setup' ) ) :
 		// Indicate widget sidebars can use selective refresh in the Customizer.
 		add_theme_support( 'customize-selective-refresh-widgets' );
 	}
-endif; // omphaloskepsis_setup
+endif;
 add_action( 'after_setup_theme', 'omphaloskepsis_setup' );
 
 /**
@@ -292,12 +244,13 @@ add_action( 'wp_head', 'omphaloskepsis_javascript_detection', 0 );
  * @since Omphaloskepsis 1.0
  */
 function omphaloskepsis_scripts() {
+	// phpcs:disable WordPress.WP.EnqueuedResourceParameters
 	// Load the normalisation stylesheet.
-	wp_enqueue_style( 'omphaloskepsis-reset', get_template_directory_uri() . '/css/reset.css', array(), null );
+	wp_enqueue_style( 'omphaloskepsis-reset', get_template_directory_uri() . '/css/reset.css', array() );
 
 	wp_style_add_data( 'omphaloskepsis-ie', 'conditional', 'lt IE 10' );
 	// Add custom fonts, used in the main stylesheet.
-	wp_enqueue_style( 'omphaloskepsis-fonts', omphaloskepsis_fonts_url(), array(), null );
+	wp_enqueue_style( 'omphaloskepsis-fonts', omphaloskepsis_fonts_url(), array() );
 
 	// Add Genericons, used in the main stylesheet.
 	wp_enqueue_style( 'genericons', get_template_directory_uri() . '/genericons/genericons.css', array(), '3.4.1' );
@@ -345,6 +298,7 @@ function omphaloskepsis_scripts() {
 			'collapse' => __( 'collapse child menu', 'omphaloskepsis' ),
 		)
 	);
+	// phpcs:enable
 }
 add_action( 'wp_enqueue_scripts', 'omphaloskepsis_scripts' );
 
@@ -397,7 +351,7 @@ function omphaloskepsis_hex2rgb( $color ) {
 		$r = hexdec( substr( $color, 0, 1 ) . substr( $color, 0, 1 ) );
 		$g = hexdec( substr( $color, 1, 1 ) . substr( $color, 1, 1 ) );
 		$b = hexdec( substr( $color, 2, 1 ) . substr( $color, 2, 1 ) );
-	} else if ( strlen( $color ) === 6 ) {
+	} elseif ( strlen( $color ) === 6 ) {
 		$r = hexdec( substr( $color, 0, 2 ) );
 		$g = hexdec( substr( $color, 2, 2 ) );
 		$b = hexdec( substr( $color, 4, 2 ) );
@@ -406,21 +360,12 @@ function omphaloskepsis_hex2rgb( $color ) {
 	}
 
 	return array(
-		'red' => $r,
+		'red'   => $r,
 		'green' => $g,
-		'blue' => $b,
+		'blue'  => $b,
 	);
 }
 
-/**
- * Custom template tags for this theme.
- */
-require get_template_directory() . '/inc/template-tags.php';
-
-/**
- * Customizer additions.
- */
-require get_template_directory() . '/inc/customizer.php';
 
 /**
  * Add custom image sizes attribute to enhance responsive image functionality
@@ -436,13 +381,13 @@ require get_template_directory() . '/inc/customizer.php';
 function omphaloskepsis_content_image_sizes_attr( $sizes, $size ) {
 	$width = $size[0];
 
-	840 <= $width && $sizes = '(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px';
+	$sizes = ( 840 <= $width ) ? '(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px' : '';
 
 	if ( 'page' === get_post_type() ) {
-		840 > $width && $sizes = '(max-width: ' . $width . 'px) 85vw, ' . $width . 'px';
+		$sizes = ( 840 > $width ) ? '(max-width: ' . $width . 'px) 85vw, ' . $width . 'px' : '';
 	} else {
-		840 > $width && 600 <= $width && $sizes = '(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 984px) 61vw, (max-width: 1362px) 45vw, 600px';
-		600 > $width && $sizes = '(max-width: ' . $width . 'px) 85vw, ' . $width . 'px';
+		$sizes = ( 840 > $width && 600 <= $width ) ? '(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 984px) 61vw, (max-width: 1362px) 45vw, 600px' : '';
+		$sizes = ( 600 > $width ) ? '(max-width: ' . $width . 'px) 85vw, ' . $width . 'px' : '';
 	}
 
 	return $sizes;
@@ -462,8 +407,8 @@ add_filter( 'wp_calculate_image_sizes', 'omphaloskepsis_content_image_sizes_attr
  */
 function omphaloskepsis_post_thumbnail_sizes_attr( $attr, $attachment, $size ) {
 	if ( 'post-thumbnail' === $size ) {
-		is_active_sidebar( 'sidebar-1' ) && $attr['sizes'] = '(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 984px) 60vw, (max-width: 1362px) 62vw, 840px';
-		! is_active_sidebar( 'sidebar-1' ) && $attr['sizes'] = '(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 88vw, 1200px';
+		$attr['sizes'] = ( is_active_sidebar( 'sidebar-1' ) ) ? '(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 984px) 60vw, (max-width: 1362px) 62vw, 840px' : '';
+		$attr['sizes'] = ( is_active_sidebar( 'sidebar-1' ) ) ? '(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 88vw, 1200px' : '';
 	}
 	return $attr;
 }
@@ -478,22 +423,35 @@ add_filter( 'wp_get_attachment_image_attributes', 'omphaloskepsis_post_thumbnail
  * @return array A new modified arguments.
  */
 function omphaloskepsis_widget_tag_cloud_args( $args ) {
-	$args['largest'] = 1;
+	$args['largest']  = 1;
 	$args['smallest'] = 1;
-	$args['unit'] = 'em';
+	$args['unit']     = 'em';
 	return $args;
 }
 add_filter( 'widget_tag_cloud_args', 'omphaloskepsis_widget_tag_cloud_args' );
 
+/**
+ * Cleans up script tags.
+ *
+ * @param string $input The script tag.
+ * @return sting The cleaned-up script tag.
+ */
 function clean_script_tag( $input ) {
 	$input = str_replace( "type='text/javascript' ", '', $input );
 	return str_replace( "'", '"', $input );
 }
 add_filter( 'script_loader_tag', 'clean_script_tag' );
 
+/**
+ * Renders the content of a post.
+ *
+ * @param string $content The post content.
+ * @return string The rendered post content.
+ */
 function omphaloskepsis_the_content( $content ) {
 	global $post;
-	if ( $post->post_type == 'program' ) {
+	if ( 'program' === $post->post_type ) {
+		// phpcs:disable Squiz.PHP.DisallowMultipleAssignments.FoundInControlStructure
 		if ( $meta = get_post_meta( $post->ID, 'Link', true ) ) {
 			$links = $links . '<a class="hyperlink-button" target="_blank" href="' . $meta . '">Download</a>';
 		}
@@ -510,7 +468,7 @@ function omphaloskepsis_the_content( $content ) {
 			$links = $links . '<p class="checksum">MD5 checksum: ' . $meta . '</p>';
 		}
 		return $content . $links;
-	} elseif ( $post->post_type == 'website' ) {
+	} elseif ( 'website' === $post->post_type ) {
 		if ( $meta = get_post_meta( $post->ID, 'Link', true ) ) {
 			$links = $links . '<a class="hyperlink-button" target="_blank" href="' . $meta . '">Visit</a>';
 		}
@@ -521,7 +479,7 @@ function omphaloskepsis_the_content( $content ) {
 			$links = $links . '<a class="hyperlink-button" target="_blank" href="' . $meta . '">Licence</a>';
 		}
 		return $content . $links;
-	} elseif ( $post->post_type == 'writing' ) {
+	} elseif ( 'writing' === $post->post_type ) {
 		if ( $meta = get_post_meta( $post->ID, 'Link', true ) ) {
 			$links = $links . '<a class="hyperlink-button" target="_blank" href="' . $meta . '">Read</a>';
 		}
@@ -529,21 +487,29 @@ function omphaloskepsis_the_content( $content ) {
 			$links = $links . '<a class="hyperlink-button" target="_blank" href="' . $meta . '">Licence</a>';
 		}
 		return $content . $links;
-	} elseif ( $post->post_type == 'other' ) {
+	} elseif ( 'other' === $post->post_type ) {
 		if ( $meta = get_post_meta( $post->ID, 'Link', true ) ) {
 			$links = $links . '<a class="hyperlink-button" target="_blank" href="' . $meta . '">Download</a>';
 		}
 		return $content . $links;
 	}
+	// phpcs:enable
 	return $content;
 }
 add_filter( 'the_content', 'omphaloskepsis_the_content', 10 );
 
+// phpcs:disable Squiz.Commenting.FunctionComment.Missing
 add_action( 'wp_enqueue_scripts', 'load_dashicons_front_end' );
 function load_dashicons_front_end() {
 	wp_enqueue_style( 'dashicons' );
 }
+// phpcs:enable
 
+/**
+ * Display a table of all the available organisations.
+ *
+ * @return void
+ */
 function display_companies() {
 	echo '<tr>';
 	  echo '<th colspan="2">Organisation</th>';
@@ -551,26 +517,29 @@ function display_companies() {
 	  echo '<th>Associated Items</th>';
 	echo '</tr>';
 
+	// phpcs:disable WordPress.Security.NonceVerification.Missing
+	// phpcs:disable WordPress.PHP.YodaConditions.NotYoda
+	// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 	if ( $_POST['toplevel'] == 'true' ) {
 		// Gets all of the top-level company terms.
-		$terms = apply_filters(
+		$terms   = apply_filters(
 			'taxonomy-images-get-terms',
 			'',
 			array(
 				'having_images' => false,
-				'taxonomy' => 'company',
-				'term_args' => array( 'parent' => 0 ),
+				'taxonomy'      => 'company',
+				'term_args'     => array( 'parent' => 0 ),
 			)
 		);
 		$include = 1;
 	} else {
 		// Gets all of the company terms.
-		$terms = apply_filters(
+		$terms   = apply_filters(
 			'taxonomy-images-get-terms',
 			'',
 			array(
 				'having_images' => false,
-				'taxonomy' => 'company',
+				'taxonomy'      => 'company',
 			)
 		);
 		$include = 0;
@@ -589,30 +558,30 @@ function display_companies() {
 			// 6 = Others
 			// 7 = Qualifications
 			// 8 = Awards
-			$post_types = array( 'job', 'post', 'website', 'program', 'writing', 'video', 'other', 'qualification', 'award' );
-			$dashicons = array( 'hammer', 'admin-post', 'schedule', 'desktop', 'format-aside', 'video-alt', 'archive', 'id', 'awards' );
-			$term_items = array();
+			$post_types       = array( 'job', 'post', 'website', 'program', 'writing', 'video', 'other', 'qualification', 'award' );
+			$dashicons        = array( 'hammer', 'admin-post', 'schedule', 'desktop', 'format-aside', 'video-alt', 'archive', 'id', 'awards' );
+			$term_items       = array();
 			$term_item_counts = array();
 
 			foreach ( $post_types as $post_type ) {
 				$args = array(
 					'posts_per_page' => -1,
-					'post_type' => $post_type,
-					'tax_query' => array(
+					'post_type'      => $post_type,
+					'tax_query'      => array(
 						array(
-							'taxonomy' => 'company',
-							'field' => 'slug',
-							'terms' => $term->slug,
+							'taxonomy'         => 'company',
+							'field'            => 'slug',
+							'terms'            => $term->slug,
 							'include_children' => $include,
 						),
 					),
-					'meta_query' => array(),
+					'meta_query'     => array(),
 				);
 
 				if ( $_POST['currentjobs'] == 'true' && $post_type == 'job' ) {
 					$args['meta_query'] = array(
 						array(
-							'key' => 'end-date',
+							'key'     => 'end-date',
 							'compare' => 'NOT EXISTS',
 							'value'   => '1',
 						),
@@ -622,7 +591,7 @@ function display_companies() {
 				if ( $_POST['showexpired'] != 'true' && $post_type == 'qualification' ) {
 					$args['meta_query'] = array(
 						array(
-							'key' => 'Expired',
+							'key'     => 'Expired',
 							'compare' => 'NOT EXISTS',
 							'value'   => '1',
 						),
@@ -644,85 +613,58 @@ function display_companies() {
 			( $_POST['other'] == 'true' && $term_item_counts[6] > 0 ) ||
 			( $_POST['qualification'] == 'true' && $term_item_counts[7] > 0 ) ||
 			( $_POST['award'] == 'true' && $term_item_counts[8] > 0 ) ) {
-				$imgURL = wp_get_attachment_image_src( $term->image_id, 'full' )[0];
-				$bgImg = ( ! $imgURL ) ? '' : ' background-image: url(' . strtok( $imgURL, '?' ) . ');';
+				$img_url = wp_get_attachment_image_src( $term->image_id, 'full' )[0];
+				$bg_img  = ( ! $img_url ) ? '' : ' background-image: url(' . strtok( $img_url, '?' ) . ');';
 				$colour = get_term_meta( $term->term_id, 'color', true );
 				$colour = ( $colour != '' ) ? $colour : 'transparent';
 
 				echo '<tr class="organisation">';
-				  echo '<td class="organisation-logo">';
+					echo '<td class="organisation-logo">';
 					 echo '<a href="' . esc_url( get_term_link( $term, $term->taxonomy ) ) . '">';
-						echo '<img style="background-color: ' . $colour . ';" src="' . strtok( $imgURL, '?' ) . '" alt="' . $term->name . ' logo">';
+						echo wp_kses_post( '<img style="background-color: ' . $colour . ';" src="' . strtok( $img_url, '?' ) . '" alt="' . $term->name . ' logo">' );
 					 echo '</a>';
-				  echo '</td>';
+					echo '</td>';
 
-				  echo '<td class="organisation-name">';
+					echo '<td class="organisation-name">';
 					 echo '<a href="' . esc_url( get_term_link( $term, $term->taxonomy ) ) . '">';
-						echo '<p>' . $term->name . '</p>';
+						echo wp_kses_post( '<p>' . $term->name . '</p>' );
 					 echo '</a>';
-				  echo '</td>';
+					echo '</td>';
 
-				  echo '<td class="organisation-items organisation-children">';
+					echo '<td class="organisation-items organisation-children">';
 					 $num = ( count( $term_children ) > 0 ) ? '' : 'none';
-					 echo '<div class="organisation-item ' . $num . '">';
-						echo '<span class="dashicons dashicons-groups"></span><br>' . count( $term_children );
+					 echo '<div class="organisation-item ' . esc_attr( $num ) . '">';
+						echo wp_kses_post( '<span class="dashicons dashicons-groups"></span><br>' . count( $term_children ) );
 					 echo '</div>';
-				  echo '</td>';
+					echo '</td>';
 
-				  echo '<td class="organisation-items">';
+					echo '<td class="organisation-items">';
 					 $i = 0;
 				foreach ( $post_types as $post_type ) {
 					$num = ( $term_item_counts[ $i ] > 0 ) ? '' : 'none';
-					echo '<div class="organisation-item ' . $num . '">';
-					echo '<span class="dashicons dashicons-' . $dashicons[ $i ] . '"></span><br>' . $term_item_counts[ $i ];
+					echo '<div class="organisation-item ' . esc_attr( $num ) . '">';
+					echo wp_kses_post( '<span class="dashicons dashicons-' . esc_attr( $dashicons[ $i ] ) . '"></span><br>' . $term_item_counts[ $i ] );
 					echo '</div>';
 					$i++;
 				};
-				  echo '</td>';
+					echo '</td>';
 				echo '</tr>';
-
-				/*
-				echo '<a href="'.esc_url(get_term_link($term, $term->taxonomy)).'">';
-				echo '<li class="col-2 col-m-4" style="background-color: '.$colour.'; '.$bgImg.'">';
-				  echo '<div class="company-info-container left">';
-				  if (count($term_children) > 0) {
-					 echo '<div class="company-info children">';
-						echo count($term_children).'<br><span class="dashicons dashicons-groups"></span>';
-					 echo '</div>';
-				  }
-				  echo '</div>';
-
-				  echo '<div class="company-info-container right">';
-				  $i = 0;
-				  foreach ($post_types as $post_type) {
-					 if ($_POST[$post_type] == "true") {
-					 echo '<div class="company-info jobs">';
-						echo $term_item_counts[$i].'<span class="dashicons dashicons-'.$dashicons[$i].'"></span>';
-					 echo '</div>';
-					 }
-					 $i++;
-				  }
-				  echo '</div>';
-				  if (!$imgURL) echo '<p class="company-name">'.$term->name.'</p>';
-				echo '</li>';
-				echo '</a>';
-				*/
 			}
 		}
 	} else {
 		echo '<p>No companies found</p>';
 	}
-
+	// phpcs:enable
 	die();
 }
 add_action( 'wp_ajax_display_companies', 'display_companies' );
 add_action( 'wp_ajax_nopriv_display_companies', 'display_companies' );
 
-// allow html in category and taxonomy descriptions
+// allow HTML in category and taxonomy descriptions.
 remove_filter( 'pre_term_description', 'wp_filter_kses' );
 remove_filter( 'pre_link_description', 'wp_filter_kses' );
 remove_filter( 'pre_link_notes', 'wp_filter_kses' );
 remove_filter( 'term_description', 'wp_kses_data' );
 
-// honour user DNT header
+// honour user DNT header.
 add_filter( 'jetpack_honor_dnt_header_for_stats', '__return_true' );

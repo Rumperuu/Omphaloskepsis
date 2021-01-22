@@ -5,6 +5,7 @@
  * @package Omphaloskepsis
  * @since Omphaloskepsis 1.0
  */
+
 ?>
 
 <?php get_header(); ?>
@@ -12,10 +13,10 @@
 <?php
    // Gets all of the roles attached to the given organisation.
    $company = get_queried_object();
-   echo '<!-- ' . $company->name . '-->';
+   echo '<!-- ' . wp_kses_post( $company->name ) . '-->';
    $args = array(
-	   'post_type' => array( 'job' ),
-	   'tax_query' => array(
+	   'post_type'      => array( 'job' ),
+	   'tax_query'      => array(
 		   array(
 			   'taxonomy' => 'company',
 			   'field'    => 'slug',
@@ -27,7 +28,7 @@
 
    $loop = new WP_Query( $args );
 	?>
-
+<?php // phpcs:disable WordPress.WP.EnqueuedResources ?>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript">
@@ -52,23 +53,23 @@
 			$loop->the_post();
 			// Gets all of the roles associated with this organisation and its
 			// child organisations.
-			$companies = wp_get_object_terms( get_the_ID(), 'company' );
-			$i = 0;
-			$currSizeOf = -1;
+			$companies    = wp_get_object_terms( get_the_ID(), 'company' );
+			$i            = 0;
+			$curr_size_of = -1;
 
 			foreach ( $companies as $company ) {
-				if ( sizeof( get_ancestors( $company->term_id, 'company' ) ) > $currSizeOf ) {
-					$currSizeOf = sizeof( get_ancestors( $company->term_id, 'company' ) );
-					$lowestDepthCompany = $i++;
+				if ( count( get_ancestors( $company->term_id, 'company' ) ) > $curr_size_of ) {
+					$curr_size_of         = count( get_ancestors( $company->term_id, 'company' ) );
+					$lowest_depth_company = $i++;
 				}
 			}
-			
-			$endDate = get_post_meta( get_the_ID(), 'end-date', true );
 
-			$title = htmlspecialchars_decode(strip_tags( get_the_title() ));
-			$start = get_the_date();
-			$end = ( ! $endDate || ( $endDate && $endDate > date('Y-m-d') ) ) ? date( 'Y-m-d' ) : $endDate;
-			echo "[ '" . html_entity_decode( $companies[ $lowestDepthCompany ]->name ) . "', '$title', new Date('$start'), new Date('$end') ],\n";
+			$end_date = get_post_meta( get_the_ID(), 'end-date', true );
+
+			$item_title = htmlspecialchars_decode( strip_tags( get_the_title() ) );
+			$start      = get_the_date();
+			$end        = ( ! $end_date || ( $end_date && $end_date > gmdate( 'Y-m-d' ) ) ) ? gmdate( 'Y-m-d' ) : $end_date;
+			echo wp_kses_post( "[ '" . html_entity_decode( $companies[ $lowest_depth_company ]->name ) . "', '$item_title', new Date('$start'), new Date('$end') ],\n" );
 	  endwhile;
 		?>
 	  ]);
@@ -76,40 +77,41 @@
 	  // Draws the table, then resizes the element height and re-draws it
 	  // to avoid needing to scroll vertically.
 	  var rowHeight = 15;
-    var chartHeight = dataTable.getNumberOfRows() * rowHeight + 50;
-    var options = {
-      tooltip: {isHtml: true},
-      timeline: {
-        showRowLabels: true,
-      },
-      height: chartHeight,
-      width: '100%',
-    };
-          
+	var chartHeight = dataTable.getNumberOfRows() * rowHeight + 50;
+	var options = {
+	  tooltip: {isHtml: true},
+	  timeline: {
+		showRowLabels: true,
+	  },
+	  height: chartHeight,
+	  width: '100%',
+	};
+		  
 	  chart.draw(dataTable, options);
    }
 </script>
+<?php // phpcs:enable ?>
 
 <main id="split-page" role="main">
 <?php
-   $companyLogo = apply_filters( 'taxonomy-images-queried-term-image-url', '', array( 'image_size' => 'full' ) );
-   $companyName = get_queried_object()->name;
+   $company_logo = apply_filters( 'taxonomy-images-queried-term-image-url', '', array( 'image_size' => 'full' ) );
+   $company_name = get_queried_object()->name;
 ?>
    <div id="wrapper">
-	  <header style="background-image: url('<?php echo $companyLogo; ?>'); background-color: <?php echo get_term_meta( get_queried_object()->term_id, 'color' )[0]; ?>; background-size: contain;">
+	  <header style="background-image: url('<?php echo esc_url( $company_logo ); ?>'); background-color: <?php echo esc_attr( get_term_meta( get_queried_object()->term_id, 'color' )[0] ); ?>; background-size: contain;">
 		 <div>
 		 <?php
-			if ( strlen( $companyName ) > 70 ) {
+			if ( strlen( $company_name ) > 70 ) {
 				$small = '2em';
-			} elseif ( strlen( $companyName ) > 35 ) {
+			} elseif ( strlen( $company_name ) > 35 ) {
 				$small = '3em';
-			} elseif ( strlen( $companyName ) > 12 ) {
+			} elseif ( strlen( $company_name ) > 12 ) {
 				$small = '4em';
 			} else {
 				$small = '5em';
 			}
 			?>
-			<h1 id="post-title" style="font-size: <?php echo $small; ?>;"><?php echo $companyName; ?></h1>
+			<h1 id="post-title" style="font-size: <?php echo esc_attr( $small ); ?>;"><?php echo wp_kses_post( $company_name ); ?></h1>
 		 </div>
 	  </header><!-- .entry-header -->
 	
@@ -120,7 +122,7 @@
 		 <?php if ( $loop->have_posts() ) : ?>
 		 <section id="timeline">
 		   <div id="timeline" class="col-12">
-			  	<img class="loading" src="/wp-content/uploads/2016/12/ajax-loader.gif">
+				  <img class="loading" src="/wp-content/uploads/2016/12/ajax-loader.gif">
 		   </div>
 		 </section>
 		 <?php endif; ?>
@@ -133,8 +135,8 @@
 					'',
 					array(
 						'having_images' => false,
-						'taxonomy' => 'company',
-						'term_args' => array(
+						'taxonomy'      => 'company',
+						'term_args'     => array(
 							'include' => get_term_by( 'id', get_queried_object()->parent, 'company' )->term_id,
 						),
 					)
@@ -147,12 +149,12 @@
 			   <ul class="index">
 				<?php
 				foreach ( (array) $parents as $parent ) :
-					$imgURL = wp_get_attachment_image_src( $parent->image_id )[0];
-					$colour = get_term_meta( $parent->term_id, 'color', true );
-					$colour = ( $colour != '' ) ? $colour : 'transparent';
+					$img_url = wp_get_attachment_image_src( $parent->image_id )[0];
+					$colour  = get_term_meta( $parent->term_id, 'color', true );
+					$colour  = ( '' !== $colour ) ? $colour : 'transparent';
 					?>
 				
-				  <li><a href="<?php echo esc_url( get_term_link( $parent, $parent->taxonomy ) ); ?>"><?php echo get_term( $parent->term_id, 'company' )->name; ?></a></li>
+				  <li><a href="<?php echo esc_url( get_term_link( $parent, $parent->taxonomy ) ); ?>"><?php echo wp_kses_post( get_term( $parent->term_id, 'company' )->name ); ?></a></li>
 				<?php endforeach; ?>
 			   </ul>
 			<?php endif; ?>
@@ -165,8 +167,8 @@
 				'',
 				array(
 					'having_images' => false,
-					'taxonomy' => 'company',
-					'term_args' => array( 'parent' => get_queried_object()->term_id ),
+					'taxonomy'      => 'company',
+					'term_args'     => array( 'parent' => get_queried_object()->term_id ),
 				)
 			);
 			if ( count( $children ) > 0 ) :
@@ -175,12 +177,12 @@
 			   <ul class="index">
 				<?php
 				foreach ( (array) $children as $child ) :
-					$imgURL = wp_get_attachment_image_src( $child->image_id, 'detail' )[0];
-					$colour = get_term_meta( $child->term_id, 'color', true );
-					$colour = ( $colour != '' ) ? $colour : 'transparent';
+					$img_url = wp_get_attachment_image_src( $child->image_id, 'detail' )[0];
+					$colour  = get_term_meta( $child->term_id, 'color', true );
+					$colour  = ( '' !== $colour ) ? $colour : 'transparent';
 					?>
 
-				  <li><a href="<?php echo esc_url( get_term_link( $child, $child->taxonomy ) ); ?>"><?php echo get_term( $child->term_id, 'company' )->name; ?></a></li>
+				  <li><a href="<?php echo esc_url( get_term_link( $child, $child->taxonomy ) ); ?>"><?php echo wp_kses_post( get_term( $child->term_id, 'company' )->name ); ?></a></li>
 				<?php endforeach; ?>
 			   </ul>
 			<?php else : ?>
@@ -189,15 +191,15 @@
 			</div>
 		 </section>
 	<?php
-		$pageOrder = array( 'post', 'website', 'program', 'writing', 'video', 'other' );
-	foreach ( $pageOrder as $currSec ) {
-		$args['post_type'] = array( $currSec );
-		$i = 0;
-		$loop = new WP_Query( $args );
+		$page_order = array( 'post', 'website', 'program', 'writing', 'video', 'other' );
+	foreach ( $page_order as $current_section ) {
+		$args['post_type'] = array( $current_section );
+		$i                 = 0;
+		$loop              = new WP_Query( $args );
 
 		if ( $loop->have_posts() ) :
-			echo '<section id="' . $currSec . '" class="org-items row">';
-			  echo '<h2 class="subheading">' . ucwords( $currSec ) . 's <a href="/' . ( $currSec != 'post' ? $currSec : 'blog' ) . '?company=' . get_queried_object()->slug . '">View all ' . $loop->post_count . '</a></h2>';
+			echo '<section id="' . esc_attr( $current_section ) . '" class="org-items row">';
+			  echo '<h2 class="subheading">' . wp_kses_post( ucwords( $current_section ) ) . 's <a href="/' . esc_attr( ( 'post' !== $current_section ? $current_section : 'blog' ) ) . '?company=' . esc_attr( get_queried_object()->slug ) . '">View all ' . esc_html( $loop->post_count ) . '</a></h2>';
 			  echo '<div class="index">';
 			while ( ( $loop->have_posts() ) && ( $i++ < 4 ) ) :
 				$loop->the_post();
@@ -210,14 +212,14 @@
 		echo '<section id="quals-and-awards">';
 			echo '<div id="qualifications" class="org-items row">';
 			$args['post_type'] = 'qualification';
-			$loop = new WP_Query( $args );
+			$loop              = new WP_Query( $args );
 			echo '<h2 class="subheading">Qualifications</h2>';
 	if ( $loop->have_posts() ) :
 		echo '<ul class="index">';
 		while ( $loop->have_posts() ) :
 			$loop->the_post();
-			$url = esc_url( get_permalink() );
-			echo '<li><a href="' . $url . '">' . get_the_title() . '</a></li>';
+			$url = get_permalink();
+			echo '<li><a href="' . esc_url( $url ) . '">' . wp_kses_post( get_the_title() ) . '</a></li>';
 		endwhile;
 		echo '</ul>';
 			else :
@@ -227,14 +229,14 @@
 
 			echo '<div id="awards" class="org-items row">';
 				$args['post_type'] = 'award';
-				$loop = new WP_Query( $args );
+				$loop              = new WP_Query( $args );
 				echo '<h2 class="subheading">Awards</h2>';
 			if ( $loop->have_posts() ) :
 				echo '<ul class="index">';
 				while ( $loop->have_posts() ) :
 					$loop->the_post();
 					 $url = esc_url( get_permalink() );
-					 echo '<li><a href="' . $url . '">' . get_the_title() . '</a></li>';
+					 echo '<li><a href="' . esc_url( $url ) . '">' . wp_kses_post( get_the_title() ) . '</a></li>';
 					endwhile;
 				echo '</ul>';
 				else :
@@ -244,10 +246,10 @@
 				echo '</section>';
 
 				$args['post_type'] = 'appearance';
-				$loop = new WP_Query( $args );
+				$loop              = new WP_Query( $args );
 				if ( $loop->have_posts() ) :
 					echo '<section id="appearances" class="org-items row">';
-						echo '<h2 class="subheading">Appearances <a href="/appearance?company=' . get_queried_object()->slug . '">View all ' . $loop->post_count . '</a></h2>';
+						echo '<h2 class="subheading">Appearances <a href="/appearance?company=' . esc_attr( get_queried_object()->slug ) . '">View all ' . esc_html( $loop->post_count ) . '</a></h2>';
 						echo '<div class="index">';
 					while ( ( $loop->have_posts() ) ) :
 						$loop->the_post();
@@ -258,10 +260,10 @@
 	endif;
 
 				$args['post_type'] = 'correspondence';
-				$loop = new WP_Query( $args );
+				$loop              = new WP_Query( $args );
 				if ( $loop->have_posts() ) :
 					echo '<section id="correspondence" class="org-items row">';
-						echo '<h2 class="subheading">Correspondence <a href="/correspondence?company=' . get_queried_object()->slug . '">View all ' . $loop->post_count . '</a></h2>';
+						echo '<h2 class="subheading">Correspondence <a href="/correspondence?company=' . esc_attr( get_queried_object()->slug ) . '">View all ' . esc_html( $loop->post_count ) . '</a></h2>';
 						echo '<div class="index">';
 					while ( ( $loop->have_posts() ) ) :
 						$loop->the_post();

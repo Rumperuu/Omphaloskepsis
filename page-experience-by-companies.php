@@ -1,14 +1,15 @@
 <?php
-/*
+/**
  * Template Name: Experience by Companies
  * /
- 
+
 /**
  * The template for displaying all items, indexed by organisation.
  *
  * @package Omphaloskepsis
  * @since Omphaloskepsis 1.0
  */
+
 get_header(); ?>
 
 <main id="experience-wrapper" class="content-area col-10 col-m-12">
@@ -26,6 +27,7 @@ get_header(); ?>
 	  <div class="entry-content tile" id="settings">
 		 <h3 style="margin-bottom: 14px;" class="subheading">Settings</h3>
 		 <form action="/experience-by-companies" id="settings" method="GET">
+			<?php wp_nonce_field( 'experience-by-companies' ); ?>
 			<input class="checkbox" type="checkbox" id="toplevel" value="toplevel" checked="checked">
 			<label for="toplevel">Display only top-level organisations</label>
 			<br>
@@ -66,7 +68,7 @@ get_header(); ?>
    <!--Company Grid-->
    <table class="row" id="organisations-grid">
    </table>
-
+	<?php // phpcs:disable WordPress.WP.EnqueuedResources ?>
    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">  
    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
    <script type="text/javascript">
@@ -132,7 +134,8 @@ get_header(); ?>
 			}); 
 		 }
 	  });
-   </script>
+	 </script>
+	<?php // phpcs:disable ?>
 </main>
 
 <?php get_footer(); ?>

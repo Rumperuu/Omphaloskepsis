@@ -1,25 +1,25 @@
 <?php
-   /**
-	* The template for displaying portfolio archives.
-	*
-	* @package WordPress
-	* @subpackage Omphaloskepsis
-	* @since Omphaloskepsis 1.0
-	*/
-?>
+/**
+ * The template for displaying portfolio archives.
+ *
+ * @package Omphaloskepsis
+ * @since Omphaloskepsis 1.0
+ */
 
-<?php get_header(); ?>
+get_header(); ?>
 
 <main id="list-page" class="col-10 col-m-12" role="main">
    <header>
-	  <h1><?php echo ( get_post_type() == 'post' ) ? single_cat_title() : ucfirst( get_post_type() ) . 's'; ?>.</h1>
+	  <h1><?php echo wp_kses_post( ( 'post' === get_post_type() ) ? single_cat_title() : ucfirst( get_post_type() ) . 's' ); ?>.</h1>
 	  <?php
-		echo get_the_posts_pagination(
-			array(
-				'screen_reader_text' => ' ',
-				'mid_size' => 20,
-				'prev_text' => '',
-				'next_text' => '',
+		echo wp_kses_post(
+			get_the_posts_pagination(
+				array(
+					'screen_reader_text' => ' ',
+					'mid_size'           => 20,
+					'prev_text'          => '',
+					'next_text'          => '',
+				)
 			)
 		);
 		?>
@@ -31,6 +31,7 @@
 		// Start the loop.
 		while ( have_posts() ) :
 			the_post();
+
 			/*
 			* Include the Post-Format-specific template for the content.
 			* If you want to override this in a child theme, then include a file
@@ -48,12 +49,14 @@
    
    <footer>
 	  <?php
-		echo get_the_posts_pagination(
-			array(
-				'screen_reader_text' => ' ',
-				'mid_size' => 20,
-				'prev_text' => '',
-				'next_text' => '',
+		echo wp_kses_post(
+			get_the_posts_pagination(
+				array(
+					'screen_reader_text' => ' ',
+					'mid_size'           => 20,
+					'prev_text'          => '',
+					'next_text'          => '',
+				)
 			)
 		);
 		?>

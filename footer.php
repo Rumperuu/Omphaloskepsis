@@ -1,13 +1,14 @@
 <?php
-   /**
-	* The template for displaying the footer
-	*
-	* @package Omphaloskepsis
-	* @since Omphaloskepsis 1.0
-	*/
+/**
+ * The template for displaying the footer
+ *
+ * @package Omphaloskepsis
+ * @since Omphaloskepsis 1.0
+ */
+
 ?>
 	  <footer id="site-footer" class="show">
-	  	<p>By <a href="/">Ben</a> | <a href="https://github.com/Rumperuu/Omphaloskepsis/issues" target="_blank" rel="noopener noreferrer">Theme Issues</a> | <a href="/privacy-policy">Privacy Policy</a></p>
+		  <p>By <a href="/">Ben</a> | <a href="https://github.com/Rumperuu/Omphaloskepsis/issues" target="_blank" rel="noopener noreferrer">Report an Issue</a> | <a href="/privacy-policy">Privacy Policy</a></p>
 	  </footer>
 	  
 		<script type="text/javascript">
