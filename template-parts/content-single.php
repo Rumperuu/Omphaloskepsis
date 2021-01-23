@@ -168,13 +168,13 @@
 			// phpcs:disable WordPress.CodeAnalysis.AssignmentInCondition
 			$i = 1;
 			while ( $section_title = get_post_meta( get_the_ID(), 'ToC' . $i, true ) ) :
-			?>
+				?>
 				<li>
 					<a href="#section-<?php echo esc_attr( $i++ ); ?>">
 					<?php echo wp_kses_post( $section_title ); ?>
 					</a>
 				</li>
-			<?php
+				<?php
 			endwhile;
 			// phpcs:enable 
 			?>

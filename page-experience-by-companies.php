@@ -27,7 +27,7 @@ get_header(); ?>
 	  <div class="entry-content tile" id="settings">
 		 <h3 style="margin-bottom: 14px;" class="subheading">Settings</h3>
 		 <form action="/experience" id="settings" method="POST">
-			<?php echo wp_kses_post(wp_nonce_field( 'experience', 'settings_nonce' )); ?>
+			<?php echo wp_kses_post( wp_nonce_field( 'experience', 'settings_nonce' ) ); ?>
 			<input class="checkbox" type="checkbox" id="toplevel" value="toplevel" checked="checked">
 			<label for="toplevel">Display only top-level organisations</label>
 			<br>
