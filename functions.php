@@ -31,7 +31,7 @@ if ( ! function_exists( 'omphaloskepsis_setup' ) ) :
 		 * Translations can be filed in the /languages/ directory.
 		 * If you're building a theme based on Omphaloskepsis, use a find and replace
 		 * to change 'omphaloskepsis' to the name of your theme in all the template files
-		 */
+		*/
 		load_theme_textdomain( 'omphaloskepsis', get_template_directory() . '/languages' );
 
 		// Add default posts and comments RSS feed links to head.
@@ -42,14 +42,14 @@ if ( ! function_exists( 'omphaloskepsis_setup' ) ) :
 		 * By adding theme support, we declare that this theme does not use a
 		 * hard-coded <title> tag in the document head, and expect WordPress to
 		 * provide it for us.
-		 */
+		*/
 		add_theme_support( 'title-tag' );
 
 		/*
 		 * Enable support for custom logo.
 		 *
 		 *  @since Omphaloskepsis 1.2
-		 */
+		*/
 		add_theme_support(
 			'custom-logo',
 			array(
@@ -63,7 +63,7 @@ if ( ! function_exists( 'omphaloskepsis_setup' ) ) :
 		 * Enable support for Post Thumbnails on posts and pages.
 		 *
 		 * @link http://codex.wordpress.org/Function_Reference/add_theme_support#Post_Thumbnails
-		 */
+		*/
 		add_theme_support( 'post-thumbnails' );
 		set_post_thumbnail_size( 1200, 9999 );
 
@@ -78,7 +78,7 @@ if ( ! function_exists( 'omphaloskepsis_setup' ) ) :
 		/*
 		 * Switch default core markup for search form, comment form, and comments
 		 * to output valid HTML5.
-		 */
+		*/
 		add_theme_support(
 			'html5',
 			array(
@@ -94,7 +94,7 @@ if ( ! function_exists( 'omphaloskepsis_setup' ) ) :
 		 * Enable support for Post Formats.
 		 *
 		 * See: https://codex.wordpress.org/Post_Formats
-		 */
+		*/
 		add_theme_support(
 			'post-formats',
 			array(
@@ -113,8 +113,13 @@ if ( ! function_exists( 'omphaloskepsis_setup' ) ) :
 		/*
 		 * This theme styles the visual editor to resemble the theme style,
 		 * specifically font, colors, icons, and column width.
-		 */
-		add_editor_style( array( 'css/editor-style.css', omphaloskepsis_fonts_url() ) );
+		*/
+		add_editor_style(
+			array(
+				'css/editor-style.css',
+				omphaloskepsis_fonts_url(),
+			)
+		);
 
 		// Indicate widget sidebars can use selective refresh in the Customizer.
 		add_theme_support( 'customize-selective-refresh-widgets' );
@@ -243,8 +248,7 @@ add_action( 'wp_head', 'omphaloskepsis_javascript_detection', 0 );
  *
  * @since Omphaloskepsis 1.0
  */
-function omphaloskepsis_scripts() {
-	// phpcs:disable WordPress.WP.EnqueuedResourceParameters
+function omphaloskepsis_scripts() {     // phpcs:disable WordPress.WP.EnqueuedResourceParameters
 	// Load the normalisation stylesheet.
 	wp_enqueue_style( 'omphaloskepsis-reset', get_template_directory_uri() . '/css/reset.css', array() );
 
@@ -263,15 +267,36 @@ function omphaloskepsis_scripts() {
 	wp_enqueue_style( 'montserrat', 'https://fonts.googleapis.com/css?family=Montserrat' );
 
 	// Load the Internet Explorer specific stylesheet.
-	wp_enqueue_style( 'omphaloskepsis-ie', get_template_directory_uri() . '/css/ie.css', array( 'omphaloskepsis-style' ), '20160412' );
+	wp_enqueue_style(
+		'omphaloskepsis-ie',
+		get_template_directory_uri() . '/css/ie.css',
+		array(
+			'omphaloskepsis-style',
+		),
+		'20160412'
+	);
 	wp_style_add_data( 'omphaloskepsis-ie', 'conditional', 'lt IE 10' );
 
 	// Load the Internet Explorer 8 specific stylesheet.
-	wp_enqueue_style( 'omphaloskepsis-ie8', get_template_directory_uri() . '/css/ie8.css', array( 'omphaloskepsis-style' ), '20160412' );
+	wp_enqueue_style(
+		'omphaloskepsis-ie8',
+		get_template_directory_uri() . '/css/ie8.css',
+		array(
+			'omphaloskepsis-style',
+		),
+		'20160412'
+	);
 	wp_style_add_data( 'omphaloskepsis-ie8', 'conditional', 'lt IE 9' );
 
 	// Load the Internet Explorer 7 specific stylesheet.
-	wp_enqueue_style( 'omphaloskepsis-ie7', get_template_directory_uri() . '/css/ie7.css', array( 'omphaloskepsis-style' ), '20160412' );
+	wp_enqueue_style(
+		'omphaloskepsis-ie7',
+		get_template_directory_uri() . '/css/ie7.css',
+		array(
+			'omphaloskepsis-style',
+		),
+		'20160412'
+	);
 	wp_style_add_data( 'omphaloskepsis-ie7', 'conditional', 'lt IE 8' );
 
 	// Load the html5 shiv.
@@ -285,10 +310,25 @@ function omphaloskepsis_scripts() {
 	}
 
 	if ( is_singular() && wp_attachment_is_image() ) {
-		wp_enqueue_script( 'omphaloskepsis-keyboard-image-navigation', get_template_directory_uri() . '/js/keyboard-image-navigation.js', array( 'jquery' ), '20160412' );
+		wp_enqueue_script(
+			'omphaloskepsis-keyboard-image-navigation',
+			get_template_directory_uri() . '/js/keyboard-image-navigation.js',
+			array(
+				'jquery',
+			),
+			'20160412'
+		);
 	}
 
-	wp_enqueue_script( 'omphaloskepsis-script', get_template_directory_uri() . '/js/functions.js', array( 'jquery' ), '20160412', true );
+	wp_enqueue_script(
+		'omphaloskepsis-script',
+		get_template_directory_uri() . '/js/functions.js',
+		array(
+			'jquery',
+		),
+		'20160412',
+		true
+	);
 
 	wp_localize_script(
 		'omphaloskepsis-script',
@@ -298,7 +338,8 @@ function omphaloskepsis_scripts() {
 			'collapse' => __( 'collapse child menu', 'omphaloskepsis' ),
 		)
 	);
-	// phpcs:enable
+    // phpcs:enable
+
 }
 add_action( 'wp_enqueue_scripts', 'omphaloskepsis_scripts' );
 
@@ -365,7 +406,6 @@ function omphaloskepsis_hex2rgb( $color ) {
 		'blue'  => $b,
 	);
 }
-
 
 /**
  * Add custom image sizes attribute to enhance responsive image functionality
@@ -451,8 +491,8 @@ add_filter( 'script_loader_tag', 'clean_script_tag' );
 function omphaloskepsis_the_content( $content ) {
 	global $post;
 	if ( 'program' === $post->post_type ) {
-		// phpcs:disable Squiz.PHP.DisallowMultipleAssignments.FoundInControlStructure
-		// phpcs:disable WordPress.CodeAnalysis.AssignmentInCondition.Found
+        // phpcs:disable Squiz.PHP.DisallowMultipleAssignments.FoundInControlStructure
+        // phpcs:disable WordPress.CodeAnalysis.AssignmentInCondition.Found
 		if ( $meta = get_post_meta( $post->ID, 'Link', true ) ) {
 			$links = $links . '<a class="hyperlink-button" target="_blank" href="' . $meta . '">Download</a>';
 		}
@@ -494,7 +534,7 @@ function omphaloskepsis_the_content( $content ) {
 		}
 		return $content . $links;
 	}
-	// phpcs:enable
+    // phpcs:enable
 	return $content;
 }
 add_filter( 'the_content', 'omphaloskepsis_the_content', 10 );
@@ -513,9 +553,9 @@ function load_dashicons_front_end() {
  */
 function display_companies() {
 	echo '<tr>';
-	  echo '<th colspan="2">Organisation</th>';
-	  echo '<th>Children</th>';
-	  echo '<th>Associated Items</th>';
+	echo '<th colspan="2">Organisation</th>';
+	echo '<th>Children</th>';
+	echo '<th>Associated Items</th>';
 	echo '</tr>';
 
 	if ( isset( $_SERVER['REQUEST_METHOD'] ) && ( 'POST' === $_SERVER['REQUEST_METHOD'] ) ) {
@@ -524,7 +564,7 @@ function display_companies() {
 			wp_die( 'Invalid nonce' );
 		}
 
-		// phpcs:disable WordPress.NamingConventions.ValidHookName.UseUnderscores
+        // phpcs:disable WordPress.NamingConventions.ValidHookName.UseUnderscores
 		if ( isset( $_POST['toplevel'] ) && 'true' === $_POST['toplevel'] ) {
 			// Gets all of the top-level company terms.
 			$terms   = apply_filters(
@@ -533,7 +573,9 @@ function display_companies() {
 				array(
 					'having_images' => false,
 					'taxonomy'      => 'company',
-					'term_args'     => array( 'parent' => 0 ),
+					'term_args'     => array(
+						'parent' => 0,
+					),
 				)
 			);
 			$include = 1;
@@ -549,8 +591,7 @@ function display_companies() {
 			);
 			$include = 0;
 		}
-		// phpcs:enable
-
+        // phpcs:enable
 		if ( ! empty( $terms ) ) {
 			foreach ( $terms as $term ) {
 				$term_children = get_term_children( $term->term_id, 'company' );
@@ -564,16 +605,36 @@ function display_companies() {
 				// 6 = Others
 				// 7 = Qualifications
 				// 8 = Awards
-				$post_types       = array( 'job', 'post', 'website', 'program', 'writing', 'video', 'other', 'qualification', 'award' );
-				$dashicons        = array( 'hammer', 'admin-post', 'schedule', 'desktop', 'format-aside', 'video-alt', 'archive', 'id', 'awards' );
+				$post_types       = array(
+					'job',
+					'post',
+					'website',
+					'program',
+					'writing',
+					'video',
+					'other',
+					'qualification',
+					'award',
+				);
+				$dashicons        = array(
+					'hammer',
+					'admin-post',
+					'schedule',
+					'desktop',
+					'format-aside',
+					'video-alt',
+					'archive',
+					'id',
+					'awards',
+				);
 				$term_items       = array();
 				$term_item_counts = array();
 
-				// phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_tax_query
-				// phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+                // phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+                // phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 				foreach ( $post_types as $post_type ) {
 					$args = array(
-						'posts_per_page' => -1,
+						'posts_per_page' => - 1,
 						'post_type'      => $post_type,
 						'tax_query'      => array(
 							array(
@@ -605,50 +666,41 @@ function display_companies() {
 							),
 						);
 					}
-					// phpcs:enable
-
+                    // phpcs:enable
 					$posts = get_posts( $args );
 
 					array_push( $term_items, $posts );
 					array_push( $term_item_counts, count( $posts ) );
 				}
 
-				if ( ( isset( $_POST['job'] ) && 'true' === $_POST['job'] && $term_item_counts[0] > 0 ) ||
-				( isset( $_POST['post'] ) && 'true' === $_POST['post'] && $term_item_counts[1] > 0 ) ||
-				( isset( $_POST['website'] ) && 'true' === $_POST['website'] && $term_item_counts[2] > 0 ) ||
-				( isset( $_POST['program'] ) && 'true' === $_POST['program'] && $term_item_counts[3] > 0 ) ||
-				( isset( $_POST['writing'] ) && 'true' === $_POST['writing'] && $term_item_counts[4] > 0 ) ||
-				( isset( $_POST['video'] ) && 'true' === $_POST['video'] && $term_item_counts[5] > 0 ) ||
-				( isset( $_POST['other'] ) && 'true' === $_POST['other'] && $term_item_counts[6] > 0 ) ||
-				( isset( $_POST['qualification'] ) && 'true' === $_POST['qualification'] && $term_item_counts[7] > 0 ) ||
-				( isset( $_POST['award'] ) && 'true' === $_POST['award'] && $term_item_counts[8] > 0 ) ) {
-					$img_url = wp_get_attachment_image_src( $term->image_id, 'full' )[0];
+				if ( ( isset( $_POST['job'] ) && 'true' === $_POST['job'] && $term_item_counts[0] > 0 ) || ( isset( $_POST['post'] ) && 'true' === $_POST['post'] && $term_item_counts[1] > 0 ) || ( isset( $_POST['website'] ) && 'true' === $_POST['website'] && $term_item_counts[2] > 0 ) || ( isset( $_POST['program'] ) && 'true' === $_POST['program'] && $term_item_counts[3] > 0 ) || ( isset( $_POST['writing'] ) && 'true' === $_POST['writing'] && $term_item_counts[4] > 0 ) || ( isset( $_POST['video'] ) && 'true' === $_POST['video'] && $term_item_counts[5] > 0 ) || ( isset( $_POST['other'] ) && 'true' === $_POST['other'] && $term_item_counts[6] > 0 ) || ( isset( $_POST['qualification'] ) && 'true' === $_POST['qualification'] && $term_item_counts[7] > 0 ) || ( isset( $_POST['award'] ) && 'true' === $_POST['award'] && $term_item_counts[8] > 0 ) ) {
+					$img_url = wp_get_attachment_image_src( $term->image_id, 'full' ) [0];
 					$bg_img  = ( ! $img_url ) ? '' : ' background-image: url(' . strtok( $img_url, '?' ) . ');';
 					$colour  = get_term_meta( $term->term_id, 'color', true );
 					$colour  = ( '' !== $colour ) ? $colour : 'transparent';
 
 					echo '<tr class="organisation">';
-						echo '<td class="organisation-logo">';
-						 echo '<a href="' . esc_url( get_term_link( $term, $term->taxonomy ) ) . '">';
-							echo wp_kses_post( '<img style="background-color: ' . $colour . ';" src="' . strtok( $img_url, '?' ) . '" alt="' . $term->name . ' logo">' );
-						 echo '</a>';
-						echo '</td>';
+					echo '<td class="organisation-logo">';
+					echo '<a href="' . esc_url( get_term_link( $term, $term->taxonomy ) ) . '">';
+					echo wp_kses_post( '<img style="background-color: ' . $colour . ';" src="' . strtok( $img_url, '?' ) . '" alt="' . $term->name . ' logo">' );
+					echo '</a>';
+					echo '</td>';
 
-						echo '<td class="organisation-name">';
-						 echo '<a href="' . esc_url( get_term_link( $term, $term->taxonomy ) ) . '">';
-							echo wp_kses_post( '<p>' . $term->name . '</p>' );
-						 echo '</a>';
-						echo '</td>';
+					echo '<td class="organisation-name">';
+					echo '<a href="' . esc_url( get_term_link( $term, $term->taxonomy ) ) . '">';
+					echo wp_kses_post( '<p>' . $term->name . '</p>' );
+					echo '</a>';
+					echo '</td>';
 
-						echo '<td class="organisation-items organisation-children">';
-						 $num = ( count( $term_children ) > 0 ) ? '' : 'none';
-						 echo '<div class="organisation-item ' . esc_attr( $num ) . '">';
-							echo wp_kses_post( '<span class="dashicons dashicons-groups"></span><br>' . count( $term_children ) );
-						 echo '</div>';
-						echo '</td>';
+					echo '<td class="organisation-items organisation-children">';
+					$num = ( count( $term_children ) > 0 ) ? '' : 'none';
+					echo '<div class="organisation-item ' . esc_attr( $num ) . '">';
+					echo wp_kses_post( '<span class="dashicons dashicons-groups"></span><br>' . count( $term_children ) );
+					echo '</div>';
+					echo '</td>';
 
-						echo '<td class="organisation-items">';
-						 $i = 0;
+					echo '<td class="organisation-items">';
+					$i = 0;
 					foreach ( $post_types as $post_type ) {
 						$num = ( $term_item_counts[ $i ] > 0 ) ? '' : 'none';
 						echo '<div class="organisation-item ' . esc_attr( $num ) . '">';
@@ -656,7 +708,7 @@ function display_companies() {
 						echo '</div>';
 						$i++;
 					};
-						echo '</td>';
+					echo '</td>';
 					echo '</tr>';
 				}
 			}
@@ -677,3 +729,5 @@ remove_filter( 'term_description', 'wp_kses_data' );
 
 // honour user DNT header.
 add_filter( 'jetpack_honor_dnt_header_for_stats', '__return_true' );
+
+
