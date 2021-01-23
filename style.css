@@ -607,6 +607,7 @@ html {
    body > footer {
       grid-area: footer;
       margin-top: 1em;
+      margin-bottom: 1em;
    }
 }
 

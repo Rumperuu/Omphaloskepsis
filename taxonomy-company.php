@@ -94,7 +94,9 @@
 
 <main id="split-page" role="main">
 <?php
+		// phpcs:disable WordPress.NamingConventions.ValidHookName.UseUnderscores
    $company_logo = apply_filters( 'taxonomy-images-queried-term-image-url', '', array( 'image_size' => 'full' ) );
+   // phpcs:enable
    $company_name = get_queried_object()->name;
 ?>
    <div id="wrapper">
@@ -130,6 +132,7 @@
 			<div id="parents" class="col-6 col-m-12">
 		 <?php
 			if ( get_queried_object()->parent != 0 ) {
+				// phpcs:disable WordPress.NamingConventions.ValidHookName.UseUnderscores
 				$parents = apply_filters(
 					'taxonomy-images-get-terms',
 					'',
@@ -141,6 +144,7 @@
 						),
 					)
 				);
+				// phpcs:enable
 			}
 
 			if ( count( $parents ) > 0 ) :
@@ -162,6 +166,7 @@
 		
 			<div id="children" class="col-6 col-m-12">
 		 <?php
+		  // phpcs:disable WordPress.NamingConventions.ValidHookName.UseUnderscores
 			$children = apply_filters(
 				'taxonomy-images-get-terms',
 				'',
@@ -171,6 +176,7 @@
 					'term_args'     => array( 'parent' => get_queried_object()->term_id ),
 				)
 			);
+			// phpcs:enable
 			if ( count( $children ) > 0 ) :
 				?>
 			   <h2 class="subheading">Child<?php echo ( count( $children ) != 1 ) ? 'ren' : ''; ?></h2>

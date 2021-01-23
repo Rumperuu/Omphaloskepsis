@@ -215,8 +215,8 @@ if ( ! function_exists( 'omphaloskepsis_fonts_url' ) ) :
 		if ( $fonts ) {
 			$fonts_url = add_query_arg(
 				array(
-					'family' => urlencode( implode( '|', $fonts ) ),
-					'subset' => urlencode( $subsets ),
+					'family' => rawurlencode( implode( '|', $fonts ) ),
+					'subset' => rawurlencode( $subsets ),
 				),
 				'https://fonts.googleapis.com/css'
 			);
@@ -452,6 +452,7 @@ function omphaloskepsis_the_content( $content ) {
 	global $post;
 	if ( 'program' === $post->post_type ) {
 		// phpcs:disable Squiz.PHP.DisallowMultipleAssignments.FoundInControlStructure
+		// phpcs:disable WordPress.CodeAnalysis.AssignmentInCondition.Found
 		if ( $meta = get_post_meta( $post->ID, 'Link', true ) ) {
 			$links = $links . '<a class="hyperlink-button" target="_blank" href="' . $meta . '">Download</a>';
 		}
@@ -517,144 +518,152 @@ function display_companies() {
 	  echo '<th>Associated Items</th>';
 	echo '</tr>';
 
-	// phpcs:disable WordPress.Security.NonceVerification.Missing
-	// phpcs:disable WordPress.PHP.YodaConditions.NotYoda
-	// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotValidated
-	if ( $_POST['toplevel'] == 'true' ) {
-		// Gets all of the top-level company terms.
-		$terms   = apply_filters(
-			'taxonomy-images-get-terms',
-			'',
-			array(
-				'having_images' => false,
-				'taxonomy'      => 'company',
-				'term_args'     => array( 'parent' => 0 ),
-			)
-		);
-		$include = 1;
-	} else {
-		// Gets all of the company terms.
-		$terms   = apply_filters(
-			'taxonomy-images-get-terms',
-			'',
-			array(
-				'having_images' => false,
-				'taxonomy'      => 'company',
-			)
-		);
-		$include = 0;
-	}
-
-	if ( ! empty( $terms ) ) {
-		foreach ( $terms as $term ) {
-			$term_children = get_term_children( $term->term_id, 'company' );
-
-			// 0 = Jobs
-			// 1 = Blog Posts
-			// 2 = Websites
-			// 3 = Programs
-			// 4 = Writings
-			// 5 = Videos
-			// 6 = Others
-			// 7 = Qualifications
-			// 8 = Awards
-			$post_types       = array( 'job', 'post', 'website', 'program', 'writing', 'video', 'other', 'qualification', 'award' );
-			$dashicons        = array( 'hammer', 'admin-post', 'schedule', 'desktop', 'format-aside', 'video-alt', 'archive', 'id', 'awards' );
-			$term_items       = array();
-			$term_item_counts = array();
-
-			foreach ( $post_types as $post_type ) {
-				$args = array(
-					'posts_per_page' => -1,
-					'post_type'      => $post_type,
-					'tax_query'      => array(
-						array(
-							'taxonomy'         => 'company',
-							'field'            => 'slug',
-							'terms'            => $term->slug,
-							'include_children' => $include,
-						),
-					),
-					'meta_query'     => array(),
-				);
-
-				if ( $_POST['currentjobs'] == 'true' && $post_type == 'job' ) {
-					$args['meta_query'] = array(
-						array(
-							'key'     => 'end-date',
-							'compare' => 'NOT EXISTS',
-							'value'   => '1',
-						),
-					);
-				}
-
-				if ( $_POST['showexpired'] != 'true' && $post_type == 'qualification' ) {
-					$args['meta_query'] = array(
-						array(
-							'key'     => 'Expired',
-							'compare' => 'NOT EXISTS',
-							'value'   => '1',
-						),
-					);
-				}
-
-				$posts = get_posts( $args );
-
-				array_push( $term_items, $posts );
-				array_push( $term_item_counts, count( $posts ) );
-			}
-
-			if ( ( $_POST['job'] == 'true' && $term_item_counts[0] > 0 ) ||
-			( $_POST['post'] == 'true' && $term_item_counts[1] > 0 ) ||
-			( $_POST['website'] == 'true' && $term_item_counts[2] > 0 ) ||
-			( $_POST['program'] == 'true' && $term_item_counts[3] > 0 ) ||
-			( $_POST['writing'] == 'true' && $term_item_counts[4] > 0 ) ||
-			( $_POST['video'] == 'true' && $term_item_counts[5] > 0 ) ||
-			( $_POST['other'] == 'true' && $term_item_counts[6] > 0 ) ||
-			( $_POST['qualification'] == 'true' && $term_item_counts[7] > 0 ) ||
-			( $_POST['award'] == 'true' && $term_item_counts[8] > 0 ) ) {
-				$img_url = wp_get_attachment_image_src( $term->image_id, 'full' )[0];
-				$bg_img  = ( ! $img_url ) ? '' : ' background-image: url(' . strtok( $img_url, '?' ) . ');';
-				$colour = get_term_meta( $term->term_id, 'color', true );
-				$colour = ( $colour != '' ) ? $colour : 'transparent';
-
-				echo '<tr class="organisation">';
-					echo '<td class="organisation-logo">';
-					 echo '<a href="' . esc_url( get_term_link( $term, $term->taxonomy ) ) . '">';
-						echo wp_kses_post( '<img style="background-color: ' . $colour . ';" src="' . strtok( $img_url, '?' ) . '" alt="' . $term->name . ' logo">' );
-					 echo '</a>';
-					echo '</td>';
-
-					echo '<td class="organisation-name">';
-					 echo '<a href="' . esc_url( get_term_link( $term, $term->taxonomy ) ) . '">';
-						echo wp_kses_post( '<p>' . $term->name . '</p>' );
-					 echo '</a>';
-					echo '</td>';
-
-					echo '<td class="organisation-items organisation-children">';
-					 $num = ( count( $term_children ) > 0 ) ? '' : 'none';
-					 echo '<div class="organisation-item ' . esc_attr( $num ) . '">';
-						echo wp_kses_post( '<span class="dashicons dashicons-groups"></span><br>' . count( $term_children ) );
-					 echo '</div>';
-					echo '</td>';
-
-					echo '<td class="organisation-items">';
-					 $i = 0;
-				foreach ( $post_types as $post_type ) {
-					$num = ( $term_item_counts[ $i ] > 0 ) ? '' : 'none';
-					echo '<div class="organisation-item ' . esc_attr( $num ) . '">';
-					echo wp_kses_post( '<span class="dashicons dashicons-' . esc_attr( $dashicons[ $i ] ) . '"></span><br>' . $term_item_counts[ $i ] );
-					echo '</div>';
-					$i++;
-				};
-					echo '</td>';
-				echo '</tr>';
-			}
+	if ( isset( $_SERVER['REQUEST_METHOD'] ) && ( 'POST' === $_SERVER['REQUEST_METHOD'] ) ) {
+		if ( ! isset( $_POST['settings_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( filter_input( INPUT_POST, 'settings_nonce' ) ), 'experience' ) ) {
+			echo '<tr><td>Error</td></tr>';
+			wp_die( 'Invalid nonce' );
 		}
-	} else {
-		echo '<p>No companies found</p>';
+
+		// phpcs:disable WordPress.NamingConventions.ValidHookName.UseUnderscores
+		if ( isset( $_POST['toplevel'] ) && 'true' === $_POST['toplevel'] ) {
+			// Gets all of the top-level company terms.
+			$terms   = apply_filters(
+				'taxonomy-images-get-terms',
+				'',
+				array(
+					'having_images' => false,
+					'taxonomy'      => 'company',
+					'term_args'     => array( 'parent' => 0 ),
+				)
+			);
+			$include = 1;
+		} else {
+			// Gets all of the company terms.
+			$terms   = apply_filters(
+				'taxonomy-images-get-terms',
+				'',
+				array(
+					'having_images' => false,
+					'taxonomy'      => 'company',
+				)
+			);
+			$include = 0;
+		}
+		// phpcs:enable
+
+		if ( ! empty( $terms ) ) {
+			foreach ( $terms as $term ) {
+				$term_children = get_term_children( $term->term_id, 'company' );
+
+				// 0 = Jobs
+				// 1 = Blog Posts
+				// 2 = Websites
+				// 3 = Programs
+				// 4 = Writings
+				// 5 = Videos
+				// 6 = Others
+				// 7 = Qualifications
+				// 8 = Awards
+				$post_types       = array( 'job', 'post', 'website', 'program', 'writing', 'video', 'other', 'qualification', 'award' );
+				$dashicons        = array( 'hammer', 'admin-post', 'schedule', 'desktop', 'format-aside', 'video-alt', 'archive', 'id', 'awards' );
+				$term_items       = array();
+				$term_item_counts = array();
+
+				// phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+				// phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+				foreach ( $post_types as $post_type ) {
+					$args = array(
+						'posts_per_page' => -1,
+						'post_type'      => $post_type,
+						'tax_query'      => array(
+							array(
+								'taxonomy'         => 'company',
+								'field'            => 'slug',
+								'terms'            => $term->slug,
+								'include_children' => $include,
+							),
+						),
+						'meta_query'     => array(),
+					);
+
+					if ( isset( $_POST['currentjobs'] ) && 'true' === $_POST['currentjobs'] && 'job' === $post_type ) {
+						$args['meta_query'] = array(
+							array(
+								'key'     => 'end-date',
+								'compare' => 'NOT EXISTS',
+								'value'   => '1',
+							),
+						);
+					}
+
+					if ( isset( $_POST['showexpired'] ) && 'true' !== $_POST['showexpired'] && 'qualification' === $post_type ) {
+						$args['meta_query'] = array(
+							array(
+								'key'     => 'Expired',
+								'compare' => 'NOT EXISTS',
+								'value'   => '1',
+							),
+						);
+					}
+					// phpcs:enable
+
+					$posts = get_posts( $args );
+
+					array_push( $term_items, $posts );
+					array_push( $term_item_counts, count( $posts ) );
+				}
+
+				if ( ( isset( $_POST['job'] ) && 'true' === $_POST['job'] && $term_item_counts[0] > 0 ) ||
+				( isset( $_POST['post'] ) && 'true' === $_POST['post'] && $term_item_counts[1] > 0 ) ||
+				( isset( $_POST['website'] ) && 'true' === $_POST['website'] && $term_item_counts[2] > 0 ) ||
+				( isset( $_POST['program'] ) && 'true' === $_POST['program'] && $term_item_counts[3] > 0 ) ||
+				( isset( $_POST['writing'] ) && 'true' === $_POST['writing'] && $term_item_counts[4] > 0 ) ||
+				( isset( $_POST['video'] ) && 'true' === $_POST['video'] && $term_item_counts[5] > 0 ) ||
+				( isset( $_POST['other'] ) && 'true' === $_POST['other'] && $term_item_counts[6] > 0 ) ||
+				( isset( $_POST['qualification'] ) && 'true' === $_POST['qualification'] && $term_item_counts[7] > 0 ) ||
+				( isset( $_POST['award'] ) && 'true' === $_POST['award'] && $term_item_counts[8] > 0 ) ) {
+					$img_url = wp_get_attachment_image_src( $term->image_id, 'full' )[0];
+					$bg_img  = ( ! $img_url ) ? '' : ' background-image: url(' . strtok( $img_url, '?' ) . ');';
+					$colour  = get_term_meta( $term->term_id, 'color', true );
+					$colour  = ( '' !== $colour ) ? $colour : 'transparent';
+
+					echo '<tr class="organisation">';
+						echo '<td class="organisation-logo">';
+						 echo '<a href="' . esc_url( get_term_link( $term, $term->taxonomy ) ) . '">';
+							echo wp_kses_post( '<img style="background-color: ' . $colour . ';" src="' . strtok( $img_url, '?' ) . '" alt="' . $term->name . ' logo">' );
+						 echo '</a>';
+						echo '</td>';
+
+						echo '<td class="organisation-name">';
+						 echo '<a href="' . esc_url( get_term_link( $term, $term->taxonomy ) ) . '">';
+							echo wp_kses_post( '<p>' . $term->name . '</p>' );
+						 echo '</a>';
+						echo '</td>';
+
+						echo '<td class="organisation-items organisation-children">';
+						 $num = ( count( $term_children ) > 0 ) ? '' : 'none';
+						 echo '<div class="organisation-item ' . esc_attr( $num ) . '">';
+							echo wp_kses_post( '<span class="dashicons dashicons-groups"></span><br>' . count( $term_children ) );
+						 echo '</div>';
+						echo '</td>';
+
+						echo '<td class="organisation-items">';
+						 $i = 0;
+					foreach ( $post_types as $post_type ) {
+						$num = ( $term_item_counts[ $i ] > 0 ) ? '' : 'none';
+						echo '<div class="organisation-item ' . esc_attr( $num ) . '">';
+						echo wp_kses_post( '<span class="dashicons dashicons-' . esc_attr( $dashicons[ $i ] ) . '"></span><br>' . $term_item_counts[ $i ] );
+						echo '</div>';
+						$i++;
+					};
+						echo '</td>';
+					echo '</tr>';
+				}
+			}
+		} else {
+			echo '<p>No companies found</p>';
+		}
 	}
-	// phpcs:enable
 	die();
 }
 add_action( 'wp_ajax_display_companies', 'display_companies' );

@@ -26,8 +26,8 @@ get_header(); ?>
 	
 	  <div class="entry-content tile" id="settings">
 		 <h3 style="margin-bottom: 14px;" class="subheading">Settings</h3>
-		 <form action="/experience-by-companies" id="settings" method="GET">
-			<?php wp_nonce_field( 'experience-by-companies' ); ?>
+		 <form action="/experience" id="settings" method="POST">
+			<?php echo wp_kses_post(wp_nonce_field( 'experience', 'settings_nonce' )); ?>
 			<input class="checkbox" type="checkbox" id="toplevel" value="toplevel" checked="checked">
 			<label for="toplevel">Display only top-level organisations</label>
 			<br>
@@ -79,8 +79,14 @@ get_header(); ?>
 		 $('.controlgroup').controlgroup();
 		 $('.refresh').button();
 
+		 $('#refresh').click(function(event) {
+			$(this).css('border-width', '1px');
+			event.preventDefault();
+			displayCompanies();
+		 });
+		 
 		 // Displays the initial organisations grid.
-		 displayCompanies();
+		 $('#refresh').click();
 
 		 $('.expired').hide();
 
@@ -104,17 +110,13 @@ get_header(); ?>
 			}
 		 });
 
-		 $('#refresh').click(function(event) {
-			$(this).css('border-width', '1px');
-			event.preventDefault();
-			displayCompanies();
-		 });
 
 		 function displayCompanies() {
 			$('#organisations-grid').html('<img class="loading" src="/wp-content/uploads/2016/12/ajax-loader.gif">');
 
 			var settings = {
 			   'action': 'display_companies',
+			   'settings_nonce': $('#settings_nonce').val(),
 			   'toplevel': $('#toplevel').is(':checked'),
 			   'job': $('#jobs').is(':checked'),
 			   'currentjobs': $('#currentjobs').is(':checked'),
