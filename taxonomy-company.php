@@ -11,44 +11,46 @@
 <?php get_header(); ?>
 
 <?php
-   // Gets all of the roles attached to the given organisation.
-   $company = get_queried_object();
-   echo '<!-- ' . wp_kses_post( $company->name ) . '-->';
-   $args = array(
-	   'post_type'      => array( 'job' ),
-	   'tax_query'      => array(
-		   array(
-			   'taxonomy' => 'company',
-			   'field'    => 'slug',
-			   'terms'    => $company->slug,
-		   ),
-	   ),
-	   'posts_per_page' => -1,
-   );
+	// Gets all of the roles attached to the given organisation.
+	$company = get_queried_object();
+	echo '<!-- ' . wp_kses_post( $company->name ) . '-->';
+	// phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+	$args = array(
+		'post_type'      => array( 'job' ),
+		'tax_query'      => array(
+			array(
+				'taxonomy' => 'company',
+				'field'    => 'slug',
+				'terms'    => $company->slug,
+			),
+		),
+		'posts_per_page' => -1,
+	);
+	// phpcs:enable
 
-   $loop = new WP_Query( $args );
+	$loop = new WP_Query( $args );
 	?>
 <?php // phpcs:disable WordPress.WP.EnqueuedResources ?>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript">
-  google.charts.load('current', {'packages':['timeline']});
-   
-  <?php if ( $loop->have_posts() ) : ?>
+	google.charts.load('current', {'packages':['timeline']});
+
+	<?php if ( $loop->have_posts() ) : ?>
 	google.charts.setOnLoadCallback(drawChart);
-  <?php endif; ?>
-   
-  function drawChart() {
-	  var container = document.getElementById('timeline');
-	  var chart = new google.visualization.Timeline(container);
-	  var dataTable = new google.visualization.DataTable();
-	 
-	  dataTable.addColumn({ type: 'string', id: 'Type' });
-	  dataTable.addColumn({ type: 'string', id: 'Job Title' });
-	  dataTable.addColumn({ type: 'date', id: 'Start' });
-	  dataTable.addColumn({ type: 'date', id: 'End' });
-	  dataTable.addRows([
-	  <?php
+	<?php endif; ?>
+
+	function drawChart() {
+		var container = document.getElementById('timeline');
+		var chart = new google.visualization.Timeline(container);
+		var dataTable = new google.visualization.DataTable();
+
+		dataTable.addColumn({ type: 'string', id: 'Type' });
+		dataTable.addColumn({ type: 'string', id: 'Job Title' });
+		dataTable.addColumn({ type: 'date', id: 'Start' });
+		dataTable.addColumn({ type: 'date', id: 'End' });
+		dataTable.addRows([
+		<?php
 		while ( $loop->have_posts() ) :
 			$loop->the_post();
 			// Gets all of the roles associated with this organisation and its
@@ -66,43 +68,43 @@
 
 			$end_date = get_post_meta( get_the_ID(), 'end-date', true );
 
-			$item_title = htmlspecialchars_decode( strip_tags( get_the_title() ) );
+			$item_title = htmlspecialchars_decode( wp_strip_all_tags( get_the_title() ) );
 			$start      = get_the_date();
 			$end        = ( ! $end_date || ( $end_date && $end_date > gmdate( 'Y-m-d' ) ) ) ? gmdate( 'Y-m-d' ) : $end_date;
 			echo wp_kses_post( "[ '" . html_entity_decode( $companies[ $lowest_depth_company ]->name ) . "', '$item_title', new Date('$start'), new Date('$end') ],\n" );
-	  endwhile;
+		endwhile;
 		?>
-	  ]);
-	  
-	  // Draws the table, then resizes the element height and re-draws it
-	  // to avoid needing to scroll vertically.
-	  var rowHeight = 15;
+		]);
+
+		// Draws the table, then resizes the element height and re-draws it
+		// to avoid needing to scroll vertically.
+		var rowHeight = 15;
 	var chartHeight = dataTable.getNumberOfRows() * rowHeight + 50;
 	var options = {
-	  tooltip: {isHtml: true},
-	  timeline: {
+		tooltip: {isHtml: true},
+		timeline: {
 		showRowLabels: true,
-	  },
-	  height: chartHeight,
-	  width: '100%',
+		},
+		height: chartHeight,
+		width: '100%',
 	};
-		  
-	  chart.draw(dataTable, options);
-   }
+
+		chart.draw(dataTable, options);
+	}
 </script>
 <?php // phpcs:enable ?>
 
 <main id="split-page" role="main">
 <?php
 		// phpcs:disable WordPress.NamingConventions.ValidHookName.UseUnderscores
-   $company_logo = apply_filters( 'taxonomy-images-queried-term-image-url', '', array( 'image_size' => 'full' ) );
-   // phpcs:enable
-   $company_name = get_queried_object()->name;
+	$company_logo = apply_filters( 'taxonomy-images-queried-term-image-url', '', array( 'image_size' => 'full' ) );
+	// phpcs:enable
+	$company_name = get_queried_object()->name;
 ?>
-   <div id="wrapper">
-	  <header style="background-image: url('<?php echo esc_url( $company_logo ); ?>'); background-color: <?php echo esc_attr( get_term_meta( get_queried_object()->term_id, 'color' )[0] ); ?>; background-size: contain;">
-		 <div>
-		 <?php
+	<div id="wrapper">
+		<header style="background-image: url('<?php echo esc_url( $company_logo ); ?>'); background-color: <?php echo esc_attr( get_term_meta( get_queried_object()->term_id, 'color' )[0] ); ?>; background-size: contain;">
+			<div>
+			<?php
 			if ( strlen( $company_name ) > 70 ) {
 				$small = '2em';
 			} elseif ( strlen( $company_name ) > 35 ) {
@@ -114,23 +116,23 @@
 			}
 			?>
 			<h1 id="post-title" style="font-size: <?php echo esc_attr( $small ); ?>;"><?php echo wp_kses_post( $company_name ); ?></h1>
-		 </div>
-	  </header><!-- .entry-header -->
-	
-	  <main id="organisation-body" class="body">
-		 <section id="description">
+			</div>
+		</header><!-- .entry-header -->
+
+		<main id="organisation-body" class="body">
+			<section id="description">
 			<?php the_archive_description(); ?>
-		 </section>
-		 <?php if ( $loop->have_posts() ) : ?>
-		 <section id="timeline">
-		   <div id="timeline" class="col-12">
-				  <img class="loading" src="/wp-content/uploads/2016/12/ajax-loader.gif">
-		   </div>
-		 </section>
-		 <?php endif; ?>
-		 <section id="related" class="row">
+			</section>
+			<?php if ( $loop->have_posts() ) : ?>
+			<section id="timeline">
+			<div id="timeline" class="col-12">
+					<img class="loading" src="/wp-content/uploads/2016/12/ajax-loader.gif">
+			</div>
+			</section>
+			<?php endif; ?>
+			<section id="related" class="row">
 			<div id="parents" class="col-6 col-m-12">
-		 <?php
+			<?php
 			if ( get_queried_object()->parent != 0 ) {
 				// phpcs:disable WordPress.NamingConventions.ValidHookName.UseUnderscores
 				$parents = apply_filters(
@@ -149,24 +151,24 @@
 
 			if ( count( $parents ) > 0 ) :
 				?>
-			   <h2 class="subheading">Parent</h2>
-			   <ul class="index">
+				<h2 class="subheading">Parent</h2>
+				<ul class="index">
 				<?php
 				foreach ( (array) $parents as $parent ) :
 					$img_url = wp_get_attachment_image_src( $parent->image_id )[0];
 					$colour  = get_term_meta( $parent->term_id, 'color', true );
 					$colour  = ( '' !== $colour ) ? $colour : 'transparent';
 					?>
-				
-				  <li><a href="<?php echo esc_url( get_term_link( $parent, $parent->taxonomy ) ); ?>"><?php echo wp_kses_post( get_term( $parent->term_id, 'company' )->name ); ?></a></li>
+
+					<li><a href="<?php echo esc_url( get_term_link( $parent, $parent->taxonomy ) ); ?>"><?php echo wp_kses_post( get_term( $parent->term_id, 'company' )->name ); ?></a></li>
 				<?php endforeach; ?>
-			   </ul>
+				</ul>
 			<?php endif; ?>
 			</div>
-		
+
 			<div id="children" class="col-6 col-m-12">
-		 <?php
-		  // phpcs:disable WordPress.NamingConventions.ValidHookName.UseUnderscores
+			<?php
+			// phpcs:disable WordPress.NamingConventions.ValidHookName.UseUnderscores
 			$children = apply_filters(
 				'taxonomy-images-get-terms',
 				'',
@@ -179,8 +181,8 @@
 			// phpcs:enable
 			if ( count( $children ) > 0 ) :
 				?>
-			   <h2 class="subheading">Child<?php echo ( count( $children ) != 1 ) ? 'ren' : ''; ?></h2>
-			   <ul class="index">
+				<h2 class="subheading">Child<?php echo ( count( $children ) != 1 ) ? 'ren' : ''; ?></h2>
+				<ul class="index">
 				<?php
 				foreach ( (array) $children as $child ) :
 					$img_url = wp_get_attachment_image_src( $child->image_id, 'detail' )[0];
@@ -188,14 +190,14 @@
 					$colour  = ( '' !== $colour ) ? $colour : 'transparent';
 					?>
 
-				  <li><a href="<?php echo esc_url( get_term_link( $child, $child->taxonomy ) ); ?>"><?php echo wp_kses_post( get_term( $child->term_id, 'company' )->name ); ?></a></li>
+					<li><a href="<?php echo esc_url( get_term_link( $child, $child->taxonomy ) ); ?>"><?php echo wp_kses_post( get_term( $child->term_id, 'company' )->name ); ?></a></li>
 				<?php endforeach; ?>
-			   </ul>
+				</ul>
 			<?php else : ?>
-			   <p>No children.</p>
+				<p>No children.</p>
 			<?php endif; ?>
 			</div>
-		 </section>
+			</section>
 	<?php
 		$page_order = array( 'post', 'website', 'program', 'writing', 'video', 'other' );
 	foreach ( $page_order as $current_section ) {
@@ -205,13 +207,13 @@
 
 		if ( $loop->have_posts() ) :
 			echo '<section id="' . esc_attr( $current_section ) . '" class="org-items row">';
-			  echo '<h2 class="subheading">' . wp_kses_post( ucwords( $current_section ) ) . 's <a href="/' . esc_attr( ( 'post' !== $current_section ? $current_section : 'blog' ) ) . '?company=' . esc_attr( get_queried_object()->slug ) . '">View all ' . esc_html( $loop->post_count ) . '</a></h2>';
-			  echo '<div class="index">';
+				echo '<h2 class="subheading">' . wp_kses_post( ucwords( $current_section ) ) . 's <a href="/' . esc_attr( ( 'post' !== $current_section ? $current_section : 'blog' ) ) . '?company=' . esc_attr( get_queried_object()->slug ) . '">View all ' . esc_html( $loop->post_count ) . '</a></h2>';
+				echo '<div class="index">';
 			while ( ( $loop->have_posts() ) && ( $i++ < 4 ) ) :
 				$loop->the_post();
 				get_template_part( 'template-parts/content', get_post_format() );
-			  endwhile;
-			  echo '</div>';
+				endwhile;
+				echo '</div>';
 				echo '</section>';
 			endif;
 	}
@@ -241,8 +243,8 @@
 				echo '<ul class="index">';
 				while ( $loop->have_posts() ) :
 					$loop->the_post();
-					 $url = esc_url( get_permalink() );
-					 echo '<li><a href="' . esc_url( $url ) . '">' . wp_kses_post( get_the_title() ) . '</a></li>';
+						$url = esc_url( get_permalink() );
+						echo '<li><a href="' . esc_url( $url ) . '">' . wp_kses_post( get_the_title() ) . '</a></li>';
 					endwhile;
 				echo '</ul>';
 				else :
@@ -279,8 +281,8 @@
 					echo '</section>';
 	endif;
 				?>
-	  </main>
-   </div>
+		</main>
+	</div>
 </main>
 
 <?php get_footer(); ?>

@@ -22,10 +22,10 @@ get_header(); ?>
 	 *  @return bool
 	 */
 function within_dates( $role_start_date, $role_end_date ) {
-	$end_year   = gmdate( 'Y' );
-	$end_date   = $end_year . '-12-31';
-	$start_date = ( $end_year - 2 ) . '-01-01';
-	$role_end_date    = ( ! $role_end_date ) ? gmdate( 'Y-m-d' ) : ( ( $role_end_date > $end_date ) ? $end_date : $role_end_date );
+	$end_year      = gmdate( 'Y' );
+	$end_date      = $end_year . '-12-31';
+	$start_date    = ( $end_year - 2 ) . '-01-01';
+	$role_end_date = ( ! $role_end_date ) ? gmdate( 'Y-m-d' ) : ( ( $role_end_date > $end_date ) ? $end_date : $role_end_date );
 	return ( ( ( strtotime( $role_start_date ) < strtotime( $end_date ) ) && ( strtotime( $role_start_date ) > strtotime( $start_date ) ) ) && ( strtotime( $role_end_date ) > strtotime( $start_date ) ) );
 }
 
@@ -106,7 +106,7 @@ function within_dates( $role_start_date, $role_end_date ) {
 				$end_date = get_post_meta( get_the_ID(), 'end-date', true );
 
 				$is_current = ( ! $end_date || ( $end_date && $end_date > gmdate( 'Y-m-d' ) ) ) ? true : false;
-				$company   = wp_get_object_terms(
+				$company    = wp_get_object_terms(
 					get_the_ID(),
 					'company',
 					array(
@@ -115,8 +115,8 @@ function within_dates( $role_start_date, $role_end_date ) {
 				);
 
 				$role_title = htmlspecialchars_decode( strip_tags( get_the_title() ) );
-				$start = get_the_date();
-				$end   = ( ! $end_date || ( $end_date && $end_date > gmdate( 'Y-m-d' ) ) ) ? gmdate( 'Y-m-d' ) : $end_date;
+				$start      = get_the_date();
+				$end        = ( ! $end_date || ( $end_date && $end_date > gmdate( 'Y-m-d' ) ) ) ? gmdate( 'Y-m-d' ) : $end_date;
 				?>
 			[
 			  '<?php echo ( $is_current ) ? 'Current' : 'Past'; ?>',

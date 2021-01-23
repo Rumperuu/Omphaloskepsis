@@ -9,8 +9,8 @@
 get_header(); ?>
 
 <main id="centred-page" role="main">
-   <h1>404.</h1>
-   <h2>That's <q>computer</q> for <q>Oops! Something went wrong!</q></h2>
+	<h1>404.</h1>
+	<h2>That's <q>computer</q> for <q>Oops! Something went wrong!</q></h2>
 </main><!-- .site-main -->
 
 <?php get_footer(); ?>

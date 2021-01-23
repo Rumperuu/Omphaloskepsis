@@ -9,9 +9,9 @@
 get_header(); ?>
 
 <main id="list-page" class="col-10 col-m-12" role="main">
-   <header>
-	  <h1><?php echo wp_kses_post( ( 'post' === get_post_type() ) ? single_cat_title() : ucfirst( get_post_type() ) . 's' ); ?>.</h1>
-	  <?php
+	<header>
+		<h1><?php echo wp_kses_post( ( 'post' === get_post_type() ) ? single_cat_title() : ucfirst( get_post_type() ) . 's' ); ?>.</h1>
+		<?php
 		echo wp_kses_post(
 			get_the_posts_pagination(
 				array(
@@ -23,10 +23,10 @@ get_header(); ?>
 			)
 		);
 		?>
-   </header>
-   
-   <section id="grid" class="row">
-   <?php
+	</header>
+
+	<section id="grid" class="row">
+	<?php
 	if ( have_posts() ) :
 		// Start the loop.
 		while ( have_posts() ) :
@@ -39,16 +39,16 @@ get_header(); ?>
 			*/
 			get_template_part( 'template-parts/content', get_post_format() );
 			// End the loop.
-	 endwhile;
+		endwhile;
 		// If no content, include the "No posts found" template.
-	  else :
-		  get_template_part( 'template-parts/content', 'none' );
-	  endif;
-		?>
-   </section><!-- .site-main -->
-   
-   <footer>
-	  <?php
+	else :
+		get_template_part( 'template-parts/content', 'none' );
+	endif;
+	?>
+	</section><!-- .site-main -->
+
+	<footer>
+		<?php
 		echo wp_kses_post(
 			get_the_posts_pagination(
 				array(
@@ -60,7 +60,7 @@ get_header(); ?>
 			)
 		);
 		?>
-   </footer>
+	</footer>
 </main><!-- .content-area -->
 
 <?php get_footer(); ?>
