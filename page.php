@@ -1,18 +1,18 @@
 <?php
-   /**
-	* The template for displaying pages.
-	*
-	* @package Omphaloskepsis
-	* @since Omphaloskepsis 1.0
-	*/
+/**
+ * The template for displaying pages.
+ *
+ * @package Omphaloskepsis
+ * @since Omphaloskepsis 1.0
+ */
 
 ?>
 
 <?php get_header(); ?>
 
 <main id="split-page" role="main">
-   <?php
-	  // Start the loop.
+	<?php
+		// Start the loop.
 	while ( have_posts() ) :
 		the_post();
 
@@ -24,8 +24,8 @@
 			comments_template();
 		}
 
-		  // End of the loop.
-	  endwhile;
+			// End of the loop.
+		endwhile;
 	?>
 </main>
 

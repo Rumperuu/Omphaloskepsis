@@ -133,7 +133,7 @@
 			<section id="related" class="row">
 			<div id="parents" class="col-6 col-m-12">
 			<?php
-			if ( get_queried_object()->parent != 0 ) {
+			if ( get_queried_object()->parent !== 0 ) {
 				// phpcs:disable WordPress.NamingConventions.ValidHookName.UseUnderscores
 				$parents = apply_filters(
 					'taxonomy-images-get-terms',
@@ -181,7 +181,7 @@
 			// phpcs:enable
 			if ( count( $children ) > 0 ) :
 				?>
-				<h2 class="subheading">Child<?php echo ( count( $children ) != 1 ) ? 'ren' : ''; ?></h2>
+				<h2 class="subheading">Child<?php echo ( count( $children ) !== 1 ) ? 'ren' : ''; ?></h2>
 				<ul class="index">
 				<?php
 				foreach ( (array) $children as $child ) :

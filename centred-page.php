@@ -15,8 +15,8 @@ get_header(); ?>
 while ( have_posts() ) :
 	the_post();
 	?>
-   <h1><?php echo wp_kses_post( get_the_title() ); ?></h1>
-   <h2><?php the_content(); ?></h2>
+	<h1><?php echo wp_kses_post( get_the_title() ); ?></h1>
+	<h2><?php the_content(); ?></h2>
 <?php endwhile; ?>
 </main>
 
