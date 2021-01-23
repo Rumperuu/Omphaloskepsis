@@ -127,14 +127,14 @@ function within_dates( $role_start_date, $role_end_date ) {
 			]);
 
 			var rowHeight = 15;
-			var chartHeight = dataTable.getNumberOfRows() * rowHeight + 50;
+			var chartHeight = (dataTable.getNumberOfRows() * rowHeight) + 50;
 			var options = {
-			tooltip: {isHtml: true},
-			timeline: {
-				showRowLabels: true,
-			},
-			height: chartHeight,
-			width: window.innerWidth - 200,
+				tooltip: {isHtml: true},
+				timeline: {
+					showRowLabels: true,
+				},
+				height: chartHeight,
+				width: window.innerWidth - 200,
 			};
 
 			chart.draw(dataTable, options);

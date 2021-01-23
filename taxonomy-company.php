@@ -75,19 +75,19 @@
 		endwhile;
 		?>
 		]);
-
+		
 		// Draws the table, then resizes the element height and re-draws it
 		// to avoid needing to scroll vertically.
-		var rowHeight = 15;
-	var chartHeight = dataTable.getNumberOfRows() * rowHeight + 50;
-	var options = {
-		tooltip: {isHtml: true},
-		timeline: {
-		showRowLabels: true,
-		},
-		height: chartHeight,
-		width: '100%',
-	};
+		var rowHeight = 45;
+		var chartHeight = (dataTable.getDistinctValues(0).length * rowHeight) + 50;
+		var options = {
+			tooltip: {isHtml: true},
+			timeline: {
+				showRowLabels: true,
+			},
+			height: chartHeight,
+			width: '100%',
+		};
 
 		chart.draw(dataTable, options);
 	}
