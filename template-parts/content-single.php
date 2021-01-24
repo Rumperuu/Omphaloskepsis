@@ -188,11 +188,15 @@
 			?>
 		<section id="post-tags">
 			<h2>Tags</h2>
+			<ul>
 			<?php foreach ( $tags as $post_tag ) : ?>
-				<a href="<?php echo esc_url( get_tag_link( $post_tag->term_id ) ); ?>" title="<?php echo esc_attr( $post_tag->name ); ?> Tag" class="tag-link">
-					<?php echo wp_kses_post( $post_tag->name ); ?>
-				</a>
+				<li>
+					<a href="<?php echo esc_url( get_tag_link( $post_tag->term_id ) ); ?>" title="<?php echo esc_attr( $post_tag->name ); ?> Tag" class="tag-link">
+						<?php echo wp_kses_post( $post_tag->name ); ?>
+					</a>
+				</li>
 			<?php endforeach; ?>
+			</ul>
 		</section>
 	<?php endif; ?>
 
