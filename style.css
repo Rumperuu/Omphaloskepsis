@@ -122,8 +122,8 @@ html {
             "header header header"
             ". page-container ."
             "footer footer footer";
-	border: 2px solid black;
-	margin: 2em;
+				 border: 2px solid black;
+				 margin: 2em;
       }
    }
 
@@ -305,11 +305,12 @@ html {
    #split-page > #wrapper {
       grid-area: post;
       grid-template-columns: 1fr;
-      grid-template-rows: 70vh auto;
+      grid-template-rows: 70vh auto auto;
       justify-items: center;
       align-items: center;
       grid-template-areas:
          "post-content-header"
+         "post-meta"
          "post-content";
    }
    @media only screen and (min-width: 1024px) {
@@ -380,8 +381,22 @@ html {
    
    #split-page #post-meta {
       grid-area: post-meta;
-      width: 100%;
-      text-align: left;
+      width: 85%;
+      text-align: center !important;
+      background-color: #DDDDD0;
+      margin: 1em 0;
+      padding-bottom: 1em;
+      border: 1px solid gray;
+   }
+   
+   @media only screen and (min-width: 1024px) {
+   		#split-page #post-meta {
+   			background-color: transparent;
+   			width: 100%;
+        text-align: left !important;
+      	margin: 0;
+      	border: none;
+   		}
    }
    
    #split-page #post-meta > h1 {
@@ -389,7 +404,6 @@ html {
       margin-top: 0.5em;
       margin-bottom: 0.5em;
       line-height: 1.2em;
-      text-align: left;
    }
    
    #split-page #post-meta h2 {
@@ -397,7 +411,6 @@ html {
       font-size: 1.4em;
       margin-bottom: 0.5em;
       line-height: 1.2em;
-      text-align: left;
    }
    
    #split-page #post-meta > #post-contents > ol > li {
@@ -405,11 +418,33 @@ html {
       margin-bottom: 0.5em;
    }
    
-   
-   #split-page #post-meta > #post-tags > a {
-      margin-top: 0.2em;
-      margin-left: 1em;
+   #split-page #post-meta > #post-tags ul {
+   		width: auto;
+   		margin: auto;
+   		list-style: none;
    }
+   
+   #split-page #post-meta > #post-tags li {
+		  float: left;
+   }
+   
+   #split-page #post-meta > #post-tags li:not(:first-of-type) {
+   	 margin-left: 1.5em;
+   }
+   
+   @media only screen and (min-width: 1024px) {
+   	#split-page #post-meta > #post-tags ul {
+   		margin: none;
+   		width: 100%;
+   		list-style: circle;
+   	}
+   
+		 #split-page #post-meta > #post-tags li {
+		    float: none;
+		    margin-top: 0.2em;
+		    margin-left: 1em !important;
+		 }
+	 }
    
    #split-page > #wrapper > .body {
       grid-area: post-content;
@@ -551,6 +586,7 @@ html {
       justify-items: center;
       align-items: start;
       text-align: center;
+      padding-bottom: 1em;
    }
    
    .comment-body {
