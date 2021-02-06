@@ -11,6 +11,18 @@ get_header(); ?>
 <main id="list-page" class="col-10 col-m-12" role="main">
 	<header>
 		<h1>Quotes.</h1>
+		<?php
+		echo wp_kses_post(
+			get_the_posts_pagination(
+				array(
+					'screen_reader_text' => ' ',
+					'mid_size'           => 20,
+					'prev_text'          => '',
+					'next_text'          => '',
+				)
+			)
+		);
+		?>
 	</header>
 
 	<section class="row">
@@ -36,6 +48,21 @@ get_header(); ?>
 		?>
 		</ul>
 	</section><!-- .site-main -->
+	
+	<footer>
+		<?php
+		echo wp_kses_post(
+			get_the_posts_pagination(
+				array(
+					'screen_reader_text' => ' ',
+					'mid_size'           => 20,
+					'prev_text'          => '',
+					'next_text'          => '',
+				)
+			)
+		);
+		?>
+	</footer>
 </main><!-- .content-area -->
 
 <?php get_footer(); ?>

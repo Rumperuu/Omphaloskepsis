@@ -630,8 +630,8 @@ function display_companies() {
 				$term_items       = array();
 				$term_item_counts = array();
 
-                // phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_tax_query
-                // phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+				// phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+				// phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 				foreach ( $post_types as $post_type ) {
 					$args = array(
 						'posts_per_page' => - 1,
@@ -666,13 +666,14 @@ function display_companies() {
 							),
 						);
 					}
-                    // phpcs:enable
+					// phpcs:enable
 					$posts = get_posts( $args );
 
 					array_push( $term_items, $posts );
 					array_push( $term_item_counts, count( $posts ) );
 				}
 
+				// Oh dear.
 				if ( ( isset( $_POST['job'] ) && 'true' === $_POST['job'] && $term_item_counts[0] > 0 ) || ( isset( $_POST['post'] ) && 'true' === $_POST['post'] && $term_item_counts[1] > 0 ) || ( isset( $_POST['website'] ) && 'true' === $_POST['website'] && $term_item_counts[2] > 0 ) || ( isset( $_POST['program'] ) && 'true' === $_POST['program'] && $term_item_counts[3] > 0 ) || ( isset( $_POST['writing'] ) && 'true' === $_POST['writing'] && $term_item_counts[4] > 0 ) || ( isset( $_POST['video'] ) && 'true' === $_POST['video'] && $term_item_counts[5] > 0 ) || ( isset( $_POST['other'] ) && 'true' === $_POST['other'] && $term_item_counts[6] > 0 ) || ( isset( $_POST['qualification'] ) && 'true' === $_POST['qualification'] && $term_item_counts[7] > 0 ) || ( isset( $_POST['award'] ) && 'true' === $_POST['award'] && $term_item_counts[8] > 0 ) ) {
 					$img_url = wp_get_attachment_image_src( $term->image_id, 'full' ) [0];
 					$bg_img  = ( ! $img_url ) ? '' : ' background-image: url(' . strtok( $img_url, '?' ) . ');';
