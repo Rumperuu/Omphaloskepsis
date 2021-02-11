@@ -138,13 +138,31 @@
 			<?php endif; ?>
 		</section>
 
-		<?php
-		$content = get_post_meta( get_the_ID(), 'External_Link', false );
-		if ( $content ) :
-			?>
+		
 		<section id="post-links">
-			<h2>External Link<?php echo ( count( $content ) > 1 ) ? 's' : ''; ?></h2>
-			<?php foreach ( $content as $ext_link ) : ?>
+		<?php
+		$int_links = get_post_meta( get_the_ID(), 'Internal_Link', false );
+		if ( $int_links ) :
+			?>
+			<h2>Internal Link<?php echo ( count( $int_links ) > 1 ) ? 's' : ''; ?></h2>
+			<?php foreach ( $int_links as $int_link ) : ?>
+				<?php
+				$split_link = explode( ';;', $int_link );
+				$link_title = ( count( $split_link ) > 1 ) ? wp_kses_post( $split_link[0] ) : 'Link';
+				$link_href  = ( count( $split_link ) > 1 ) ? $split_link[1] : $split_link[0];
+				?>
+			<a href="<?php echo esc_url( $link_href ); ?>" target="_blank" rel="noopener noreferrer">
+				<?php echo wp_kses_post( $link_title ); ?>
+			</a>
+			<?php endforeach; ?>
+		<?php endif; ?>
+		
+		<?php
+		$ext_links = get_post_meta( get_the_ID(), 'External_Link', false );
+		if ( $ext_links ) :
+			?>
+			<h2>External Link<?php echo ( count( $ext_links ) > 1 ) ? 's' : ''; ?></h2>
+			<?php foreach ( $ext_links as $ext_link ) : ?>
 				<?php
 				$split_link = explode( ';;', $ext_link );
 				$link_title = ( count( $split_link ) > 1 ) ? wp_kses_post( $split_link[0] ) : 'Link';
@@ -154,8 +172,8 @@
 				<?php echo wp_kses_post( $link_title ); ?>
 			</a>
 			<?php endforeach; ?>
-		</section>
 		<?php endif; ?>
+		</section>
 
 		<?php
 		$has_table_of_contents = ! ! get_post_meta( get_the_ID(), 'ToC1', true );
