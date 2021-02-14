@@ -28,6 +28,7 @@
 
 	<main id="post-body" class="body">
 
+	<!-- Post Notes -->
 	<?php $date1 = strtotime( get_the_date( 'Y-m-d' ) ); ?>
 	<?php $date2 = strtotime( gmdate( 'Y-m-d' ) ); ?>
 	<?php if ( has_category( 'series' ) || has_tag( 'ohwhatohjeez' ) || get_post_meta( get_the_ID(), 'Note(s)', true ) || get_post_meta( get_the_ID(), 'License', true ) || ( $date1 < $date2 - 31557600 ) ) : ?>
@@ -71,24 +72,38 @@
 				echo '</li>';
 			}
 			?>
-
-			<?php if ( $date1 < $date2 - 31557600 ) : ?>
-				<li>This piece was written over a year ago. It may no longer accurately reflect my views now, or may be factually outdated.</li>
-			<?php endif; ?>
+			
+			<?php
+			if ( 'quotes' != get_post_type( get_the_ID() ) ) :
+				if ( $date1 < $date2 - 31557600 ) :
+					?>
+					<li>This piece was written over a year ago. It may no longer accurately reflect my views now, or may be factually outdated.</li>
+					<?php
+				endif;
+			else :
+				?>
+				<li>This is a collection of quotes that I have highlighted as interesting or potentially useful for a future write-up. No further context is provided at this stage, so readers are advised not to read too much into the content below.</li>
+				<?php
+			endif;
+			?>
 
 			<?php if ( has_tag( 'ohwhatohjeez' ) ) : ?>
 				<li>This piece was originally written for my old site, Oh What? Oh Jeez! As such, it may not have transferred over properly and some images and links might be broken (and, to a lesser extent, my writing from years ago is about 80% run-on sentences).</li>
 			<?php endif; ?>
 
 			<?php
-				$notes = get_post_meta( get_the_ID(), 'Note(s)', true );
+			$notes = get_post_meta( get_the_ID(), 'Note', false );
 			if ( $notes ) :
-				?>
-				<li><?php echo wp_kses_post( $notes ); ?></li>
-			<?php endif; ?>
+				foreach ( $notes as $note ) :
+					?>
+				<li><?php echo wp_kses_post( $note ); ?></li>
+					<?php
+				endforeach;
+			endif;
+			?>
 
 			<?php
-				$license = get_post_meta( get_the_ID(), 'License', true );
+			$license = get_post_meta( get_the_ID(), 'License', true );
 			if ( $license ) :
 				?>
 				<li>This work is licensed under <?php echo esc_html( $license ); ?>. <a href="/2018/03/copywrong/">Sorry about that</a>.</li>
@@ -97,7 +112,8 @@
 			</ul>
 		</div>
 	<?php endif; ?>
-
+	<!-- /Post Notes -->
+	
 	<?php
 	if ( get_the_content() ) :
 		the_content();
@@ -138,7 +154,6 @@
 			<?php endif; ?>
 		</section>
 
-		
 		<section id="post-links">
 		<?php
 		$int_links = get_post_meta( get_the_ID(), 'Internal_Link', false );
