@@ -264,20 +264,26 @@ html {
    article.tile > header {
       grid-area: tile-details;
       grid-template-columns: 5px auto 5px;
-      grid-template-rows: 0 1.2em auto auto;
+      grid-template-rows: 0 1.3em auto auto;
       grid-template-areas:
       	 ". 		 . 			."
       	 ".    banner   ."
          ".  tile-title ."
          ". tile-subtitle .";
    }
-   article.tile > header > .status-banner {
+   article.tile > header > .status-banner,
+   article.tile > header > .source-banner {
+   		padding: 0.3em 1em;
    		grid-area: banner;
-   		width: 80%;
-   		margin: auto;
+   		width: auto;
+   		margin-left: auto;
+   		margin-right: auto;
    		border-radius: 0px 0px 10px 10px;
    		text-align: center;
    		text-decoration: none !important;
+   }
+   article.tile > header > .source-banner {
+   		background-color: #ebebeb;
    }
    article.tile > header > .status-banner--ongoing {
   		background-color: #cfea6b;
@@ -1232,10 +1238,12 @@ a[href=""] {
   color: red;
 }
 
-
 a {
    opacity: 0.8;
    text-decoration: underline !important;
+}
+a.item {
+	text-decoration: none !important;
 }
 .footnote_plugin_index a {
    text-decoration: none !important;

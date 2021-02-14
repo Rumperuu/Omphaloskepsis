@@ -21,11 +21,12 @@
 <a class="item" href="<?php echo esc_url( $post_link ); ?>"<?php echo ( $links_externally ) ? ' target="_blank" rel="noopener noreferrer"' : ''; ?>>
 	<article id="post-<?php the_ID(); ?>" class="tile col-m-6 col-4 col-w-3" style="background-image: url('<?php the_post_thumbnail_url(); ?>');">
 	<?php
-	if ( strlen( get_the_title() ) > 70 ) {
+	$title_length = strlen( get_the_title() );
+	if ( $title_length > 70 ) {
 		$small = 'vsmall';
-	} elseif ( strlen( get_the_title() ) > 35 ) {
+	} elseif ( $title_length > 35 ) {
 		$small = 'small';
-	} elseif ( strlen( get_the_title() ) > 12 ) {
+	} elseif ( $title_length > 12 ) {
 		$small = 'qsmall';
 	}
 	?>
@@ -36,17 +37,26 @@
 			?>
 			<span class="status-banner status-banner--<?php echo esc_attr( lcfirst( $post_status ) ); ?>"><?php echo wp_kses_post( $post_status ); ?></span>
 		<?php endif; ?>
+		
+		<?php
+		$source = get_post_meta( get_the_ID(), 'Source', true );
+		if ( $source ) :
+			?>
+			<span class="source-banner"><?php echo wp_kses_post( $source ); ?></span>
+		<?php endif; ?>
+		
 			<h1 class="<?php echo esc_attr( $small ); ?> post-title">
 			<?php echo wp_kses_post( get_the_title() ); ?>
 			</h1>
-		<?php
-		$subtitle = get_post_meta( get_the_ID(), 'Subtitle', true );
-		if ( $subtitle ) :
-			?>
+			<?php
+			$subtitle = get_post_meta( get_the_ID(), 'Subtitle', true );
+			if ( $subtitle ) :
+				?>
 			<h2>
-			<?php echo wp_kses_post( $subtitle ); ?>
+				<?php echo wp_kses_post( $subtitle ); ?>
 			</h2>
-		<?php endif; ?>
+			<?php endif; ?>
+		
 		</header>
 	</article><!-- #post-## -->
 </a>
