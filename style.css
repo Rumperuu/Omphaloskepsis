@@ -95,7 +95,6 @@ html {
 @supports(display: grid) {
    body, header, nav, main, article, section, aside, footer, div {
       display: grid;
-      align-items: start;
    }
    
    div#wpadminbar, div#wpadminbar div, div.nav-links {
@@ -491,6 +490,10 @@ html {
          "videos"
          "others"
          "quals-and-awards";
+   }
+   
+   #organisation-body > section {
+   		align-items: start;
    }
    
    #organisation-body > #description {
