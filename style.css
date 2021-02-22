@@ -95,6 +95,7 @@ html {
 @supports(display: grid) {
    body, header, nav, main, article, section, aside, footer, div {
       display: grid;
+      align-items: start;
    }
    
    div#wpadminbar, div#wpadminbar div, div.nav-links {
