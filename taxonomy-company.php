@@ -199,7 +199,7 @@
 			</div>
 			</section>
 	<?php
-		$page_order = array( 'post', 'website', 'program', 'writing', 'video', 'other' );
+		$page_order = array( 'post', 'website', 'program', 'writing', 'audiovisual', 'other' );
 	foreach ( $page_order as $current_section ) {
 		$args['post_type'] = array( $current_section );
 		$i                 = 0;

@@ -601,20 +601,22 @@ function display_companies() {
 				// 2 = Websites
 				// 3 = Programs
 				// 4 = Writings
-				// 5 = Videos
+				// 5 = Audiovisuals
 				// 6 = Others
 				// 7 = Qualifications
 				// 8 = Awards
+				// 9 = Appearances
 				$post_types       = array(
 					'job',
 					'post',
 					'website',
 					'program',
 					'writing',
-					'video',
+					'audiovisual',
 					'other',
 					'qualification',
 					'award',
+					'appearance',
 				);
 				$dashicons        = array(
 					'hammer',
@@ -626,6 +628,7 @@ function display_companies() {
 					'archive',
 					'id',
 					'awards',
+					'id-alt',
 				);
 				$term_items       = array();
 				$term_item_counts = array();
@@ -674,7 +677,17 @@ function display_companies() {
 				}
 
 				// Oh dear.
-				if ( ( isset( $_POST['job'] ) && 'true' === $_POST['job'] && $term_item_counts[0] > 0 ) || ( isset( $_POST['post'] ) && 'true' === $_POST['post'] && $term_item_counts[1] > 0 ) || ( isset( $_POST['website'] ) && 'true' === $_POST['website'] && $term_item_counts[2] > 0 ) || ( isset( $_POST['program'] ) && 'true' === $_POST['program'] && $term_item_counts[3] > 0 ) || ( isset( $_POST['writing'] ) && 'true' === $_POST['writing'] && $term_item_counts[4] > 0 ) || ( isset( $_POST['video'] ) && 'true' === $_POST['video'] && $term_item_counts[5] > 0 ) || ( isset( $_POST['other'] ) && 'true' === $_POST['other'] && $term_item_counts[6] > 0 ) || ( isset( $_POST['qualification'] ) && 'true' === $_POST['qualification'] && $term_item_counts[7] > 0 ) || ( isset( $_POST['award'] ) && 'true' === $_POST['award'] && $term_item_counts[8] > 0 ) ) {
+				if ( ( isset( $_POST['job'] ) && 'true' === $_POST['job'] && $term_item_counts[0] > 0 ) ||
+					( isset( $_POST['post'] ) && 'true' === $_POST['post'] && $term_item_counts[1] > 0 ) ||
+					( isset( $_POST['website'] ) && 'true' === $_POST['website'] && $term_item_counts[2] > 0 ) ||
+					( isset( $_POST['program'] ) && 'true' === $_POST['program'] && $term_item_counts[3] > 0 ) ||
+					( isset( $_POST['writing'] ) && 'true' === $_POST['writing'] && $term_item_counts[4] > 0 ) ||
+					( isset( $_POST['audiovisual'] ) && 'true' === $_POST['audiovisual'] && $term_item_counts[5] > 0 ) ||
+					( isset( $_POST['other'] ) && 'true' === $_POST['other'] && $term_item_counts[6] > 0 ) ||
+					( isset( $_POST['qualification'] ) && 'true' === $_POST['qualification'] && $term_item_counts[7] > 0 ) ||
+					( isset( $_POST['award'] ) && 'true' === $_POST['award'] && $term_item_counts[8] > 0 ) ||
+					( isset( $_POST['appearance'] ) && 'true' === $_POST['appearance'] && $term_item_counts[9] > 0 )
+				) {
 					$img_url = wp_get_attachment_image_src( $term->image_id, 'full' ) [0];
 					$bg_img  = ( ! $img_url ) ? '' : ' background-image: url(' . strtok( $img_url, '?' ) . ');';
 					$colour  = get_term_meta( $term->term_id, 'color', true );

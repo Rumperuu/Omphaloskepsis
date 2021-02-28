@@ -44,8 +44,8 @@ get_header(); ?>
 					<input type="checkbox" name="programs" id="programs">
 					<label for="writings">Writings <span class="dashicons dashicons-format-aside"></span></label>
 					<input type="checkbox" name="writings" id="writings">
-					<label for="videos">Videos <span class="dashicons dashicons-video-alt"></span></label>
-					<input type="checkbox" name="videos" id="videos">
+					<label for="audiovisuals">Audiovisuals <span class="dashicons dashicons-video-alt"></span></label>
+					<input type="checkbox" name="audiovisuals" id="audiovisuals">
 					<label for="other">Other <span class="dashicons dashicons-archive"></span></label>
 					<input type="checkbox" name="other" id="other">
 					<label for="qualifications">Qualifications <span class="dashicons dashicons-id"></span></label>
@@ -54,6 +54,8 @@ get_header(); ?>
 					<input class="expired" type="checkbox" name="expired" id="expired">
 					<label for="awards">Awards <span class="dashicons dashicons-awards"></span></label>
 					<input type="checkbox" name="awards" id="awards">
+					<label for="appearances">Appearances <span class="dashicons dashicons-id-alt"></span></label>
+					<input type="checkbox" name="appearances" id="appearances">
 				</div>
 			</fieldset>
 			<br>
@@ -122,11 +124,12 @@ get_header(); ?>
 				'website': $('#websites').is(':checked'),
 				'program': $('#programs').is(':checked'),
 				'writing': $('#writings').is(':checked'),
-				'video': $('#videos').is(':checked'),
+				'audiovisual': $('#audiovisuals').is(':checked'),
 				'other': $('#other').is(':checked'),
 				'qualification': $('#qualifications').is(':checked'),
 				'showexpired': $('#expired').is(':checked'),
 				'award': $('#awards').is(':checked'),
+				'appearance': $('#appearances').is(':checked'),
 			};
 
 			$.post("/wp-admin/admin-ajax.php", settings, function(response) {
