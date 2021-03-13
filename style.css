@@ -1475,6 +1475,7 @@ a:hover, a:focus {
 #split-page > #wrapper > .body > figure > figcaption {
     font-size: 0.8em;
     font-style: italic;
+    margin-top: 0.4em;
 }
 
 #split-page > #wrapper > .body img,
