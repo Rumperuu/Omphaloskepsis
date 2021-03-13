@@ -123,7 +123,14 @@ html {
             ". page-container ."
             "footer footer footer";
 				 border: 2px solid black;
-				 margin: 2em;
+			}
+		
+			#site-wrapper {	
+				 margin: 4em 2em 2em 2em;
+			}
+			
+			#site-wrapper.admin-bar {
+				margin-top: 2em;
       }
    }
 
