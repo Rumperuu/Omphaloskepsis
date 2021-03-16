@@ -31,7 +31,7 @@
 	<!-- Post Notes -->
 	<?php $date1 = strtotime( get_the_date( 'Y-m-d' ) ); ?>
 	<?php $date2 = strtotime( gmdate( 'Y-m-d' ) ); ?>
-	<?php if ( has_category( 'series' ) || has_tag( 'ohwhatohjeez' ) || get_post_meta( get_the_ID(), 'Note(s)', true ) || get_post_meta( get_the_ID(), 'License', true ) || ( $date1 < $date2 - 31557600 ) ) : ?>
+	<?php if ( has_category( 'series' ) || has_tag( 'ohwhatohjeez' ) || get_post_meta( get_the_ID(), 'Note', true ) || get_post_meta( get_the_ID(), 'License', true ) || ( $date1 < $date2 - 31557600 ) ) : ?>
 		<div id="details">
 			<ul>
 
