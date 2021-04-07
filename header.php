@@ -28,7 +28,7 @@
 	</head>
 
 	<body <?php body_class(); ?> id="site-wrapper">
-		<?php if ( ! is_page_template( 'centred-page.php' ) ) : ?>
+		<?php if ( ! is_page_template( 'centred-page.php' ) && ! is_404() ) : ?>
 		<header id="site-header">
 		<nav id="site-header-nav">
 			<div class="site-header-nav-item"><a href="/"><h1>Ben Goldsworthy</a></div>

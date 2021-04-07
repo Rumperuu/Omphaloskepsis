@@ -8,7 +8,11 @@
 
 ?>
 		<footer id="site-footer" class="show">
-			<p>By <a href="/">Ben</a> | <?php if ( ! is_page('Hi.') && ! is_page('privacy-policy') ): ?><a href="https://github.com/Rumperuu/Omphaloskepsis/issues" target="_blank" rel="noopener noreferrer">Report an Issue</a> | <?php endif; ?><a href="/privacy-policy">Privacy Policy</a></p>
+			<p>By <a href="/">Ben</a> | 
+			<?php
+			if ( ! is_page( 'Hi.' ) && ! is_page( 'privacy-policy' ) && ! is_404() ) :
+				?>
+				<a href="https://github.com/Rumperuu/Omphaloskepsis/issues" target="_blank" rel="noopener noreferrer">Report an Issue</a> | <?php endif; ?><a href="/privacy-policy">Privacy Policy</a></p>
 		</footer>
 
 		<script type="text/javascript">
