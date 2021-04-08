@@ -155,13 +155,31 @@
 				<ul class="index">
 				<?php
 				foreach ( (array) $parents as $parent ) :
-					$img_url = wp_get_attachment_image_src( $parent->image_id )[0];
-					$colour  = get_term_meta( $parent->term_id, 'color', true );
-					$colour  = ( '' !== $colour ) ? $colour : 'transparent';
-					?>
+					// Filter out parents with only private roles associated.
+					$parent_args        = array(
+						'posts_per_page' => - 1,
+						'post_type'      => 'job',
+						'tax_query'      => array(
+							array(
+								'taxonomy'         => 'company',
+								'field'            => 'slug',
+								'terms'            => get_term( $parent->term_id, 'company' )->slug,
+								'include_children' => 1,
+							),
+						),
+					);
+					$parent_jobs = new WP_Query( $parent_args );
 
-					<li><a href="<?php echo esc_url( get_term_link( $parent, $parent->taxonomy ) ); ?>"><?php echo wp_kses_post( get_term( $parent->term_id, 'company' )->name ); ?></a></li>
-				<?php endforeach; ?>
+					if ( $parent_jobs->have_posts() ) :
+						$img_url = wp_get_attachment_image_src( $parent->image_id )[0];
+						$colour  = get_term_meta( $parent->term_id, 'color', true );
+						$colour  = ( '' !== $colour ) ? $colour : 'transparent';
+						?>
+						<li><a href="<?php echo esc_url( get_term_link( $parent, $parent->taxonomy ) ); ?>"><?php echo wp_kses_post( get_term( $parent->term_id, 'company' )->name ); ?></a></li>
+						<?php
+					endif;
+				endforeach;
+				?>
 				</ul>
 			<?php endif; ?>
 			</div>
@@ -185,13 +203,31 @@
 				<ul class="index">
 				<?php
 				foreach ( (array) $children as $child ) :
-					$img_url = wp_get_attachment_image_src( $child->image_id, 'detail' )[0];
-					$colour  = get_term_meta( $child->term_id, 'color', true );
-					$colour  = ( '' !== $colour ) ? $colour : 'transparent';
-					?>
+					// Filter out children with only private roles associated.
+					$child_args       = array(
+						'posts_per_page' => - 1,
+						'post_type'      => 'job',
+						'tax_query'      => array(
+							array(
+								'taxonomy'         => 'company',
+								'field'            => 'slug',
+								'terms'            => get_term( $child->term_id, 'company' )->slug,
+								'include_children' => 1,
+							),
+						),
+					);
+					$child_jobs = new WP_Query( $child_args );
 
-					<li><a href="<?php echo esc_url( get_term_link( $child, $child->taxonomy ) ); ?>"><?php echo wp_kses_post( get_term( $child->term_id, 'company' )->name ); ?></a></li>
-				<?php endforeach; ?>
+					if ( $child_jobs->have_posts() ) :
+						$img_url = wp_get_attachment_image_src( $child->image_id, 'detail' )[0];
+						$colour  = get_term_meta( $child->term_id, 'color', true );
+						$colour  = ( '' !== $colour ) ? $colour : 'transparent';
+						?>
+						<li><a href="<?php echo esc_url( get_term_link( $child, $child->taxonomy ) ); ?>"><?php echo wp_kses_post( get_term( $child->term_id, 'company' )->name ); ?></a></li>
+						<?php
+					endif;
+				endforeach;
+				?>
 				</ul>
 			<?php else : ?>
 				<p>No children.</p>
